@@ -1,0 +1,1 @@
+# intGalaxPay
