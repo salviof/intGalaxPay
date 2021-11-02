@@ -14,6 +14,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <jackson-core.version>2.13.0</jackson-core.version>
+
     </properties>
     <licenses>
         <license>
@@ -32,7 +34,7 @@
             <artifactId>SBRestClient</artifactId>
             <version>1.0.0-RC-SNAPSHOT</version>
         </dependency>
-        
+
 
         <dependency>
             <groupId>br.org.coletivoJava.fw</groupId>
@@ -59,14 +61,52 @@
         </dependency>
 
         <dependency>
-            <groupId>br.org.coletivoJava.fw.api.erp.gatewayPagamento</groupId>
-            <artifactId>SBErpGatewayPagamento</artifactId>
+            <groupId>br.org.coletivoJava.fw.api.erp.contaPagarReceber</groupId>
+            <artifactId>SbErpContaPagarReceber</artifactId>
             <version>1.0.0-RC-SNAPSHOT</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jakarta-jsonp-->
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jakarta-jsonp</artifactId>
+            <version>2.13.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-json-org</artifactId>
+            <version>2.13.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.glassfish</groupId>
+            <artifactId>jakarta.json</artifactId>
+            <version>2.0.1</version>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-annotations</artifactId>
+            <version>2.9.6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.9.6</version>
         </dependency>
 
 
 
-       
+
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>

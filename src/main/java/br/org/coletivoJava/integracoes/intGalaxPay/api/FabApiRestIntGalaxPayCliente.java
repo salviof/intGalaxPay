@@ -25,17 +25,21 @@ import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.importacao.FabTip
 )
 public enum FabApiRestIntGalaxPayCliente implements ItfFabricaIntegracaoRest {
 
-    @InfoConsumoRestService(getPachServico = "/customers",
+    @InfoConsumoRestService(getPachServico = "/customers?startAt={0}&limit={1}",
             tipoConexao = FabTipoConexaoRest.GET,
             tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
             parametrosGet = {"startAt", "limit"},
-            urlDocumentacao = "https://docs.galaxpay.com.br/customers/list")
+            urlDocumentacao = "https://docs.galaxpay.com.br/customers/",
+            adicionarAutenticacaoBearer = true
+    )
     LISTAR_CLIENTES,
-    @InfoConsumoRestService(getPachServico = "/customers",
+    @InfoConsumoRestService(getPachServico = "/customers?startAt=0&limit=1&documents={0}",
             tipoConexao = FabTipoConexaoRest.GET,
             tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
             parametrosGet = {"documents"},
-            urlDocumentacao = "https://docs.galaxpay.com.br/customers/list")
+            urlDocumentacao = "https://docs.galaxpay.com.br/customers/list",
+            adicionarAutenticacaoBearer = true
+    )
     LISTAR_CLIENTE_BY_DOCUMENTO,
 
 }

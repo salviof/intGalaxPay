@@ -23,15 +23,21 @@ import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.importacao.FabTip
         nomeIntegracao = FabConfigApiGalaxyPay.NOME_INTEGRACAO,
         configuracao = FabConfigApiGalaxyPay.class
 )
-public enum FabApiRestIntGalaxPayCobrancaSazonal implements ItfFabricaIntegracaoRest {
+public enum FabApiRestIntGalaxPayAssinatura implements ItfFabricaIntegracaoRest {
 
-    @InfoConsumoRestService(getPachServico = "/customers?startAt=0&limit=1&documents={0}",
+    @InfoConsumoRestService(getPachServico = "/subscriptions?startAt=0&limit=100&customerGalaxPayIds={0}",
             tipoConexao = FabTipoConexaoRest.GET,
             tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
             parametrosGet = {"documents"},
-            urlDocumentacao = "https://docs.galaxpay.com.br/customers/list",
-            adicionarAutenticacaoBearer = true
-    )
-    COBRANCAS_SAZONAIS_DO_CLIENTE;
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/list",
+            adicionarAutenticacaoBearer = true)
+    ASSINATURAS_DO_CLIENTE,
+    @InfoConsumoRestService(getPachServico = "/subscriptions?startAt={0}&limit={1}",
+            tipoConexao = FabTipoConexaoRest.GET,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosGet = {"documents"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/list",
+            adicionarAutenticacaoBearer = true)
+    ASSINATURAS_DE_CLIENTES;
 
 }

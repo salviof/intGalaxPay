@@ -6,14 +6,19 @@
 package br.org.coletivoJava.integracoes.intGalaxPay.api;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import static org.junit.Assert.*;
 import testes.testesSupers.TestesApiRest;
 
 /**
  *
  * @author sfurbino
  */
-public class FabApiRestCobrancaGalaxPayClienteTest extends TestesApiRest {
+public class FabApiRestIntGalaxPayAssinaturaTest extends TestesApiRest {
 
     /**
      * Test of values method, of class FabApiRestCobrancaGalaxPayCliente.
@@ -21,8 +26,10 @@ public class FabApiRestCobrancaGalaxPayClienteTest extends TestesApiRest {
     @Test
     public void testValues() {
         SBCore.configurar(new ConfiguradorCoreApiGalaxPay(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
-        gerarCodigos(FabApiRestIntGalaxPayCliente.class);
+        gerarCodigos(FabApiRestIntGalaxPayAssinatura.class);
+    }
 
+    public FabApiRestIntGalaxPayAssinaturaTest() {
     }
 
 }

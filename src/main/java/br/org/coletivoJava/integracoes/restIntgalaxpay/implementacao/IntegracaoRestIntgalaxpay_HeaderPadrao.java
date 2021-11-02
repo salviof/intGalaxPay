@@ -4,10 +4,18 @@ import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.Ac
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.transmissao_recepcao_rest_client.ItfAcaoApiRest;
 
 public class IntegracaoRestIntgalaxpay_HeaderPadrao
-		extends
-			AcaoApiIntegracaoHeaderBuilder {
+        extends
+        AcaoApiIntegracaoHeaderBuilder {
 
-	public IntegracaoRestIntgalaxpay_HeaderPadrao(final ItfAcaoApiRest pAcao) {
-		super(pAcao);
-	}
+    public IntegracaoRestIntgalaxpay_HeaderPadrao(final ItfAcaoApiRest pAcao) {
+        super(pAcao);
+    }
+
+    @Override
+    public void buildHeaderPadrao() {
+        super.buildHeaderPadrao();
+        cabecalho.put("user-agent", "casanovaDigitalServer");
+
+    }
+
 }

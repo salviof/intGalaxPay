@@ -6,6 +6,8 @@
 package br.org.coletivoJava.integracoes.intGalaxPay.api;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.arquivosConfiguracao.ItfFabConfigModulo;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.tipoModulos.integracaoOauth.FabPropriedadeModuloIntegracaoOauth;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.tipoModulos.integracaoOauth.InfoPropriedadeConfigRestIntegracao;
 
 /**
  *
@@ -13,12 +15,15 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.arquivosConfiguracao.ItfFabCo
  */
 public enum FabConfigApiGalaxyPay implements ItfFabConfigModulo {
 
+    @InfoPropriedadeConfigRestIntegracao(tipoPropriedade = FabPropriedadeModuloIntegracaoOauth.CHAVE_PUBLICA)
     GALAXID,
+    @InfoPropriedadeConfigRestIntegracao(tipoPropriedade = FabPropriedadeModuloIntegracaoOauth.CHAVE_PRIVADA)
     GALAXHASH,
     /**
      * https://api.galaxpay.com.br/v2, ou
      * https://api.sandbox.cloud.galaxpay.com.br/v2
      */
+    @InfoPropriedadeConfigRestIntegracao(tipoPropriedade = FabPropriedadeModuloIntegracaoOauth.URL_SERVIDOR_API)
     GALAX_URL;
 
     public static final String NOME_INTEGRACAO = "intGalaxPay";
