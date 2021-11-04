@@ -6,17 +6,30 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber;
 
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ERPContaPagarReceber;
-import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.assinatura.ItfAssinatura;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.faturamento.ItfFatura;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.regsitroCobranca.ItfRegistroCobranca;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.regsitroCobranca.ItfRegistroCobrancaAssinatura;
-import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfValorMoedaFuturo;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxPay;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ItfPessoaFisicoJuridico;
 import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.assinatura.ItfFaturaAssinatura;
+import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfPrevisaoValorMoeda;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinatura.DTOCtPagarReceberJsonAssinatura;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UTilSBCoreInputs;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreInputOutputConversoes;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringJson;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringListas;
+import jakarta.json.Json;
+import jakarta.json.JsonObjectBuilder;
+import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigDecimal;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import spark.utils.IOUtils;
 
 /**
  *
@@ -29,15 +42,7 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetRegistroCobranca() {
-        SBCore.configurar(new ConfiguradorCoreApiGalaxPay(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
-        System.out.println("getRegistroCobranca");
-        ItfValorMoedaFuturo itfValorMoedaFuturo = null;
-        CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY.getImplementacaoDoContexto();
 
-        ItfAssinatura result = instanciaGP.getAssinatura(null);
-
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -46,14 +51,21 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetRegistroAssinatura() {
-        System.out.println("getRegistroAssinatura");
-        ItfFatura itfFatura = null;
-        CtPagarReceberGalaxPayimpl instance = new CtPagarReceberGalaxPayimpl();
-        ItfRegistroCobrancaAssinatura expResult = null;
-        //ItfRegistroCobrancaAssinatura result = instance.getRegistroAssinatura();
-        //assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        SBCore.configurar(new ConfiguradorCoreApiGalaxPay(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
+        String assinaturaTeste;
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+
+            ///home/superBits/projetos/coletivoJava/source/integracao/intGalaxPay/src/test/resources/bola.jpg
+            InputStream is = classLoader.getResourceAsStream("exemplos/galaxPay/assinatura.json");
+            assinaturaTeste = IOUtils.toString(is);
+            DTOCtPagarReceberJsonAssinatura assinatura = new DTOCtPagarReceberJsonAssinatura(assinaturaTeste);
+            CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY.getImplementacaoDoContexto();
+            ItfFaturaAssinatura result = instanciaGP.getAssinatura(assinatura);
+        } catch (IOException ex) {
+            Logger.getLogger(CtPagarReceberGalaxPayimplTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     /**
@@ -61,14 +73,7 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetDevedorByCNPJ() {
-        System.out.println("getDevedorByCNPJ");
-        String s = "";
-        CtPagarReceberGalaxPayimpl instance = new CtPagarReceberGalaxPayimpl();
-        List expResult = null;
-        // List result = instance.getDevedorByCNPJ(s);
-        //  assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -76,14 +81,7 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetRegistrosEmAberto() {
-        System.out.println("getRegistrosEmAberto");
-        ItfPessoaFisicoJuridico itfPessoaFisicoJuridico = null;
-        CtPagarReceberGalaxPayimpl instance = new CtPagarReceberGalaxPayimpl();
-        List expResult = null;
-        //    List result = instance.getRegistrosEmAberto(itfPessoaFisicoJuridico);
-        //     assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -91,14 +89,7 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetAssinaturasAtivas() {
-        System.out.println("getAssinaturasAtivas");
-        ItfPessoaFisicoJuridico itfPessoaFisicoJuridico = null;
-        CtPagarReceberGalaxPayimpl instance = new CtPagarReceberGalaxPayimpl();
-        List expResult = null;
-        List result = instance.getAssinaturasAtivas(itfPessoaFisicoJuridico);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -107,13 +98,7 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetClientesRegistrados() {
-        System.out.println("getClientesRegistrados");
-        CtPagarReceberGalaxPayimpl instance = new CtPagarReceberGalaxPayimpl();
-        List expResult = null;
-        //     List result = instance.getClientesRegistrados();
-        //     assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -122,14 +107,7 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetDevedorByIdExterno() {
-        System.out.println("getDevedorByIdExterno");
-        String s = "";
-        CtPagarReceberGalaxPayimpl instance = new CtPagarReceberGalaxPayimpl();
-        List expResult = null;
-        List result = instance.getDevedorByIdExterno(s);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
     /**
@@ -138,14 +116,7 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetDevedorByIdAplicacao() {
-        System.out.println("getDevedorByIdAplicacao");
-        int i = 0;
-        CtPagarReceberGalaxPayimpl instance = new CtPagarReceberGalaxPayimpl();
-        List expResult = null;
-        List result = instance.getDevedorByIdAplicacao(i);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
     }
 
 }

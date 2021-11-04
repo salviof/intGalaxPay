@@ -5,12 +5,21 @@
  */
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay;
 
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinatura.JsonProcessAssinaturaDTO;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinaturaParcela.DTOCtPagarReceberJsonParcelaAssinatura;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import jakarta.json.Json;
 import jakarta.json.JsonObjectBuilder;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -18,8 +27,8 @@ import java.util.Map;
  */
 public abstract class DTO_SB_JSON_PROCESSADOR_GENERICO<T> extends StdDeserializer<T> {
 
-    private JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
-    private Map<String, DTO_SBGENERICO> objetosArmazenados;
+    private final JsonObjectBuilder objectBuilder = Json.createObjectBuilder();
+    private final Map<String, DTO_SBGENERICO> objetosArmazenados = new HashMap<>();
     private Map<String, List<DTO_SBGENERICO>> listasArmazenadas;
 
     protected void adicionarListas(String pAtributo, List pLista) {
@@ -56,6 +65,65 @@ public abstract class DTO_SB_JSON_PROCESSADOR_GENERICO<T> extends StdDeserialize
     protected void selarProcesamento(DTO_SBGENERICO dto) {
 
         dto.setDadosDoObjeto(objectBuilder.build(), objetosArmazenados, listasArmazenadas);
+    }
+
+    protected boolean adicionarPropriedadeInteiro(String pnome, JsonNode node, String pCaminho) {
+        try {
+            getObjectBuilder().add(pnome, node.get(pCaminho).asInt());
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    protected boolean adicionarPropriedadeDouble(String pnome, JsonNode node, String caminho) {
+        try {
+            getObjectBuilder().add("qtdParcelas", node.get("quantity").asInt());
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    protected boolean adicionarPropriedadeData(String pnome, JsonNode node, String caminho) {
+        try {
+            getObjectBuilder().add("qtdParcelas", node.get("quantity").asInt());
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    protected boolean adicionarPropriedadeListaObjetos(Class classeObjeto, JsonNode node, String caminho) {
+
+        JsonNode parcelasJson = node.get(caminho);
+        List<DTOCtPagarReceberJsonParcelaAssinatura> parcelas = new ArrayList();
+
+        for (Iterator<JsonNode> iterator = parcelasJson.elements(); iterator.hasNext();) {
+            JsonNode next = iterator.next();
+            Constructor consTructorDTO;
+            try {
+                consTructorDTO = classeObjeto.getConstructor(String.class);
+                parcelas.add((DTOCtPagarReceberJsonParcelaAssinatura) consTructorDTO.newInstance(next.toString()));
+            } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                Logger.getLogger(JsonProcessAssinaturaDTO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
+        adicionarListas("parcelas", parcelas);
+        return true;
+    }
+
+    protected boolean adicionarPropriedadObjeto(Class classeObjeto, String atributo, JsonNode node, String caminho) {
+        Constructor consTructorDTO;
+        try {
+            consTructorDTO = classeObjeto.getConstructor(String.class);
+            DTO_SBGENERICO objeto = (DTO_SBGENERICO) consTructorDTO.newInstance(node.get(caminho).toString());
+            adicionarObjeto(atributo, objeto);
+        } catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+            Logger.getLogger(JsonProcessAssinaturaDTO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return false;
     }
 
 }

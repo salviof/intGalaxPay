@@ -5,23 +5,20 @@
  */
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinaturaParcela;
 
-import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfValorMoedaFuturo;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.ItfDTOSBJSON;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import jakarta.json.JsonObject;
+import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfPrevisaoValorMoeda;
 
 /**
  *
  * @author sfurbino
  */
 @JsonDeserialize(using = JsonProcessParcelaAssinaturaDTO.class)
-public interface ItfParcelaAssinaturaDTO extends ItfValorMoedaFuturo, ItfDTOSBJSON {
+public interface ItfParcelaAssinaturaDTO extends ItfPrevisaoValorMoeda, ItfDTOSBJSON {
 
     @Override
     public default double getValor() {
-        return getJsonModoPojo().getJsonNumber("valor").doubleValue();
+        return (double) getValorPorReflexao();
     }
-
-    public JsonObject getJsonModoPojo();
 
 }

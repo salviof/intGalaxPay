@@ -23,6 +23,8 @@ public interface ItfDTOSBJSON {
 
     public List getLista(String pNomeAtributop);
 
+    public ItfBeanSimples getObjeto(String pNomeAtributop);
+
     public default Object getValorPorReflexao() {
 
         final Thread t = Thread.currentThread();
@@ -34,27 +36,35 @@ public interface ItfDTOSBJSON {
         try {
             Method metodo = this.getClass().getMethod(nomeOriginalMetodo);
             Class tipoRetorno = metodo.getReturnType();
-            if (tipoRetorno.isPrimitive()) {
+            if (tipoRetorno.isPrimitive() || tipoRetorno.getSimpleName().equals(String.class.getSimpleName())) {
                 if (tipoRetorno.getSimpleName().equals("int")) {
                     return getJsonModoPojo().getInt(nomeAtributo);
                 }
+                if (tipoRetorno.getSimpleName().equals("String")) {
+                    return getJsonModoPojo().getString(nomeAtributo);
+                }
 
             } else {
-                if (tipoRetorno.isAssignableFrom(ItfBeanSimples.class)) {
-                    System.out.println("Objeto");
-                }
-                if (tipoRetorno.isAssignableFrom(List.class)) {
 
-                    return getLista(nomeAtributo);
+                try {
+                    tipoRetorno.getMethod("getId");
+                    tipoRetorno.getMethod("getNome");
+                    return getObjeto(nomeAtributo);
+                } catch (NoSuchMethodException | SecurityException ex) {
+                    Logger.getLogger(ItfDTOSBJSON.class.getName()).log(Level.SEVERE, null, ex);
                 }
 
             }
-        } catch (NoSuchMethodException ex) {
-            Logger.getLogger(ItfAssinaturaDTO.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SecurityException ex) {
+            if (tipoRetorno.isAssignableFrom(List.class)) {
+
+                return getLista(nomeAtributo);
+            }
+
+        } catch (NoSuchMethodException | SecurityException ex) {
             Logger.getLogger(ItfAssinaturaDTO.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        return getJsonModoPojo().getInt(nomeAtributo);
+        return getJsonModoPojo()
+                .getInt(nomeAtributo);
     }
 }

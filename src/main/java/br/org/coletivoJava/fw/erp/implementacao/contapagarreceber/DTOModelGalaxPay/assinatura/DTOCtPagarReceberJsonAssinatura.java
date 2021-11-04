@@ -6,13 +6,12 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinatura;
 
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.formaPagamento.ItfFormaPagamento;
-import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfValorMoedaFuturo;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.DTO_SBGENERICO;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import jakarta.json.JsonObject;
 
 import java.util.Date;
 import java.util.List;
+import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfPrevisaoValorMoeda;
 
 /**
  *
@@ -39,11 +38,6 @@ public class DTOCtPagarReceberJsonAssinatura extends DTO_SBGENERICO<ItfAssinatur
     }
 
     @Override
-    public int getDiaDoMesPagamento() {
-        return getObjetoDeserializado().getDiaDoMesPagamento();
-    }
-
-    @Override
     public Date getDataPrimeiroPagamento() {
         return getObjetoDeserializado().getDataPrimeiroPagamento();
     }
@@ -54,17 +48,12 @@ public class DTOCtPagarReceberJsonAssinatura extends DTO_SBGENERICO<ItfAssinatur
     }
 
     @Override
-    public void setDiaDoMesPagamento(int diaDoMesPagamento) {
-
-    }
-
-    @Override
     public void setFormaPagamento(ItfFormaPagamento formaPagamento) {
 
     }
 
     @Override
-    public void setParcelas(List<ItfValorMoedaFuturo> parcelas) {
+    public void setParcelas(List<ItfPrevisaoValorMoeda> parcelas) {
 
     }
 

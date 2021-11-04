@@ -8,20 +8,22 @@ package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalax
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.DTO_SBGENERICO;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.DTO_SB_JSON_PROCESSADOR_GENERICO;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinaturaParcela.DTOCtPagarReceberJsonParcelaAssinatura;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.devedor.DTOCtPagarReceberGalaxPayDevedor;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
-import groovy.json.JsonBuilder;
-import jakarta.json.Json;
-import jakarta.json.JsonArrayBuilder;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 
 import java.io.IOException;
-import java.math.BigDecimal;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -39,18 +41,12 @@ public class JsonProcessAssinaturaDTO extends DTO_SB_JSON_PROCESSADOR_GENERICO<D
         ObjectCodec codec = jp.getCodec();
         JsonNode node = codec.readTree(jp);
         DTOCtPagarReceberJsonAssinatura dto = new DTOCtPagarReceberJsonAssinatura();
-        // try catch block
 
-        getObjectBuilder().add("qtdParcelas", node.get("quantity").asInt());
-
-        JsonNode parcelasJson = node.get("Transactions");
-        List<DTOCtPagarReceberJsonParcelaAssinatura> parcelas = new ArrayList();
-
-        for (Iterator<JsonNode> iterator = parcelasJson.elements(); iterator.hasNext();) {
-            JsonNode next = iterator.next();
-            parcelas.add(new DTOCtPagarReceberJsonParcelaAssinatura(next.toString()));
-        }
-        adicionarListas("parcelas", parcelas);
+        adicionarPropriedadeInteiro("qtdParcelas", node, "quantity");
+        adicionarPropriedadeDouble("valorAtualMensal", node, "value");
+        adicionarPropriedadeData("dataPrimeiroPagamento", node, "firstPayDayDate");
+        adicionarPropriedadeListaObjetos(DTOCtPagarReceberJsonParcelaAssinatura.class, node, "Transactions");
+        adicionarPropriedadObjeto(DTOCtPagarReceberGalaxPayDevedor.class, "devedor", node, "Customer");
 
         selarProcesamento(dto);
         return dto;

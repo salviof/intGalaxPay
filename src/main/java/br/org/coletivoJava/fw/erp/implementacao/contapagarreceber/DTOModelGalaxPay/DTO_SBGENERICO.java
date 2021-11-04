@@ -6,13 +6,12 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.ItemSimples;
 import jakarta.json.JsonObject;
-import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -35,12 +34,26 @@ public class DTO_SBGENERICO<T extends ItfDTOSBJSON> extends ItemSimples implemen
 
             try {
                 dtoDecoratorGettersInstanciado = new ObjectMapper().readValue(pJson, (Class<T>) this.getClass());
-                return;
-            } catch (IOException ex) {
-                Logger.getLogger(DTO_SBGENERICO.class.getName()).log(Level.SEVERE, null, ex);
+
+                ObjectMapper mapper = new ObjectMapper();
+
+                SimpleModule mod = new SimpleModule(pclasseProcessador.getSimpleName());
+
+                try {
+                    //   mod.addDeserializer(this.getClass(), pclasseProcessador.newInstance());
+                    //    mapper.registerModule(mod);
+                    //    dtoDecoratorGettersInstanciado = mapper.readValue(pJson, (Class<T>) this.getClass());
+                    return;
+
+                } catch (Throwable t) {
+                    System.out.println("UP");
+                }
+            } catch (Throwable t) {
+                System.out.println("UP");
             }
+            throw new UnsupportedOperationException("Falha iniciando DTO");
         }
-        throw new UnsupportedOperationException("Falha iniciando DTO");
+
     }
 
     protected void setDadosDoObjeto() {
@@ -65,6 +78,14 @@ public class DTO_SBGENERICO<T extends ItfDTOSBJSON> extends ItemSimples implemen
             return dtoDecoratorGettersInstanciado.getLista(pNomeAtributop);
         }
         return listasArmazenadas.get(pNomeAtributop);
+    }
+
+    @Override
+    public ItfBeanSimples getObjeto(String pNomeAtributop) {
+        if (!modoPojo) {
+            return dtoDecoratorGettersInstanciado.getObjeto(pNomeAtributop);
+        }
+        return objetosArmazenados.get(pNomeAtributop);
     }
 
     protected void setDadosDoObjeto(JsonObject pJson, Map<String, DTO_SBGENERICO> pObjetosArmazenados, Map<String, List<DTO_SBGENERICO>> pListasArmazenadas) {
