@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.devedor;
+package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.parcelaSazonal;
 
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.DTO_SB_JSON_PROCESSADOR_GENERICO;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinaturaParcela.DTOCtPagarReceberJsonParcelaAssinatura;
@@ -18,23 +18,22 @@ import java.io.IOException;
  *
  * @author sfurbino
  */
-public class JsonProcessDevedor extends DTO_SB_JSON_PROCESSADOR_GENERICO<DTOCtPagarReceberGalaxPayDevedor> {
+public class JsonProcessParcelaSazonal extends DTO_SB_JSON_PROCESSADOR_GENERICO<DTOCtPagarRecebeJsonCobrancaSazonal> {
 
-    public JsonProcessDevedor() {
-        super(DTOCtPagarReceberGalaxPayDevedor.class);
+    public JsonProcessParcelaSazonal() {
+        super(DTOCtPagarRecebeJsonCobrancaSazonal.class);
     }
 
     @Override
-    public DTOCtPagarReceberGalaxPayDevedor deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
+    public DTOCtPagarRecebeJsonCobrancaSazonal deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
         ObjectCodec codec = jp.getCodec();
         JsonNode node = codec.readTree(jp);
-        DTOCtPagarReceberGalaxPayDevedor dto = new DTOCtPagarReceberGalaxPayDevedor();
-        adicionarPropriedadeString("cpfCnpj", node, "document");
-        adicionarPropriedadeInteiro("id", node, "galaxPayId");
+        DTOCtPagarRecebeJsonCobrancaSazonal dtoCobrancasazonal = new DTOCtPagarRecebeJsonCobrancaSazonal();
 
-        selarProcesamento(dto);
+        getObjectBuilder().add("valor", node.get("value").asDouble());
+        selarProcesamento(dtoCobrancasazonal);
+        return dtoCobrancasazonal;
 
-        return dto;
     }
 
 }

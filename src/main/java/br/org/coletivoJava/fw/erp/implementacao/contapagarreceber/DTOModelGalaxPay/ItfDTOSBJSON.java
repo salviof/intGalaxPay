@@ -31,7 +31,14 @@ public interface ItfDTOSBJSON {
         final StackTraceElement[] stackTraceTodosMetodos = t.getStackTrace();
 
         String nomeOriginalMetodo = stackTraceTodosMetodos[2].getMethodName();//"getParcelas";
-        String nomeAtributo = nomeOriginalMetodo.replace("get", "");
+        String nomeAtributo = nomeOriginalMetodo;
+        if (nomeOriginalMetodo.startsWith("get")) {
+            nomeAtributo = nomeOriginalMetodo.replaceFirst("get", "");
+        }
+        if (nomeOriginalMetodo.startsWith("is")) {
+            nomeAtributo = nomeOriginalMetodo.replaceFirst("is", "");
+        }
+
         nomeAtributo = nomeAtributo.toLowerCase().charAt(0) + nomeAtributo.substring(1);
         try {
             Method metodo = this.getClass().getMethod(nomeOriginalMetodo);
@@ -40,6 +47,15 @@ public interface ItfDTOSBJSON {
                 if (tipoRetorno.getSimpleName().equals("int")) {
                     return getJsonModoPojo().getInt(nomeAtributo);
                 }
+
+                if (tipoRetorno.getSimpleName().equals("boolean")) {
+                    return getJsonModoPojo().getBoolean(nomeAtributo);
+                }
+
+                if (tipoRetorno.getSimpleName().equals("double")) {
+                    return getJsonModoPojo().getJsonNumber(nomeAtributo).doubleValue();
+                }
+
                 if (tipoRetorno.getSimpleName().equals("String")) {
                     return getJsonModoPojo().getString(nomeAtributo);
                 }

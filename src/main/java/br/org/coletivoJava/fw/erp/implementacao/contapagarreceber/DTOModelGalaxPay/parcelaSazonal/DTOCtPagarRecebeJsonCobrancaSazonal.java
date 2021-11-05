@@ -3,66 +3,62 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.devedor;
+package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.parcelaSazonal;
 
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.DTO_SBGENERICO;
+import java.util.Date;
 
 /**
  *
  * @author sfurbino
  */
-public class DTOCtPagarReceberGalaxPayDevedor extends DTO_SBGENERICO<ItfCtPagarReceberDevedorJsonDTO> implements ItfCtPagarReceberDevedorJsonDTO {
+public class DTOCtPagarRecebeJsonCobrancaSazonal extends DTO_SBGENERICO<ItfParcelaSazonalDTO> implements ItfParcelaSazonalDTO {
 
-    public DTOCtPagarReceberGalaxPayDevedor(String pJson) {
-        super(JsonProcessDevedor.class, pJson);
+    public DTOCtPagarRecebeJsonCobrancaSazonal(String pJson) {
+        super(JsonProcessParcelaSazonal.class, pJson);
     }
 
-    public DTOCtPagarReceberGalaxPayDevedor() {
+    public DTOCtPagarRecebeJsonCobrancaSazonal() {
         super(null, null);
     }
 
     @Override
-    public int getId() {
-        return (int) getValorPorReflexao();
-    }
-
-    @Override
-    public String getNomeLongo() {
+    public double getValorRealizado() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setNomeLongo(String pnomeLongo) {
+    public void setValor(double valor) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String getImgMedia() {
+    public Date getDataPrevista() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean isTemImagemMedioAdicionada() {
+    public void setDataPrevista(Date pDataPrevista) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String getImgGrande() {
+    public boolean isPagamentoEfetuado() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean isTemImagemGrandeAdicionada() {
+    public boolean isUmValorPersonalizado() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String getTelefonePrincipal() {
+    public double getParcelaNumero() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public String getEmail() {
+    public void setParcelaNumero(double parcelaNumero) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

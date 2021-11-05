@@ -28,6 +28,16 @@ public class DTOCtPagarReceberJsonAssinatura extends DTO_SBGENERICO<ItfAssinatur
     }
 
     @Override
+    public boolean isAtivo() {
+        return ItfAssinaturaDTO.super.isAtivo(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public double getValorAtualMensal() {
+        return ItfAssinaturaDTO.super.getValorAtualMensal(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
     public double getValorTotal() {
         return getObjetoDeserializado().getValorTotal();
     }

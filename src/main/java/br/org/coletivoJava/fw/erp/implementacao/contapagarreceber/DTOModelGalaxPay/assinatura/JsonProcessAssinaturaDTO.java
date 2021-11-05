@@ -5,7 +5,6 @@
  */
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinatura;
 
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.DTO_SBGENERICO;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.DTO_SB_JSON_PROCESSADOR_GENERICO;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinaturaParcela.DTOCtPagarReceberJsonParcelaAssinatura;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.devedor.DTOCtPagarReceberGalaxPayDevedor;
@@ -14,16 +13,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfBeanSimples;
 
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -43,6 +34,7 @@ public class JsonProcessAssinaturaDTO extends DTO_SB_JSON_PROCESSADOR_GENERICO<D
         DTOCtPagarReceberJsonAssinatura dto = new DTOCtPagarReceberJsonAssinatura();
 
         adicionarPropriedadeInteiro("qtdParcelas", node, "quantity");
+        adicionarPropriedadeBoolean("ativo", "active", node, "status");
         adicionarPropriedadeDouble("valorAtualMensal", node, "value");
         adicionarPropriedadeData("dataPrimeiroPagamento", node, "firstPayDayDate");
         adicionarPropriedadeListaObjetos(DTOCtPagarReceberJsonParcelaAssinatura.class, node, "Transactions");

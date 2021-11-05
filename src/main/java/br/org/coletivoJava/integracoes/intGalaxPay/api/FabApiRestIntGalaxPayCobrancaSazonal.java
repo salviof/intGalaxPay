@@ -25,7 +25,7 @@ import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.importacao.FabTip
 )
 public enum FabApiRestIntGalaxPayCobrancaSazonal implements ItfFabricaIntegracaoRest {
 
-    @InfoConsumoRestService(getPachServico = "/customers?startAt=0&limit=1&documents={0}",
+    @InfoConsumoRestService(getPachServico = "/charges?startAt=0&limit=1&customerGalaxPayIds={0}",
             tipoConexao = FabTipoConexaoRest.GET,
             tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
             parametrosGet = {"documents"},

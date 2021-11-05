@@ -13,6 +13,8 @@ import jakarta.json.Json;
 import jakarta.json.JsonObjectBuilder;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -76,9 +78,26 @@ public abstract class DTO_SB_JSON_PROCESSADOR_GENERICO<T> extends StdDeserialize
         }
     }
 
+    protected boolean adicionarPropriedadeBoolean(String pnome, String valorVerdadeiro, JsonNode node, String pCaminho) {
+        try {
+
+            getObjectBuilder().add(pnome, node.get(pCaminho).asText().equals(valorVerdadeiro));
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
     protected boolean adicionarPropriedadeDouble(String pnome, JsonNode node, String caminho) {
         try {
-            getObjectBuilder().add("qtdParcelas", node.get("quantity").asInt());
+            String valor = node.get(caminho).asText();
+            int tamanhoTotal = valor.length();
+            valor = valor.substring(0, tamanhoTotal - 2) + "." + valor.substring(tamanhoTotal - 2, tamanhoTotal);
+            //DecimalFormat df = new DecimalFormat("#.00");
+            //df.setRoundingMode(RoundingMode.HALF_DOWN);
+            //df.format(valor);
+            double valorDouble = Double.parseDouble(valor);
+            getObjectBuilder().add(pnome, valorDouble);
             return true;
         } catch (Throwable t) {
             return false;
@@ -87,7 +106,16 @@ public abstract class DTO_SB_JSON_PROCESSADOR_GENERICO<T> extends StdDeserialize
 
     protected boolean adicionarPropriedadeData(String pnome, JsonNode node, String caminho) {
         try {
-            getObjectBuilder().add("qtdParcelas", node.get("quantity").asInt());
+            getObjectBuilder().add(pnome, node.get(caminho).asInt());
+            return true;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
+    protected boolean adicionarPropriedadeString(String pnome, JsonNode node, String caminho) {
+        try {
+            getObjectBuilder().add(pnome, node.get(caminho).asText());
             return true;
         } catch (Throwable t) {
             return false;

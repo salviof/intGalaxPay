@@ -6,29 +6,23 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber;
 
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ERPContaPagarReceber;
-import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.faturamento.ItfFatura;
-import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.regsitroCobranca.ItfRegistroCobranca;
-import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.regsitroCobranca.ItfRegistroCobrancaAssinatura;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxPay;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ItfPessoaFisicoJuridico;
-import java.util.List;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.assinatura.ItfFaturaAssinatura;
+import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.regsitroCobranca.ItfRegistroCobranca;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfPrevisaoValorMoeda;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinatura.DTOCtPagarReceberJsonAssinatura;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UTilSBCoreInputs;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreInputOutputConversoes;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringJson;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringListas;
-import jakarta.json.Json;
-import jakarta.json.JsonObjectBuilder;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.devedor.DTOCtPagarReceberGalaxPayDevedor;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.parcelaSazonal.DTOCtPagarRecebeJsonCobrancaSazonal;
 import java.io.IOException;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import spark.utils.IOUtils;
 
 /**
@@ -37,35 +31,13 @@ import spark.utils.IOUtils;
  */
 public class CtPagarReceberGalaxPayimplTest {
 
-    /**
-     * Test of getRegistroCobranca method, of class CtPagarReceberGalaxPayimpl.
-     */
-    @Test
-    public void testGetRegistroCobranca() {
-
+    @BeforeClass
+    public static void setUpClass() {
+        SBCore.configurar(new ConfiguradorCoreApiGalaxPay(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
     }
 
-    /**
-     * Test of getRegistroAssinatura method, of class
-     * CtPagarReceberGalaxPayimpl.
-     */
-    @Test
-    public void testGetRegistroAssinatura() {
-        SBCore.configurar(new ConfiguradorCoreApiGalaxPay(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
-        String assinaturaTeste;
-        try {
-            ClassLoader classLoader = getClass().getClassLoader();
-
-            ///home/superBits/projetos/coletivoJava/source/integracao/intGalaxPay/src/test/resources/bola.jpg
-            InputStream is = classLoader.getResourceAsStream("exemplos/galaxPay/assinatura.json");
-            assinaturaTeste = IOUtils.toString(is);
-            DTOCtPagarReceberJsonAssinatura assinatura = new DTOCtPagarReceberJsonAssinatura(assinaturaTeste);
-            CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY.getImplementacaoDoContexto();
-            ItfFaturaAssinatura result = instanciaGP.getAssinatura(assinatura);
-        } catch (IOException ex) {
-            Logger.getLogger(CtPagarReceberGalaxPayimplTest.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
+    @AfterClass
+    public static void tearDownClass() throws Exception {
     }
 
     /**
@@ -73,15 +45,82 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetDevedorByCNPJ() {
+        CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY.getImplementacaoDoContexto();
+
+        ClassLoader classLoader = getClass().getClassLoader();
+
+        ///home/superBits/projetos/coletivoJava/source/integracao/intGalaxPay/src/test/resources/bola.jpg
+        InputStream is = classLoader.getResourceAsStream("exemplos/galaxPay/devedor.json");
+        try {
+            String jsonTextoDevedor = IOUtils.toString(is);
+            DTOCtPagarReceberGalaxPayDevedor devedorInterno = new DTOCtPagarReceberGalaxPayDevedor(jsonTextoDevedor);
+            ItfPessoaFisicoJuridico devedor = instanciaGP.getDevedorByCNPJ(devedorInterno.getCpfCnpj());
+            assertNotNull("O devedor com CNPJ " + devedorInterno.getCpfCnpj() + " não foi encontrado", devedor);
+        } catch (IOException t) {
+
+        }
+    }
+
+    /**
+     * Test of getCobrancaSazonal method, of class CtPagarReceberGalaxPayimpl.
+     */
+    @Test
+    public void testGetCobrancaSazonal() {
+        CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY.getImplementacaoDoContexto();
+        ClassLoader classLoader = getClass().getClassLoader();
+
+        ///home/superBits/projetos/coletivoJava/source/integracao/intGalaxPay/src/test/resources/bola.jpg
+        InputStream is = classLoader.getResourceAsStream("exemplos/galaxPay/cobrancaSazonal.json");
+        try {
+            String jsonTextoSazonal = IOUtils.toString(is);
+            DTOCtPagarRecebeJsonCobrancaSazonal cobrancaSazonal = new DTOCtPagarRecebeJsonCobrancaSazonal(jsonTextoSazonal);
+
+            InputStream isDevedor = classLoader.getResourceAsStream("exemplos/galaxPay/devedor.json");
+            String jsonTextoDevedor = IOUtils.toString(isDevedor);
+            DTOCtPagarReceberGalaxPayDevedor devedorDTO = new DTOCtPagarReceberGalaxPayDevedor(jsonTextoDevedor);
+            ItfPrevisaoValorMoeda cobranca = instanciaGP.getCobrancaSazonal(cobrancaSazonal, devedorDTO);
+            assertNotNull("O devedor com CNPJ " + devedorDTO.getCpfCnpj() + " não foi encontrado", cobranca);
+        } catch (IOException t) {
+
+        }
 
     }
 
     /**
-     * Test of getRegistrosEmAberto method, of class CtPagarReceberGalaxPayimpl.
+     * Test of getCobrancaAssinatura method, of class
+     * CtPagarReceberGalaxPayimpl.
      */
     @Test
-    public void testGetRegistrosEmAberto() {
+    public void testGetCobrancaAssinatura() {
+    }
 
+    /**
+     * Test of getAssinatura method, of class CtPagarReceberGalaxPayimpl.
+     */
+    @Test
+    public void testGetAssinatura() {
+        String assinaturaTeste;
+        try {
+            ClassLoader classLoader = getClass().getClassLoader();
+
+            ///home/superBits/projetos/coletivoJava/source/integracao/intGalaxPay/src/test/resources/bola.jpg
+            InputStream is = classLoader.getResourceAsStream("exemplos/galaxPay/assinatura.json");
+            assinaturaTeste = IOUtils.toString(is);
+            DTOCtPagarReceberJsonAssinatura assinaturaInterna = new DTOCtPagarReceberJsonAssinatura(assinaturaTeste);
+            CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY.getImplementacaoDoContexto();
+            ItfFaturaAssinatura assinaturaEncontrada = instanciaGP.getAssinatura(assinaturaInterna);
+            assertNotNull("Fatura não foi encontrada", assinaturaEncontrada);
+        } catch (IOException ex) {
+            Logger.getLogger(CtPagarReceberGalaxPayimplTest.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    /**
+     * Test of getCobrancasSazonaisEmAberto method, of class
+     * CtPagarReceberGalaxPayimpl.
+     */
+    @Test
+    public void testGetCobrancasSazonaisEmAberto() {
     }
 
     /**
@@ -89,16 +128,14 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetAssinaturasAtivas() {
-
     }
 
     /**
-     * Test of getClientesRegistrados method, of class
+     * Test of getDevedoresRegistrados method, of class
      * CtPagarReceberGalaxPayimpl.
      */
     @Test
-    public void testGetClientesRegistrados() {
-
+    public void testGetDevedoresRegistrados() {
     }
 
     /**
@@ -107,7 +144,6 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetDevedorByIdExterno() {
-
     }
 
     /**
@@ -116,7 +152,6 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetDevedorByIdAplicacao() {
-
     }
 
 }
