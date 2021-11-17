@@ -1,66 +1,61 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinaturaParcela;
+package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PessoaFisicoJuridico;
 
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.DTO_SBGENERICO;
-import java.util.Date;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PessoaFisicoJuridico.ItfDTOPessoaFisicoJuridico;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PessoaFisicoJuridico.JsonBindDTOPessoaFisicoJuridico;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.DTO_SBGENERICO;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocal;
 
-/**
- *
- * @author sfurbino
- */
-public class DTOCtPagarReceberJsonParcelaAssinatura extends
-        DTO_SBGENERICO<ItfParcelaAssinaturaDTO> implements ItfParcelaAssinaturaDTO {
+public class DTOPessoaFisicoJuridico
+        extends
+        DTO_SBGENERICO<ItfDTOPessoaFisicoJuridico>
+        implements
+        ItfDTOPessoaFisicoJuridico {
 
-    public DTOCtPagarReceberJsonParcelaAssinatura(String JsonString) {
-        super(JsonProcessParcelaAssinaturaDTO.class, JsonString);
+    public DTOPessoaFisicoJuridico(String pJson) {
+        super(JsonBindDTOPessoaFisicoJuridico.class, pJson);
     }
 
-    public DTOCtPagarReceberJsonParcelaAssinatura() {
+    public DTOPessoaFisicoJuridico() {
         super(null, null);
     }
 
     @Override
-    public double getValorRealizado() {
+    public void setLocalizacao(ItfLocal pLocal) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setValor(double valor) {
+    public void setNomeLongo(String pnomeLongo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public Date getDataPrevista() {
+    public void setDescritivo(String pDescritivo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setDataPrevista(Date pDataPrevista) {
+    public void setAtivo(boolean pAtivo) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean isPagamentoEfetuado() {
+    public String getImgMedia() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public boolean isUmValorPersonalizado() {
+    public boolean isTemImagemMedioAdicionada() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public double getParcelaNumero() {
+    public String getImgGrande() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setParcelaNumero(double parcelaNumero) {
+    public boolean isTemImagemGrandeAdicionada() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
 }

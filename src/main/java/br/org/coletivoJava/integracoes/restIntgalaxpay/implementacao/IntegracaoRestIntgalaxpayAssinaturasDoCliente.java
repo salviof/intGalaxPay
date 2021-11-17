@@ -8,13 +8,19 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basic
 
 @InfoIntegracaoRestIntgalaxpayAssinatura(tipo = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE)
 public class IntegracaoRestIntgalaxpayAssinaturasDoCliente
-		extends
-			AcaoApiIntegracaoAbstrato {
+        extends
+        AcaoApiIntegracaoAbstrato {
 
-	public IntegracaoRestIntgalaxpayAssinaturasDoCliente(
-			final FabTipoAgenteClienteApi pTipoAgente,
-			final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
-		super(FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE,
-				pTipoAgente, pUsuario, pParametro);
-	}
+    public IntegracaoRestIntgalaxpayAssinaturasDoCliente(
+            final FabTipoAgenteClienteApi pTipoAgente,
+            final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
+        super(FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE,
+                pTipoAgente, pUsuario, pParametro);
+    }
+
+    @Override
+    protected void executarAcao() {
+        super.executarAcao(); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

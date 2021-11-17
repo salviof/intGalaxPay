@@ -8,13 +8,13 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basic
 
 @InfoIntegracaoRestIntgalaxpayCliente(tipo = FabApiRestIntGalaxPayCliente.LISTAR_CLIENTE_BY_DOCUMENTO)
 public class IntegracaoRestIntgalaxpayListarClienteByDocumento
-		extends
-			AcaoApiIntegracaoAbstrato {
+        extends
+        AcaoApiIntegracaoAbstrato {
 
-	public IntegracaoRestIntgalaxpayListarClienteByDocumento(
-			final FabTipoAgenteClienteApi pTipoAgente,
-			final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
-		super(FabApiRestIntGalaxPayCliente.LISTAR_CLIENTE_BY_DOCUMENTO,
-				pTipoAgente, pUsuario, pParametro);
-	}
+    public IntegracaoRestIntgalaxpayListarClienteByDocumento(
+            final FabTipoAgenteClienteApi pTipoAgente,
+            final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
+        super(FabApiRestIntGalaxPayCliente.LISTAR_CLIENTE_BY_DOCUMENTO,
+                pTipoAgente, pUsuario, pParametro);
+    }
 }

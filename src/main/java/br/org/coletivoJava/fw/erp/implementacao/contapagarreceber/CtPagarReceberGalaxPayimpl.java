@@ -1,31 +1,40 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber;
 
-import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.regsitroCobranca.ItfRegistroCobranca;
+import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ERPContaPagarReceber;
+import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ItfERPContaPagarReceber;
 import java.util.List;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ItfPessoaFisicoJuridico;
 import br.org.coletivoJava.fw.api.erp.contapagarreceber.CtPagarReceberGalaxPay;
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.assinatura.DTOCtPagarReceberJsonAssinatura;
+
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayAssinatura;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.assinatura.ItfFaturaAssinatura;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfPrevisaoValorMoeda;
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.devedor.DTOCtPagarReceberGalaxPayDevedor;
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.DTOModelGalaxPay.parcelaSazonal.DTOCtPagarRecebeJsonCobrancaSazonal;
+import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfPrevisaoValorMoedaRecorrente;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.FaturaAssinatura.DTOFaturaAssinatura;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PrevisaoValorMoeda.DTOPrevisaoValorMoeda;
+
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCliente;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCobrancaSazonal;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
+import com.super_bits.modulosSB.SBCore.modulos.erp.ErroJsonInterpredador;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Optional;
+import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 @CtPagarReceberGalaxPay
 public class CtPagarReceberGalaxPayimpl
         implements
-        br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ItfERPContaPagarReceber {
+        ItfERPContaPagarReceber {
+
+    private static final ERPContaPagarReceber galaxPayERPContaAPagar = ERPContaPagarReceber.GALAX_PAY;
 
     @Override
-    public ItfPrevisaoValorMoeda getCobrancaSazonal(ItfPrevisaoValorMoeda pValor, ItfPessoaFisicoJuridico pDevedor) {
+    public ItfPrevisaoValorMoeda getCobrancaSazonal(Date pData, double pValor, ItfPessoaFisicoJuridico pDevedor) {
 
         ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(pDevedor.getCpfCnpj());
         RespostaWebServiceSimples resposta = FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_DO_CLIENTE.getAcao(devedor.getId()).getResposta();
@@ -33,24 +42,28 @@ public class CtPagarReceberGalaxPayimpl
         List<ItfPrevisaoValorMoeda> cobrancasSazonais = new ArrayList<>();
         JSONArray array = (JSONArray) json.get("Charges");
         for (Object jsonAssinatura : array) {
-            DTOCtPagarRecebeJsonCobrancaSazonal cobrancaSazonal = new DTOCtPagarRecebeJsonCobrancaSazonal(jsonAssinatura.toString());
+            DTOPrevisaoValorMoeda cobrancaSazonal = new DTOPrevisaoValorMoeda(jsonAssinatura.toString());
+            System.out.println(cobrancaSazonal.getValor());
+            System.out.println(cobrancaSazonal.getDataPrevista());
             cobrancasSazonais.add(cobrancaSazonal);
         }
         Optional<ItfPrevisaoValorMoeda> cobrancaCompativel = cobrancasSazonais.stream().filter(asnt
-                -> asnt.getValor() == pValor.getValor() && asnt.getDataPrevista().getTime() == pValor.getDataPrevista().getTime())
+                -> asnt.getValor() == pValor && asnt.getDataPrevista().getTime() == pData.getTime())
                 .findFirst();
         if (cobrancaCompativel.isPresent()) {
             return cobrancaCompativel.get();
         } else {
+
             return null;
         }
 
     }
 
     @Override
-    public ItfPrevisaoValorMoeda getCobrancaAssinatura(ItfPrevisaoValorMoeda pValor, ItfPessoaFisicoJuridico pDevedor) {
-        RespostaWebServiceSimples resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao().getResposta();
-        List<ItfFaturaAssinatura> assinaturas = getAssinaturasAtivas(pDevedor);
+    public ItfPrevisaoValorMoedaRecorrente getCobrancaAssinatura(Date pData, double pValor, ItfPessoaFisicoJuridico pDevedor) {
+        ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(pDevedor.getCpfCnpj());
+
+        List<ItfFaturaAssinatura> assinaturas = getAssinaturasAtivas(devedor);
         if (assinaturas.isEmpty()) {
             return null;
         }
@@ -59,18 +72,19 @@ public class CtPagarReceberGalaxPayimpl
         }
         Optional<ItfFaturaAssinatura> assinaturaEquivalente
                 = assinaturas.stream().filter(ass
-                        -> ass.getValorAtualMensal() == pValor.getValor()
+                        -> ass.getValorAtualMensal() == pValor
                 ).findFirst();
         if (!assinaturaEquivalente.isPresent()) {
             return null;
         }
         Optional<ItfPrevisaoValorMoeda> previssao = assinaturaEquivalente.get().getParcelas().stream()
-                .filter(parcela -> UtilSBCoreDataHora.isMesIgual(parcela.getDataPrevista(), pValor.getDataPrevista()))
+                .filter(parcela -> parcela.getValor() == pValor
+                && UtilSBCoreDataHora.isMesIgual(parcela.getDataPrevista(), pData))
                 .findFirst();
         if (!previssao.isPresent()) {
             return null;
         } else {
-            return previssao.get();
+            return (ItfPrevisaoValorMoedaRecorrente) previssao.get();
         }
 
     }
@@ -78,20 +92,20 @@ public class CtPagarReceberGalaxPayimpl
     @Override
     public ItfFaturaAssinatura getAssinatura(ItfFaturaAssinatura pFaturaRecorrente) {
         // Considerar Valor CPF do cliente, e estado ativo.
-        UtilSBCOREErp teste = new UtilSBCOREErp();
+
         pFaturaRecorrente.getValorAtualMensal();
         pFaturaRecorrente.isAtivo();
         String cnpj = pFaturaRecorrente.getDevedor().getCpfCnpj();
         ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(cnpj);
-
-        RespostaWebServiceSimples resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(String.valueOf(devedor.getId())).getResposta();
+        String idCliente = String.valueOf(devedor.getId());
+        RespostaWebServiceSimples resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(idCliente).getResposta();
         JSONObject json = resposta.getRespostaComoObjetoJson();
         System.out.println(json.toJSONString());
         JSONArray array = (JSONArray) json.get("Subscriptions");
         List<ItfFaturaAssinatura> assinaturas = new ArrayList<>();
 
         for (Object jsonAssinatura : array) {
-            DTOCtPagarReceberJsonAssinatura assinatura = new DTOCtPagarReceberJsonAssinatura(jsonAssinatura.toString());
+            DTOFaturaAssinatura assinatura = new DTOFaturaAssinatura(jsonAssinatura.toString());
             assinaturas.add(assinatura);
         }
         Optional<ItfFaturaAssinatura> faturaCompativel = assinaturas.stream().filter(asnt
@@ -106,26 +120,42 @@ public class CtPagarReceberGalaxPayimpl
     }
 
     @Override
-    public List<ItfRegistroCobranca> getCobrancasSazonaisEmAberto(ItfPessoaFisicoJuridico pPessoas) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<ItfPrevisaoValorMoeda> getCobrancasSazonaisEmAberto(ItfPessoaFisicoJuridico pPessoas) {
+        galaxPayERPContaAPagar.getImplementacaoDoContexto();
+        return null;
+
     }
 
     @Override
     public List<ItfFaturaAssinatura> getAssinaturasAtivas(ItfPessoaFisicoJuridico pPessoas) {
 
-        String cnpj = pPessoas.getCpfCnpj();
-        ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(cnpj);
+        String idAssinaturaVinculado = galaxPayERPContaAPagar.getRepositorioLinkEntidadesByID().getCodigoApiExterna(pPessoas.getClass(), pPessoas.getId());
+        RespostaWebServiceSimples resposta;
+        if (idAssinaturaVinculado != null) {
+            resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(String.valueOf(idAssinaturaVinculado)).getResposta();
+        } else {
+            String cnpj = pPessoas.getCpfCnpj();
+            ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(cnpj);
+            galaxPayERPContaAPagar.getRepositorioLinkEntidadesByID().registrarCodigoLigacaoApi(pPessoas.getClass(), pPessoas.getId(), String.valueOf(devedor.getId()));
+            resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(String.valueOf(devedor.getId())).getResposta();
+        }
 
-        RespostaWebServiceSimples resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(String.valueOf(devedor.getId())).getResposta();
-        JSONObject json = resposta.getRespostaComoObjetoJson();
-        System.out.println(json.toJSONString());
-        JSONArray array = (JSONArray) json.get("Subscriptions");
+        JSONObject jsonResposta = resposta.getRespostaComoObjetoJson();
+        System.out.println(jsonResposta.toJSONString());
+        JSONArray array = (JSONArray) jsonResposta.get("Subscriptions");
         List<ItfFaturaAssinatura> assinaturas = new ArrayList<>();
 
         for (Object jsonAssinatura : array) {
-            DTOCtPagarReceberJsonAssinatura assinatura = new DTOCtPagarReceberJsonAssinatura(jsonAssinatura.toString());
-            if (assinatura.isAtivo()) {
-                assinaturas.add(assinatura);
+
+            try {
+
+                ItfFaturaAssinatura assinatura = galaxPayERPContaAPagar.getDTO(jsonAssinatura.toString(), ItfFaturaAssinatura.class);
+                if (assinatura.isAtivo()) {
+                    assinaturas.add(assinatura);
+                }
+            } catch (ErroJsonInterpredador ex) {
+                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Falha interpretando json de assinatura", ex);
+                throw new UnsupportedOperationException("Falha interpretando json de assinatura");
             }
         }
         return assinaturas;
@@ -141,12 +171,20 @@ public class CtPagarReceberGalaxPayimpl
 
         RespostaWebServiceSimples resp = FabApiRestIntGalaxPayCliente.LISTAR_CLIENTE_BY_DOCUMENTO.getAcao(pCNPJ).getResposta();
         if (resp.isSucesso()) {
-            long objetoQuantidade = (long) resp.getRespostaComoObjetoJson().get("totalQtdFoundInPage");
-            if (objetoQuantidade == 0) {
-                return null;
+            try {
+                long objetoQuantidade = (long) resp.getRespostaComoObjetoJson().get("totalQtdFoundInPage");
+                if (objetoQuantidade == 0) {
+                    return null;
+                }
+                JSONArray objetoClientes = (JSONArray) resp.getRespostaComoObjetoJson().get("Customers");
+                return galaxPayERPContaAPagar.getDTO(objetoClientes.get(0).toString(), ItfPessoaFisicoJuridico.class);
+            } catch (ErroJsonInterpredador ex) {
+                SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro tratando Json devedor", ex);
             }
-            JSONArray objetoClientes = (JSONArray) resp.getRespostaComoObjetoJson().get("Customers");
-            return new DTOCtPagarReceberGalaxPayDevedor(objetoClientes.get(0).toString());
+        } else {
+            System.out.println("Erro comunicando com a api");
+            System.out.println(resp.getRespostaErro());
+            System.out.println(resp.getRespostaTexto());
         }
         return null;
     }

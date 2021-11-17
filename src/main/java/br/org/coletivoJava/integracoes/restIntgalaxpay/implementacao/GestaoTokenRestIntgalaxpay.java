@@ -91,6 +91,9 @@ public class GestaoTokenRestIntgalaxpay extends GestaoTokenDinamico {
 
     @Override
     public boolean validarToken() {
+        if (getTokenCompleto() == null) {
+            return false;
+        }
         return getTokenCompleto().isTokenValido();
     }
 
