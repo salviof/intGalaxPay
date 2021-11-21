@@ -23,7 +23,17 @@ public class JsonBindDTOPrevisaoValorMoeda
         DTOPrevisaoValorMoeda dtoCobrancasazonal = new DTOPrevisaoValorMoeda();
         adicionarPropriedadeDouble("valor", node, "value");
         adicionarPropriedadeData("dataPrevista", node, "payday");
-        //adicionarPropriedadeData(pnome, node, caminho);
+
+        if (node.has("Pix")) {
+            JsonNode pix = node.get("Pix");
+            adicionarPropriedadeString("pix", pix, "qrCode");
+        }
+        if (node.has("Boleto")) {
+            JsonNode boleto = node.get("Boleto");
+            adicionarPropriedadeString("PDFCobranca", boleto, "pdf");
+        }
+        adicionarPropriedadeBoolean("pagamentoEfetuado", "payedBoleto", node, "status");
+
         selarProcesamento(dtoCobrancasazonal);
         return dtoCobrancasazonal;
     }

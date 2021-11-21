@@ -27,13 +27,13 @@ public interface ItfDTOFaturaAssinatura
 	}
 
 	@Override
-	public default double getValorTotal() {
-		return (double) getValorPorReflexao();
+	public default List getParcelas() {
+		return (List) getValorPorReflexao();
 	}
 
 	@Override
-	public default List getParcelas() {
-		return (List) getValorPorReflexao();
+	public default double getValorTotal() {
+		return (double) getValorPorReflexao();
 	}
 
 	@Override

@@ -5,8 +5,8 @@ import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.I
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PrevisaoValorMoedaRecorrente.JsonBindDTOPrevisaoValorMoedaRecorrente;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.assinatura.ItfFaturaAssinatura;
-import java.util.Date;
 import java.lang.String;
+import java.util.Date;
 
 @JsonDeserialize(using = JsonBindDTOPrevisaoValorMoedaRecorrente.class)
 public interface ItfDTOPrevisaoValorMoedaRecorrente
@@ -25,8 +25,13 @@ public interface ItfDTOPrevisaoValorMoedaRecorrente
 	}
 
 	@Override
-	public default Date getDataPrevista() {
-		return (Date) getValorPorReflexao();
+	public default String getPix() {
+		return (String) getValorPorReflexao();
+	}
+
+	@Override
+	public default String getPDFCobranca() {
+		return (String) getValorPorReflexao();
 	}
 
 	@Override
@@ -47,6 +52,11 @@ public interface ItfDTOPrevisaoValorMoedaRecorrente
 	@Override
 	public default double getParcelaNumero() {
 		return (double) getValorPorReflexao();
+	}
+
+	@Override
+	public default Date getDataPrevista() {
+		return (Date) getValorPorReflexao();
 	}
 
 	@Override

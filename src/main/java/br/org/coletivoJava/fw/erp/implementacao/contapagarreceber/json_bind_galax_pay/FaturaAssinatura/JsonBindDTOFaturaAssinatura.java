@@ -26,6 +26,7 @@ public class JsonBindDTOFaturaAssinatura
 
         adicionarPropriedadeInteiro("qtdParcelas", node, "quantity");
         adicionarPropriedadeBoolean("ativo", "active", node, "status");
+        adicionarPropriedadeInteiro("id", node, "galaxPayId");
         adicionarPropriedadeDouble("valorAtualMensal", node, "value");
         adicionarPropriedadeData("dataPrimeiroPagamento", node, "firstPayDayDate");
         adicionarPropriedadeListaObjetos(DTOPrevisaoValorMoedaRecorrente.class, "parcelas", node, "Transactions");

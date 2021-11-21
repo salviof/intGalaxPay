@@ -23,8 +23,15 @@ public class JsonBindDTOPrevisaoValorMoedaRecorrente
         DTOPrevisaoValorMoedaRecorrente dtoCobrancasazonal = new DTOPrevisaoValorMoedaRecorrente();
         adicionarPropriedadeDouble("valor", node, "value");
         adicionarPropriedadeData("dataPrevista", node, "payday");
-        String teste = node.get("status").asText();
-        System.out.println(teste);
+
+        if (node.has("Pix")) {
+            JsonNode pix = node.get("Pix");
+            adicionarPropriedadeString("pix", pix, "qrCode");
+        }
+        if (node.has("Boleto")) {
+            JsonNode boleto = node.get("Boleto");
+            adicionarPropriedadeString("PDFCobranca", boleto, "pdf");
+        }
         adicionarPropriedadeBoolean("pagamentoEfetuado", "payedBoleto", node, "status");
 
         selarProcesamento(dtoCobrancasazonal);

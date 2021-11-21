@@ -2,8 +2,6 @@ package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_gal
 
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.formaPagamento.ItfFormaPagamento;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfPrevisaoValorMoeda;
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.FaturaAssinatura.ItfDTOFaturaAssinatura;
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.FaturaAssinatura.JsonBindDTOFaturaAssinatura;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.DTO_SBGENERICO;
 import java.util.Date;
 import java.util.List;

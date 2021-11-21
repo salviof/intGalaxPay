@@ -113,7 +113,7 @@ public class CtPagarReceberGalaxPayimplTest {
             assinaturaTeste = IOUtils.toString(is);
             ItfFaturaAssinatura assinaturaInterna = contextoGalaxPay.getDTO(assinaturaTeste, ItfFaturaAssinatura.class);
             CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY.getImplementacaoDoContexto();
-            ItfFaturaAssinatura assinaturaEncontrada = instanciaGP.getAssinatura(assinaturaInterna);
+            ItfFaturaAssinatura assinaturaEncontrada = instanciaGP.getAssinatura(assinaturaInterna.getValorAtualMensal(), assinaturaInterna.getDevedor());
             assertNotNull("Fatura não foi encontrada", assinaturaEncontrada);
         } catch (IOException ex) {
             fail("Falha lendo" + "exemplos/galaxPay/assinatura.json");

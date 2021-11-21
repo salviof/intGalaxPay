@@ -20,10 +20,15 @@ import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayClie
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCobrancaSazonal;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ErroJsonInterpredador;
+import com.super_bits.modulosSB.SBCore.modulos.erp.ItfServicoLinkDeEntidadesERP;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocalPostagem;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
 
 @CtPagarReceberGalaxPay
@@ -61,8 +66,16 @@ public class CtPagarReceberGalaxPayimpl
 
     @Override
     public ItfPrevisaoValorMoedaRecorrente getCobrancaAssinatura(Date pData, double pValor, ItfPessoaFisicoJuridico pDevedor) {
+        if (pDevedor == null) {
+            return null;
+        }
+        if (pValor == 0) {
+            return null;
+        }
         ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(pDevedor.getCpfCnpj());
-
+        if (devedor == null) {
+            return null;
+        }
         List<ItfFaturaAssinatura> assinaturas = getAssinaturasAtivas(devedor);
         if (assinaturas.isEmpty()) {
             return null;
@@ -90,13 +103,14 @@ public class CtPagarReceberGalaxPayimpl
     }
 
     @Override
-    public ItfFaturaAssinatura getAssinatura(ItfFaturaAssinatura pFaturaRecorrente) {
+    public ItfFaturaAssinatura getAssinatura(double pValor, ItfPessoaFisicoJuridico pDevedor) {
         // Considerar Valor CPF do cliente, e estado ativo.
 
-        pFaturaRecorrente.getValorAtualMensal();
-        pFaturaRecorrente.isAtivo();
-        String cnpj = pFaturaRecorrente.getDevedor().getCpfCnpj();
+        String cnpj = pDevedor.getCpfCnpj();
         ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(cnpj);
+        if (devedor == null) {
+            return null;
+        }
         String idCliente = String.valueOf(devedor.getId());
         RespostaWebServiceSimples resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(idCliente).getResposta();
         JSONObject json = resposta.getRespostaComoObjetoJson();
@@ -109,7 +123,7 @@ public class CtPagarReceberGalaxPayimpl
             assinaturas.add(assinatura);
         }
         Optional<ItfFaturaAssinatura> faturaCompativel = assinaturas.stream().filter(asnt
-                -> asnt.getValorAtualMensal() == pFaturaRecorrente.getValorAtualMensal() && asnt.isAtivo())
+                -> asnt.getValorAtualMensal() == pValor && asnt.isAtivo())
                 .findFirst();
         if (faturaCompativel.isPresent()) {
             return faturaCompativel.get();
@@ -128,14 +142,20 @@ public class CtPagarReceberGalaxPayimpl
 
     @Override
     public List<ItfFaturaAssinatura> getAssinaturasAtivas(ItfPessoaFisicoJuridico pPessoas) {
-
-        String idAssinaturaVinculado = galaxPayERPContaAPagar.getRepositorioLinkEntidadesByID().getCodigoApiExterna(pPessoas.getClass(), pPessoas.getId());
+        ItfServicoLinkDeEntidadesERP repositorio = galaxPayERPContaAPagar.getRepositorioLinkEntidadesByID();
+        String idAssinaturaVinculado = null;
+        if (repositorio != null) {
+            idAssinaturaVinculado = repositorio.getCodigoApiExterna(pPessoas.getClass(), pPessoas.getId());
+        }
         RespostaWebServiceSimples resposta;
         if (idAssinaturaVinculado != null) {
             resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(String.valueOf(idAssinaturaVinculado)).getResposta();
         } else {
             String cnpj = pPessoas.getCpfCnpj();
             ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(cnpj);
+            if (devedor == null) {
+                return new ArrayList<>();
+            }
             galaxPayERPContaAPagar.getRepositorioLinkEntidadesByID().registrarCodigoLigacaoApi(pPessoas.getClass(), pPessoas.getId(), String.valueOf(devedor.getId()));
             resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(String.valueOf(devedor.getId())).getResposta();
         }
@@ -163,13 +183,36 @@ public class CtPagarReceberGalaxPayimpl
 
     @Override
     public List<ItfPessoaFisicoJuridico> getDevedoresRegistrados() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+        int quantidade = 100;
+
+        int indice = 0;
+
+        List<ItfPessoaFisicoJuridico> pessoas = new ArrayList<>();
+        while (quantidade != 0) {
+
+            RespostaWebServiceSimples resposta = FabApiRestIntGalaxPayCliente.LISTAR_CLIENTES.getAcao(indice, 100).getResposta();
+            Long objetoQuantidade = (long) resposta.getRespostaComoObjetoJson().get("totalQtdFoundInPage");
+            quantidade = objetoQuantidade.intValue();
+            indice = quantidade + indice;
+            JSONArray objetoClientes = (JSONArray) resposta.getRespostaComoObjetoJson().get("Customers");
+            for (Object clientObjto : objetoClientes) {
+                JSONObject cliente = (JSONObject) clientObjto;
+                try {
+                    ItfPessoaFisicoJuridico pessoa = galaxPayERPContaAPagar.getDTO(cliente.toString(), ItfPessoaFisicoJuridico.class);
+                    pessoas.add(pessoa);
+                } catch (ErroJsonInterpredador ex) {
+                    Logger.getLogger(CtPagarReceberGalaxPayimpl.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return pessoas;
     }
 
     @Override
     public ItfPessoaFisicoJuridico getDevedorByCNPJ(String pCNPJ) {
-
-        RespostaWebServiceSimples resp = FabApiRestIntGalaxPayCliente.LISTAR_CLIENTE_BY_DOCUMENTO.getAcao(pCNPJ).getResposta();
+        String cnpj = UtilSBCoreStringFiltros.filtrarApenasNumeros(pCNPJ);
+        RespostaWebServiceSimples resp = FabApiRestIntGalaxPayCliente.LISTAR_CLIENTE_BY_DOCUMENTO.getAcao(cnpj).getResposta();
         if (resp.isSucesso()) {
             try {
                 long objetoQuantidade = (long) resp.getRespostaComoObjetoJson().get("totalQtdFoundInPage");
@@ -196,6 +239,11 @@ public class CtPagarReceberGalaxPayimpl
 
     @Override
     public List<ItfPessoaFisicoJuridico> getDevedorByIdAplicacao(int pId) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public ItfLocalPostagem getLocalizacaoByDocumento(String pLocalizacao) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
