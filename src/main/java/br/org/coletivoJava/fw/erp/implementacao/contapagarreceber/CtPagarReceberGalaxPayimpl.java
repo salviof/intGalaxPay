@@ -44,23 +44,36 @@ public class CtPagarReceberGalaxPayimpl
         ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(pDevedor.getCpfCnpj());
         RespostaWebServiceSimples resposta = FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_DO_CLIENTE.getAcao(devedor.getId()).getResposta();
         JSONObject json = resposta.getRespostaComoObjetoJson();
-        List<ItfPrevisaoValorMoeda> cobrancasSazonais = new ArrayList<>();
-        JSONArray array = (JSONArray) json.get("Charges");
-        for (Object jsonAssinatura : array) {
-            DTOPrevisaoValorMoeda cobrancaSazonal = new DTOPrevisaoValorMoeda(jsonAssinatura.toString());
-            System.out.println(cobrancaSazonal.getValor());
-            System.out.println(cobrancaSazonal.getDataPrevista());
-            cobrancasSazonais.add(cobrancaSazonal);
-        }
-        Optional<ItfPrevisaoValorMoeda> cobrancaCompativel = cobrancasSazonais.stream().filter(asnt
-                -> asnt.getValor() == pValor && asnt.getDataPrevista().getTime() == pData.getTime())
-                .findFirst();
-        if (cobrancaCompativel.isPresent()) {
-            return cobrancaCompativel.get();
-        } else {
 
+        JSONArray arrayCobrancasEncontradas = (JSONArray) json.get("Charges");
+        if (arrayCobrancasEncontradas.size() == 0) {
             return null;
         }
+        List<ItfPrevisaoValorMoeda> cobrancasSazonais = new ArrayList<>();
+        for (Object cobranca : arrayCobrancasEncontradas) {
+            JSONObject cobrancaJson = (JSONObject) cobranca;
+            String valorStr = cobrancaJson.get("value").toString();
+            int tamanhoTotal = valorStr.length();
+            String valorStrFormatado = valorStr.substring(0, tamanhoTotal - 2) + "." + valorStr.substring(tamanhoTotal - 2, tamanhoTotal);
+            double valorDouble = Double.parseDouble(valorStrFormatado);
+            if (valorDouble == pValor) {
+                JSONArray arrayTranzacoes = (JSONArray) cobrancaJson.get("Transactions");
+                for (Object tranzacao : arrayTranzacoes) {
+                    DTOPrevisaoValorMoeda cobrancaSazonal = new DTOPrevisaoValorMoeda(tranzacao.toString());
+                    System.out.println(cobrancaSazonal.getValor());
+                    System.out.println(cobrancaSazonal.getDataPrevista());
+                    cobrancasSazonais.add(cobrancaSazonal);
+                }
+                Optional<ItfPrevisaoValorMoeda> cobrancaCompativel = cobrancasSazonais.stream().filter(asnt
+                        -> asnt.getValor() == pValor && UtilSBCoreDataHora.isDiaIgual(asnt.getDataPrevista(), pData))
+                        .findFirst();
+                if (cobrancaCompativel.isPresent()) {
+                    return cobrancaCompativel.get();
+                }
+            }
+        }
+
+        return null;
 
     }
 
