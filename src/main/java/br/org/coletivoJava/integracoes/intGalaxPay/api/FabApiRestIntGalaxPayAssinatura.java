@@ -38,6 +38,42 @@ public enum FabApiRestIntGalaxPayAssinatura implements ItfFabricaIntegracaoRest 
             parametrosGet = {"documents"},
             urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/list",
             adicionarAutenticacaoBearer = true)
-    ASSINATURAS_DE_CLIENTES;
+    ASSINATURAS_DE_CLIENTES,
+    @InfoConsumoRestService(getPachServico = "/subscriptions",
+            tipoConexao = FabTipoConexaoRest.POST,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosGet = {"documents"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/create-with-plan",
+            adicionarAutenticacaoBearer = true)
+    ASSINATURA_PLANO_VIA_PIX_CRIAR,
+    @InfoConsumoRestService(getPachServico = "/subscriptions",
+            tipoConexao = FabTipoConexaoRest.POST,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosGet = {"documents"},
+            parametrosPost = {"id", "idplano", "dataPrimeiroPagamento", "códigoInternoCliente", "codigoInternoCartao", "numerocartao", "nome usuário Cartao", "mesAno vencimento cartao 1990-12", "cvv"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/create-with-plan",
+            adicionarAutenticacaoBearer = true)
+    ASSINATURA_PLANO_VIA_CARTAO_CRIAR,
+    @InfoConsumoRestService(getPachServico = "/subscriptions",
+            tipoConexao = FabTipoConexaoRest.POST,
+            parametrosPost = {"Código interno", "Codigo interno plano", "codigoInternoCliente", "dataPrimeiroPagamento",
+                "codigoInternoCartao", "numeroCartao",
+                "NomeUsuárioCartão", "Mes Ano Expira", "CVV"},
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/create-with-plan",
+            adicionarAutenticacaoBearer = true)
+    ASSINATURA_VIA_CARTAO_CRIAR,
+    @InfoConsumoRestService(getPachServico = "/subscriptions",
+            tipoConexao = FabTipoConexaoRest.POST,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/create-with-plan",
+            adicionarAutenticacaoBearer = true)
+    ASSINATURA_VIA_PIX_CRIAR,
+    @InfoConsumoRestService(getPachServico = "/subscriptions/{0}/myId",
+            tipoConexao = FabTipoConexaoRest.DELETE,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/cancel",
+            adicionarAutenticacaoBearer = true)
+    ASSINATURA_CANCELAR
 
 }

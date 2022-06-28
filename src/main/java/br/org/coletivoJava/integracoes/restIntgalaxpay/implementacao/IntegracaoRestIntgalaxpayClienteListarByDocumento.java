@@ -6,15 +6,15 @@ import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.Ac
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
 
-@InfoIntegracaoRestIntgalaxpayCliente(tipo = FabApiRestIntGalaxPayCliente.LISTAR_CLIENTE_BY_DOCUMENTO)
-public class IntegracaoRestIntgalaxpayListarClienteByDocumento
+@InfoIntegracaoRestIntgalaxpayCliente(tipo = FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR_BY_DOCUMENTO)
+public class IntegracaoRestIntgalaxpayClienteListarByDocumento
         extends
         AcaoApiIntegracaoAbstrato {
 
-    public IntegracaoRestIntgalaxpayListarClienteByDocumento(
+    public IntegracaoRestIntgalaxpayClienteListarByDocumento(
             final FabTipoAgenteClienteApi pTipoAgente,
             final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
-        super(FabApiRestIntGalaxPayCliente.LISTAR_CLIENTE_BY_DOCUMENTO,
+        super(FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR_BY_DOCUMENTO,
                 pTipoAgente, pUsuario, pParametro);
     }
 }

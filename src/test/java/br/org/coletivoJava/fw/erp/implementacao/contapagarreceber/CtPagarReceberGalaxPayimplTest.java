@@ -45,7 +45,8 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetDevedorByCNPJ() {
-        CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY.getImplementacaoDoContexto();
+        CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY
+                .getImplementacaoDoContexto();
 
         ClassLoader classLoader = getClass().getClassLoader();
 

@@ -8,14 +8,13 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basic
 
 @InfoIntegracaoRestIntgalaxpaySazonal(tipo = FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_DO_CLIENTE)
 public class IntegracaoRestIntgalaxpayCobrancasSazonaisDoCliente
-		extends
-			AcaoApiIntegracaoAbstrato {
+        extends
+        AcaoApiIntegracaoAbstrato {
 
-	public IntegracaoRestIntgalaxpayCobrancasSazonaisDoCliente(
-			final FabTipoAgenteClienteApi pTipoAgente,
-			final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
-		super(
-				FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_DO_CLIENTE,
-				pTipoAgente, pUsuario, pParametro);
-	}
+    public IntegracaoRestIntgalaxpayCobrancasSazonaisDoCliente(
+            final FabTipoAgenteClienteApi pTipoAgente,
+            final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
+        super(FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_DO_CLIENTE,
+                pTipoAgente, pUsuario, pParametro);
+    }
 }

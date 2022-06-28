@@ -8,7 +8,7 @@ package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxPay;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCliente;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.transmissao_recepcao_rest_client.ItfAcaoApiRest;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -26,11 +26,10 @@ public class IntegracaoRestIntgalaxpayListarClienteByDocumentoTest {
     public void testSomeMethod() {
         SBCore.configurar(new ConfiguradorCoreApiGalaxPay(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
 
-        FabApiRestIntGalaxPayCliente.LISTAR_CLIENTE_BY_DOCUMENTO.getGestaoToken();
-        ItfAcaoApiRest acao = FabApiRestIntGalaxPayCliente.LISTAR_CLIENTE_BY_DOCUMENTO.getAcao("58547422170");
+        FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR_BY_DOCUMENTO.getGestaoToken();
+        ItfAcaoApiRest acao = FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR_BY_DOCUMENTO.getAcao("58547422170");
 
-        RespostaWebServiceSimples resposta = acao.getResposta();
-        System.out.println(resposta.getRespostaErro());
+        ItfRespostaWebServiceSimples resposta = acao.getResposta();
         assertTrue("Falha de comuniucação com a api", resposta.isSucesso());
         if (resposta.isSucesso()) {
             System.out.println(resposta.getRespostaComoObjetoJson().toJSONString());

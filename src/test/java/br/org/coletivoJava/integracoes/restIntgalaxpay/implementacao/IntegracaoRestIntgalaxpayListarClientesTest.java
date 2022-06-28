@@ -6,9 +6,10 @@
 package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 
 import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxPay;
+import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayAssinatura;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCliente;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.transmissao_recepcao_rest_client.ItfAcaoApiRest;
 import org.junit.Test;
 import static org.junit.Assert.*;
@@ -26,17 +27,14 @@ public class IntegracaoRestIntgalaxpayListarClientesTest {
     public void testSomeMethod() {
         // TODO review the generated test code and remove the default call to fail.
         SBCore.configurar(new ConfiguradorCoreApiGalaxPay(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
-
-        FabApiRestIntGalaxPayCliente.LISTAR_CLIENTES.getGestaoToken();
-        ItfAcaoApiRest acao = FabApiRestIntGalaxPayCliente.LISTAR_CLIENTES.getAcao(0, 100);
-
-        RespostaWebServiceSimples resposta = acao.getResposta();
-        System.out.println(resposta.getRespostaErro());
+        FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DE_CLIENTES.getGestaoToken().getComoTokenDinamico();
+        FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR.getGestaoToken();
+        ItfAcaoApiRest acao = FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR.getAcao(0, 100);
+        ItfRespostaWebServiceSimples resposta = acao.getResposta();
         assertTrue("Falha de comuniucação com a api", resposta.isSucesso());
         if (resposta.isSucesso()) {
             System.out.println(resposta.getRespostaComoObjetoJson().toJSONString());
         }
-
     }
 
 }

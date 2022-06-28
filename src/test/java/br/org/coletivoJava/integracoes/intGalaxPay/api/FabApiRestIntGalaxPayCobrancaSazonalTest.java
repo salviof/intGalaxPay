@@ -21,7 +21,7 @@ public class FabApiRestIntGalaxPayCobrancaSazonalTest extends TestesApiRest {
     @Test
     public void testValueOf() {
         SBCore.configurar(new ConfiguradorCoreApiGalaxPay(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
-        gerarCodigos(FabApiRestIntGalaxPayCobrancaSazonal.class);
+        gerarCodigosChamadasEndpoint(FabApiRestIntGalaxPayCobrancaSazonal.class);
 
     }
 

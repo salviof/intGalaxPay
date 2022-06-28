@@ -19,7 +19,7 @@ import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.HttpHeaders;
 import org.json.simple.JSONObject;
 
-@InfoIntegracaoRestIntgalaxpayCliente(tipo = FabApiRestIntGalaxPayCliente.LISTAR_CLIENTES)
+@InfoIntegracaoRestIntgalaxpayCliente(tipo = FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR)
 public class GestaoTokenRestIntgalaxpay extends GestaoTokenDinamico {
 
     public GestaoTokenRestIntgalaxpay(

@@ -21,6 +21,8 @@ import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCobr
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ErroJsonInterpredador;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ItfServicoLinkDeEntidadesERP;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocalPostagem;
@@ -40,9 +42,11 @@ public class CtPagarReceberGalaxPayimpl
 
     @Override
     public ItfPrevisaoValorMoeda getCobrancaSazonal(Date pData, double pValor, ItfPessoaFisicoJuridico pDevedor) {
-
+        if (UtilSBCoreStringValidador.isNuloOuEmbranco(pDevedor.getCpfCnpj())) {
+            return null;
+        }
         ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(pDevedor.getCpfCnpj());
-        RespostaWebServiceSimples resposta = FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_DO_CLIENTE.getAcao(devedor.getId()).getResposta();
+        ItfRespostaWebServiceSimples resposta = FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_DO_CLIENTE.getAcao(devedor.getId()).getResposta();
         JSONObject json = resposta.getRespostaComoObjetoJson();
 
         JSONArray arrayCobrancasEncontradas = (JSONArray) json.get("Charges");
@@ -101,6 +105,9 @@ public class CtPagarReceberGalaxPayimpl
                         -> ass.getValorAtualMensal() == pValor
                 ).findFirst();
         if (!assinaturaEquivalente.isPresent()) {
+            assinaturaEquivalente = assinaturas.stream().filter(ass -> ass.getParcelas().stream().filter(p -> p.getValor() == pValor).findFirst().isPresent()).findFirst();
+        }
+        if (!assinaturaEquivalente.isPresent()) {
             return null;
         }
         Optional<ItfPrevisaoValorMoeda> previssao = assinaturaEquivalente.get().getParcelas().stream()
@@ -125,7 +132,7 @@ public class CtPagarReceberGalaxPayimpl
             return null;
         }
         String idCliente = String.valueOf(devedor.getId());
-        RespostaWebServiceSimples resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(idCliente).getResposta();
+        ItfRespostaWebServiceSimples resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(idCliente).getResposta();
         JSONObject json = resposta.getRespostaComoObjetoJson();
         System.out.println(json.toJSONString());
         JSONArray array = (JSONArray) json.get("Subscriptions");
@@ -138,6 +145,12 @@ public class CtPagarReceberGalaxPayimpl
         Optional<ItfFaturaAssinatura> faturaCompativel = assinaturas.stream().filter(asnt
                 -> asnt.getValorAtualMensal() == pValor && asnt.isAtivo())
                 .findFirst();
+        if (!faturaCompativel.isPresent()) {
+            faturaCompativel = assinaturas.stream().filter(asnt
+                    -> asnt.isAtivo() && asnt.getParcelas().stream().filter(p -> p.getValor() == pValor).findFirst().isPresent())
+                    .findFirst();
+        }
+
         if (faturaCompativel.isPresent()) {
             return faturaCompativel.get();
         } else {
@@ -160,7 +173,7 @@ public class CtPagarReceberGalaxPayimpl
         if (repositorio != null) {
             idAssinaturaVinculado = repositorio.getCodigoApiExterna(pPessoas.getClass(), pPessoas.getId());
         }
-        RespostaWebServiceSimples resposta;
+        ItfRespostaWebServiceSimples resposta;
         if (idAssinaturaVinculado != null) {
             resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(String.valueOf(idAssinaturaVinculado)).getResposta();
         } else {
@@ -204,7 +217,14 @@ public class CtPagarReceberGalaxPayimpl
         List<ItfPessoaFisicoJuridico> pessoas = new ArrayList<>();
         while (quantidade != 0) {
 
-            RespostaWebServiceSimples resposta = FabApiRestIntGalaxPayCliente.LISTAR_CLIENTES.getAcao(indice, 100).getResposta();
+            ItfRespostaWebServiceSimples resposta = FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR.getAcao(indice, 100).getResposta();
+            if (!resposta.isSucesso()) {
+                if (FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR.getGestaoToken().isTemTokemAtivo()) {
+                    throw new UnsupportedOperationException("O token de acesso retornou acesso negado");
+                }
+
+                throw new UnsupportedOperationException("Falha conectando com a Galaxy Pay");
+            }
             Long objetoQuantidade = (long) resposta.getRespostaComoObjetoJson().get("totalQtdFoundInPage");
             quantidade = objetoQuantidade.intValue();
             indice = quantidade + indice;
@@ -224,8 +244,11 @@ public class CtPagarReceberGalaxPayimpl
 
     @Override
     public ItfPessoaFisicoJuridico getDevedorByCNPJ(String pCNPJ) {
+        if (UtilSBCoreStringValidador.isNuloOuEmbranco(pCNPJ)) {
+            return null;
+        }
         String cnpj = UtilSBCoreStringFiltros.filtrarApenasNumeros(pCNPJ);
-        RespostaWebServiceSimples resp = FabApiRestIntGalaxPayCliente.LISTAR_CLIENTE_BY_DOCUMENTO.getAcao(cnpj).getResposta();
+        ItfRespostaWebServiceSimples resp = FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR_BY_DOCUMENTO.getAcao(cnpj).getResposta();
         if (resp.isSucesso()) {
             try {
                 long objetoQuantidade = (long) resp.getRespostaComoObjetoJson().get("totalQtdFoundInPage");
@@ -239,7 +262,6 @@ public class CtPagarReceberGalaxPayimpl
             }
         } else {
             System.out.println("Erro comunicando com a api");
-            System.out.println(resp.getRespostaErro());
             System.out.println(resp.getRespostaTexto());
         }
         return null;

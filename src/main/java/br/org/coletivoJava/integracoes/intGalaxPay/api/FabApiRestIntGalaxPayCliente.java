@@ -30,16 +30,39 @@ public enum FabApiRestIntGalaxPayCliente implements ItfFabricaIntegracaoRest {
             tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
             parametrosGet = {"startAt", "limit"},
             urlDocumentacao = "https://docs.galaxpay.com.br/customers/",
-            adicionarAutenticacaoBearer = true
-    )
-    LISTAR_CLIENTES,
+            adicionarAutenticacaoBearer = true)
+    CLIENTE_LISTAR,
     @InfoConsumoRestService(getPachServico = "/customers?startAt=0&limit=1&documents={0}",
             tipoConexao = FabTipoConexaoRest.GET,
             tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
             parametrosGet = {"documents"},
             urlDocumentacao = "https://docs.galaxpay.com.br/customers/list",
-            adicionarAutenticacaoBearer = true
-    )
-    LISTAR_CLIENTE_BY_DOCUMENTO,
+            adicionarAutenticacaoBearer = true)
+    CLIENTE_LISTAR_BY_DOCUMENTO,
+    @InfoConsumoRestService(getPachServico = "/customers",
+            tipoConexao = FabTipoConexaoRest.POST,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosPost = {"codigoInterno", "nome", "documento", "email", "telefone", "cep", "logradouro", "complemento", "bairro",
+                "cidade", "UF"},
+            parametrosGet = {"documents"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/customers/list",
+            adicionarAutenticacaoBearer = true)
+    CLIENTE_CRIAR_NOVO,
+    @InfoConsumoRestService(getPachServico = "/customers/{0}/myId",
+            tipoConexao = FabTipoConexaoRest.PUT,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosGet = {"codigoInterno"},
+            parametrosPost = {"codigoInterno", "nome", "documento", "email", "telefone", "cep", "logradouro", "complemento", "bairro",
+                "cidade", "UF"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/customers/list",
+            adicionarAutenticacaoBearer = true)
+    CLIENTE_ATUALIZAR,
+    @InfoConsumoRestService(getPachServico = "/customers/{0}/myId",
+            tipoConexao = FabTipoConexaoRest.DELETE,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosGet = {"codigoInterno"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/cancel",
+            adicionarAutenticacaoBearer = true)
+    CLIENTE_EXCLUIR;
 
 }

@@ -8,6 +8,7 @@ package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxPay;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayAssinatura;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.transmissao_recepcao_rest_client.ItfAcaoApiRest;
 import org.junit.Test;
@@ -29,7 +30,7 @@ public class IntegracaoRestIntgalaxpayAssinaturasDoClienteTest {
 
         FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getGestaoToken();
         ItfAcaoApiRest acao = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao("5");
-        RespostaWebServiceSimples resposta = acao.getResposta();
+        ItfRespostaWebServiceSimples resposta = acao.getResposta();
         assertTrue("Falha de comuniucação com a api", resposta.isSucesso());
         if (resposta.isSucesso()) {
             System.out.println(resposta.getRespostaComoObjetoJson().toJSONString());
