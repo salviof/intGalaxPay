@@ -10,78 +10,78 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basic
 @JsonDeserialize(using = JsonBindDTOLocalPostagem.class)
 public interface ItfDTOLocalPostagem extends ItfDTOSBJSON, ItfLocalPostagem {
 
-	@Override
-	public default String getCep() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getCep() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getLogradouro() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getLogradouro() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getComplemento() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getComplemento() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default long getLatitude() {
-		return (long) getValorPorReflexao();
-	}
+    @Override
+    public default double getLatitude() {
+        return (double) getValorPorReflexao();
+    }
 
-	@Override
-	public default ItfBairro getBairro() {
-		return (ItfBairro) getValorPorReflexao();
-	}
+    @Override
+    public default ItfBairro getBairro() {
+        return (ItfBairro) getValorPorReflexao();
+    }
 
-	@Override
-	public default ItfLocalPostagem getComoLocalPostavel() {
-		return (ItfLocalPostagem) getValorPorReflexao();
-	}
+    @Override
+    public default ItfLocalPostagem getComoLocalPostavel() {
+        return (ItfLocalPostagem) getValorPorReflexao();
+    }
 
-	@Override
-	public default boolean isLocaPostavel() {
-		return (boolean) getValorPorReflexao();
-	}
+    @Override
+    public default boolean isLocaPostavel() {
+        return (boolean) getValorPorReflexao();
+    }
 
-	@Override
-	public default long getLongitude() {
-		return (long) getValorPorReflexao();
-	}
+    @Override
+    public default double getLongitude() {
+        return (double) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getNomeUnicoSlug() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getNomeUnicoSlug() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default boolean isTemImagemPequenaAdicionada() {
-		return (boolean) getValorPorReflexao();
-	}
+    @Override
+    public default boolean isTemImagemPequenaAdicionada() {
+        return (boolean) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getSlugIdentificador() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getSlugIdentificador() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getNome() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getNome() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getIconeDaClasse() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getIconeDaClasse() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getNomeCurto() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getNomeCurto() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default int getId() {
-		return (int) getValorPorReflexao();
-	}
+    @Override
+    public default int getId() {
+        return (int) getValorPorReflexao();
+    }
 }

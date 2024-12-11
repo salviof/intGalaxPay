@@ -4,16 +4,20 @@
  */
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.cartao;
 
+import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.anotacoes.InfoObjetoSB;
+
 /**
  *
  * @author salvio
  */
+@InfoObjetoSB(tags = "Cartões", plural = "Cartões de crédito", icone = "fa fa-credit-card")
 public class CartaoSemPersistencia {
 
     private String nomeCartao;
     private String numeroCartao;
     private String vencimento;
-    private String CVC;
+
+    private String CVV;
 
     public String getNomeCartao() {
         return nomeCartao;
@@ -31,12 +35,12 @@ public class CartaoSemPersistencia {
         this.numeroCartao = numeroCartao;
     }
 
-    public String getCVC() {
-        return CVC;
+    public String getCVV() {
+        return CVV;
     }
 
-    public void setCVC(String CVC) {
-        this.CVC = CVC;
+    public void setCVV(String CVC) {
+        this.CVV = CVC;
     }
 
     public String getVencimento() {

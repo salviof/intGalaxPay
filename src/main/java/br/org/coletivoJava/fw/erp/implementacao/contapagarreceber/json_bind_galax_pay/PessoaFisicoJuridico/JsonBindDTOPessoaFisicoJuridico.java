@@ -31,23 +31,29 @@ public class JsonBindDTOPessoaFisicoJuridico
         adicionarPropriedadeString("nomeLongo", node, "name");
 
         ArrayNode emails = (ArrayNode) node.get("emails");
-        for (Iterator<JsonNode> it = emails.iterator(); it.hasNext();) {
-            TextNode email = (TextNode) it.next();
-            if (!email.asText().contains("casanovadigital")) {
-                getObjectBuilder().add("email", email.asText());
+        if (emails != null) {
+            for (Iterator<JsonNode> it = emails.iterator(); it.hasNext();) {
+                TextNode email = (TextNode) it.next();
+                if (!email.asText().contains("casanovadigital")) {
+                    getObjectBuilder().add("email", email.asText());
+                }
             }
         }
 
         ArrayNode telefones = (ArrayNode) node.get("phones");
-        for (Iterator<JsonNode> it = telefones.iterator(); it.hasNext();) {
-            JsonNode telefone = (JsonNode) it.next();
+        if (telefones != null) {
+            for (Iterator<JsonNode> it = telefones.iterator(); it.hasNext();) {
+                JsonNode telefone = (JsonNode) it.next();
 
-            getObjectBuilder().add("telefonePrincipal".toLowerCase(), telefone.asText());
+                getObjectBuilder().add("telefonePrincipal".toLowerCase(), telefone.asText());
 
+            }
         }
 
         JsonNode endereco = node.get("Address");
-        adicionarObjeto("localizacao", new DTOLocalPostagem(endereco.toString()));
+        if (endereco != null) {
+            adicionarObjeto("localizacao", new DTOLocalPostagem(endereco.toString()));
+        }
         selarProcesamento(dto);
 
         return dto;

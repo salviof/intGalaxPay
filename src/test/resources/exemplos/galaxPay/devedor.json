@@ -1,33 +1,25 @@
 {
-    "myId": "pay-618524ae192bc9.69231770",
-    "name": "Lorem ipsum dolor sit amet.",
-    "document": "58547422170",
+    "myId": "666",
+    "galaxPayId": 1941,
+    "name": "Joao da Silva",
+    "document": "82847467009",
+    "createdAt": "2022-06-27 16:37:55",
+    "updatedAt": "2022-12-14 16:08:33",
     "emails": [
-        "teste123email8531@galaxpay.com.br",
-        "teste2899email8933@galaxpay.com.br"
+        "joaoteste@cs.com.br"
     ],
     "phones": [
-        3140201512,
-        31983890110
+        3184178555
     ],
-    "invoiceHoldIss": false,
-    "municipalDocument": "121212121212-02",
-    "status": "active",
-    "createdAt": "2020-06-02 10:10:00",
-    "updatedAt": "2020-06-02 10:10:00",
     "Address": {
-        "zipCode": "30411330",
-        "street": "Rua platina",
-        "number": "1330",
-        "complement": "2º andar",
-        "neighborhood": "Prado",
-        "city": "Belo Horizonte",
+        "zipCode": "30190030",
+        "street": "Rua goias ",
+        "number": "171",
+        "complement": null,
+        "neighborhood": "centro",
+        "city": "Belo horizonte",
         "state": "MG"
     },
     "ExtraFields": [
-        {
-            "tagName": "CP_MATRICULA",
-            "tagValue": "A532620"
-        }
     ]
 }

@@ -26,12 +26,12 @@ public class DTOLocalPostagem extends DTO_SBGENERICO<ItfDTOLocalPostagem>
     }
 
     @Override
-    public void setLatitude(long pLatitude) {
+    public void setLatitude(double pLatitude) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public void setLongitude(long pLongitude) {
+    public void setLongitude(double pLongitude) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

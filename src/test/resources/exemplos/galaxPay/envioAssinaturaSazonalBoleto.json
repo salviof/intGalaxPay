@@ -1,0 +1,61 @@
+{
+    "galaxPayId": "cdn6662",
+    "comentarioSobrCampoAcima": "O campo foi adicionado para fins de compatibilidade com testes utilizando este json como um registro local ",
+    "myId": "pay-639a13420e27d1.81402222",
+    "value": 12999,
+    "additionalInfo": "Lorem ipsum dolor sit amet.",
+    "payday": "2022-12-14",
+    "payedOutsideGalaxPay": false,
+    "mainPaymentMethodId": "creditcard",
+    "Customer": {
+        "myId": "pay-639a1342132da0.50692303",
+        "name": "Lorem ipsum dolor sit amet.",
+        "document": "21003307990",
+        "emails": [
+            "teste175email5481@galaxpay.com.br",
+            "teste8935email3513@galaxpay.com.br"
+        ],
+        "phones": [
+            3140201512,
+            31983890110
+        ],
+        "Address": {
+            "zipCode": "30411330",
+            "street": "Rua platina",
+            "number": "1330",
+            "complement": "2º andar",
+            "neighborhood": "Prado",
+            "city": "Belo Horizonte",
+            "state": "MG"
+        }
+    },
+    "PaymentMethodCreditCard": {
+        "Link": {
+            "minInstallment": 4,
+            "maxInstallment": 12
+        },
+        "Card": {
+            "myId": "pay-639a134220abe3.76462017",
+            "number": "4111 1111 1111 1111",
+            "holder": "JOAO J J DA SILVA",
+            "expiresAt": "2022-12",
+            "cvv": "363"
+        },
+        "qtdInstallments": 12
+    },
+    "PaymentMethodBoleto": {
+        "fine": 100,
+        "interest": 200,
+        "instructions": "Lorem ipsum dolor sit amet.",
+        "deadlineDays": 1
+    },
+    "PaymentMethodPix": {
+        "fine": 100,
+        "interest": 200,
+        "instructions": "Lorem ipsum dolor sit amet.",
+        "Deadline": {
+            "type": "days",
+            "value": 60
+        }
+    }
+}

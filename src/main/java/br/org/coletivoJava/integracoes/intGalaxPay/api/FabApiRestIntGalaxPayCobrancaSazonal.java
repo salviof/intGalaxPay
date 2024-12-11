@@ -32,6 +32,34 @@ public enum FabApiRestIntGalaxPayCobrancaSazonal implements ItfFabricaIntegracao
             urlDocumentacao = "https://docs.galaxpay.com.br/customers/list",
             adicionarAutenticacaoBearer = true
     )
-    COBRANCAS_SAZONAIS_DO_CLIENTE;
+    COBRANCAS_SAZONAIS_DO_CLIENTE,
+    @InfoConsumoRestService(getPachServico = "/charges/{0}/myId",
+            tipoConexao = FabTipoConexaoRest.DELETE,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosGet = {"myId"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/create-with-plan",
+            adicionarAutenticacaoBearer = true)
+    COBRANCAS_SAZONAIS_CANCELAR,
+    @InfoConsumoRestService(getPachServico = "/charges",
+            tipoConexao = FabTipoConexaoRest.POST,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosGet = {"myId", "ItfPrevisaoValorMoeda", "ItfPessoaFisicoJuridico"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/create-with-plan",
+            adicionarAutenticacaoBearer = true)
+    COBRANCAS_SAZONAIS_CRIAR,
+    @InfoConsumoRestService(getPachServico = "/charges?galaxPayIds={0}&startAt=0&limit=1",
+            tipoConexao = FabTipoConexaoRest.GET,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosGet = {"galaxPayId"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/individual-charges/list",
+            adicionarAutenticacaoBearer = true)
+    COBRANCA_SAZONAL_BY_ID_GALAX_PAY,
+    @InfoConsumoRestService(getPachServico = "/charges?myIds={0}&startAt=0&limit=1",
+            tipoConexao = FabTipoConexaoRest.GET,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosGet = {"myId"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/individual-charges/list",
+            adicionarAutenticacaoBearer = true)
+    COBRANCA_SAZONAL_BY_MYID;
 
 }

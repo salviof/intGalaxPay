@@ -1,0 +1,106 @@
+{
+    "myId": "pay-6397224d73c894.35676196",
+    "value": 12999,
+    "quantity": 12,
+    "periodicity": "monthly",
+    "firstPayDayDate": "2022-12-12",
+    "additionalInfo": "Lorem ipsum dolor sit amet.",
+    "mainPaymentMethodId": "creditcard",
+    "Customer": {
+        "myId": "666",
+        "galaxPayId": "cdn6662",
+        "comentarioSobrCampoAcima": "O campo foi adicionado para fins de compatibilidade com testes utilizando este json como um registro local ",
+        "name": "Lorem ipsum dolor sit amet.",
+        "document": "82847467009",
+        "emails": [
+            "clienteteste@csnova.com.br"
+        ],
+        "phones": [
+            3143201555
+
+        ],
+        "Address": {
+            "zipCode": "30411330",
+            "street": "Rua platina",
+            "number": "1330",
+            "complement": "2º andar",
+            "neighborhood": "Prado",
+            "city": "Belo Horizonte",
+            "state": "MG"
+        }
+    },
+    "Transactions": [
+        {
+            "myId": "pay-6397224d852a21.35963776",
+            "installment": 3,
+            "value": 12999,
+            "payday": "2023-01-12",
+            "payedOutsideGalaxPay": false,
+            "additionalInfo": "Lorem ipsum dolor sit amet.",
+            "status": "não pagou pois o boleto não existia",
+            "galaxPayId": "89898971",
+            "comentarioSobrCampoAcima": "Os 2 campo foi adicionado para fins de compatibilidade com testes utilizando este json como um registro local "
+        },
+        {
+            "myId": "pay-6397224d852a21.35963776",
+            "installment": 3,
+            "value": 12999,
+            "payday": "2023-02-12",
+            "payedOutsideGalaxPay": false,
+            "additionalInfo": "Lorem ipsum dolor sit amet.",
+            "status": "não pagou pois o boleto não existia",
+            "galaxPayId": "89898972",
+            "comentarioSobrCampoAcima": "O 2 campos foi adicionado para fins de compatibilidade com testes utilizando este json como um registro local "
+        },
+        {
+            "myId": "pay-6397224d852a21.35963776",
+            "installment": 3,
+            "value": 12999,
+            "payday": "2023-03-12",
+            "payedOutsideGalaxPay": false,
+            "additionalInfo": "Lorem ipsum dolor sit amet.",
+            "status": "não pagou pois o boleto não existia",
+            "galaxPayId": "89898973",
+            "comentarioSobrCampoAcima": "O 2 campos foi adicionado para fins de compatibilidade com testes utilizando este json como um registro local "
+        },
+        {
+            "myId": "pay-6397224d852a21.35963776",
+            "installment": 3,
+            "value": 12999,
+            "payday": "2023-04-12",
+            "payedOutsideGalaxPay": false,
+            "additionalInfo": "Lorem ipsum dolor sit amet.",
+            "status": "não pagou pois o boleto não existia",
+            "galaxPayId": "89898974",
+            "comentarioSobrCampoAcima": "Os 2 campos foi adicionado para fins de compatibilidade com testes utilizando este json como um registro local "
+        },
+        {
+            "myId": "pay-6397224d852a21.35963776",
+            "installment": 3,
+            "value": 12999,
+            "payday": "2023-05-12",
+            "payedOutsideGalaxPay": false,
+            "additionalInfo": "Lorem ipsum dolor sit amet.",
+            "status": "não pagou pois o boleto não existia",
+            "galaxPayId": "89898975",
+
+            "comentarioSobrCampoAcima": "Os 2 campos foi adicionado para fins de compatibilidade com testes utilizando este json como um registro local "
+        }
+
+    ],
+    "PaymentMethodCreditCard": {
+        "Card": {
+            "myId": "pay-6397224d8a84a6.40436444",
+            "number": "4111 1111 1111 1111",
+            "holder": "JOAO J J DA SILVA",
+            "expiresAt": "2022-12",
+            "cvv": "363"
+        }
+    },
+    "PaymentMethodBoleto": {
+        "fine": 100,
+        "interest": 200,
+        "instructions": "Lorem ipsum dolor sit amet.",
+        "deadlineDays": 1
+    }
+}

@@ -3,6 +3,7 @@ package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 import br.org.coletivoJava.integracoes.restIntgalaxpay.api.InfoIntegracaoRestIntgalaxpayCliente;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCliente;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
@@ -22,18 +23,18 @@ public class IntegracaoRestIntgalaxpayClienteAtualizar
     @Override
     public String gerarCorpoRequisicao() {
 
-        int codigo = (int) parametros[0];
-        String nome = (String) parametros[1];
-        String documento = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros[2]);
-        String email = (String) parametros[3];
-        String telefonr = UtilSBCoreStringFiltros.filtrarApenasNumeros(((String) parametros[4]).replace("+55", ""));
-        String cep = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros[5]);
-        String logradouro = UtilSBCoreStringFiltros.filtrarApenasLetra((String) parametros[6]);
-        String numero = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros[6]);
-//        String complemnento = (String) parametros[6];
-        String bairro = (String) parametros[8];
-        String cidade = (String) parametros[9];
-        String estado = (String) parametros[10];
+        int codigo = (int) parametros.get(0);
+        String nome = (String) parametros.get(1);
+        String documento = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(2));
+        String email = (String) parametros.get(3);
+        String telefonr = UtilSBCoreStringFiltros.filtrarApenasNumeros(((String) parametros.get(4)).replace("+55", ""));
+        String cep = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(5));
+        String logradouro = UtilSBCoreStringFiltros.filtrarApenasLetra((String) parametros.get(6));
+        String numero = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(6));
+//        String complemnento = (String) parametros.get(6];
+        String bairro = (String) parametros.get(8);
+        String cidade = (String) parametros.get(9);
+        String estado = (String) parametros.get(10);
 
         String corpo = "{\n"
                 + "    \"myId\": \"" + codigo + "\",\n"
@@ -57,4 +58,10 @@ public class IntegracaoRestIntgalaxpayClienteAtualizar
         return corpo;
     }
 
+    @Override
+    protected RespostaWebServiceSimples gerarRespostaTratamentoFino(RespostaWebServiceSimples pRespostaWSSemTratamento) {
+        RespostaWebServiceSimples resp = super.gerarRespostaTratamentoFino(pRespostaWSSemTratamento);
+        UtilApiGalaxPayRest.aplicarMensagemDeErroPadraoGalaxPay(resp);
+        return resp;
+    }
 }

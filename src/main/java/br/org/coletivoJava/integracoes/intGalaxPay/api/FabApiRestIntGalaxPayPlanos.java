@@ -24,6 +24,18 @@ public enum FabApiRestIntGalaxPayPlanos implements ItfFabricaIntegracaoRest {
             urlDocumentacao = "https://docs.galaxpay.com.br/plans/list",
             adicionarAutenticacaoBearer = true)
     PLANO_LISTAR,
+    @InfoConsumoRestService(getPachServico = "/plans?myIds={0}&startAt=0&limit=10",
+            tipoConexao = FabTipoConexaoRest.GET,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            urlDocumentacao = "https://docs.galaxpay.com.br/plans/list",
+            adicionarAutenticacaoBearer = true)
+    PLANO_LISTAR_MEU_ID,
+    @InfoConsumoRestService(getPachServico = "/plans?startAt=1&limit=10&createdAtTo=2022-11-14",
+            tipoConexao = FabTipoConexaoRest.GET,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            urlDocumentacao = "https://docs.galaxpay.com.br/plans/list",
+            adicionarAutenticacaoBearer = true)
+    PLANO_LISTAR_CRIADO_HOJE,
     @InfoConsumoRestService(getPachServico = "/plans",
             tipoConexao = FabTipoConexaoRest.POST,
             parametrosPost = {"Código Interno", "Nome", "Meses", "valor"},

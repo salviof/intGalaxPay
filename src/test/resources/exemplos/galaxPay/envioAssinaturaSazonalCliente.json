@@ -1,0 +1,23 @@
+{
+    "myId": "666",
+    "galaxPayId": "66692",
+    "comentarioSobrCampoAcima": "O campo foi adicionado para fins de compatibilidade com testes utilizando este json como um registro local ",
+    "name": "Lorem ipsum dolor sit amet.",
+    "document": "82847467009",
+    "emails": [
+        "clienteteste@csnova.com.br"
+    ],
+    "phones": [
+        3143201555
+
+    ],
+    "Address": {
+        "zipCode": "30411330",
+        "street": "Rua platina",
+        "number": "1330",
+        "complement": "2º andar",
+        "neighborhood": "Prado",
+        "city": "Belo Horizonte",
+        "state": "MG"
+    }
+}

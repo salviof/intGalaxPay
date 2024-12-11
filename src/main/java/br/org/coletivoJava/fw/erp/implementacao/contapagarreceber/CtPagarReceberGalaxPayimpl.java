@@ -1,13 +1,12 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber;
 
-import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ERPContaPagarReceber;
-import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ItfERPContaPagarReceber;
+import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ERPContabilAReceber;
+import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ItfERPContabilAReceber;
 import java.util.List;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ItfPessoaFisicoJuridico;
 import br.org.coletivoJava.fw.api.erp.contapagarreceber.CtPagarReceberGalaxPay;
 
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayAssinatura;
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.assinatura.ItfFaturaAssinatura;
@@ -26,6 +25,8 @@ import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebSer
 import com.super_bits.modulosSB.SBCore.modulos.erp.ErroJsonInterpredador;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ItfServicoLinkDeEntidadesERP;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocalPostagem;
+import jakarta.json.JsonArray;
+import jakarta.json.JsonObject;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Optional;
@@ -36,9 +37,9 @@ import org.coletivojava.fw.api.tratamentoErros.FabErro;
 @CtPagarReceberGalaxPay
 public class CtPagarReceberGalaxPayimpl
         implements
-        ItfERPContaPagarReceber {
+        ItfERPContabilAReceber {
 
-    private static final ERPContaPagarReceber galaxPayERPContaAPagar = ERPContaPagarReceber.GALAX_PAY;
+    private static final ERPContabilAReceber galaxPayERPContaAPagar = ERPContabilAReceber.GALAX_PAY;
 
     @Override
     public ItfPrevisaoValorMoeda getCobrancaSazonal(Date pData, double pValor, ItfPessoaFisicoJuridico pDevedor) {
@@ -47,21 +48,21 @@ public class CtPagarReceberGalaxPayimpl
         }
         ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(pDevedor.getCpfCnpj());
         ItfRespostaWebServiceSimples resposta = FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_DO_CLIENTE.getAcao(devedor.getId()).getResposta();
-        JSONObject json = resposta.getRespostaComoObjetoJson();
+        JsonObject json = resposta.getRespostaComoObjetoJson();
 
-        JSONArray arrayCobrancasEncontradas = (JSONArray) json.get("Charges");
+        JsonArray arrayCobrancasEncontradas = (JsonArray) json.getJsonArray("Charges");
         if (arrayCobrancasEncontradas.size() == 0) {
             return null;
         }
         List<ItfPrevisaoValorMoeda> cobrancasSazonais = new ArrayList<>();
         for (Object cobranca : arrayCobrancasEncontradas) {
-            JSONObject cobrancaJson = (JSONObject) cobranca;
+            JsonObject cobrancaJson = (JsonObject) cobranca;
             String valorStr = cobrancaJson.get("value").toString();
             int tamanhoTotal = valorStr.length();
             String valorStrFormatado = valorStr.substring(0, tamanhoTotal - 2) + "." + valorStr.substring(tamanhoTotal - 2, tamanhoTotal);
             double valorDouble = Double.parseDouble(valorStrFormatado);
             if (valorDouble == pValor) {
-                JSONArray arrayTranzacoes = (JSONArray) cobrancaJson.get("Transactions");
+                JsonArray arrayTranzacoes = (JsonArray) cobrancaJson.get("Transactions");
                 for (Object tranzacao : arrayTranzacoes) {
                     DTOPrevisaoValorMoeda cobrancaSazonal = new DTOPrevisaoValorMoeda(tranzacao.toString());
                     System.out.println(cobrancaSazonal.getValor());
@@ -133,9 +134,9 @@ public class CtPagarReceberGalaxPayimpl
         }
         String idCliente = String.valueOf(devedor.getId());
         ItfRespostaWebServiceSimples resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(idCliente).getResposta();
-        JSONObject json = resposta.getRespostaComoObjetoJson();
-        System.out.println(json.toJSONString());
-        JSONArray array = (JSONArray) json.get("Subscriptions");
+        JsonObject json = resposta.getRespostaComoObjetoJson();
+
+        JsonArray array = (JsonArray) json.getJsonArray("Subscriptions");
         List<ItfFaturaAssinatura> assinaturas = new ArrayList<>();
 
         for (Object jsonAssinatura : array) {
@@ -186,9 +187,9 @@ public class CtPagarReceberGalaxPayimpl
             resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(String.valueOf(devedor.getId())).getResposta();
         }
 
-        JSONObject jsonResposta = resposta.getRespostaComoObjetoJson();
-        System.out.println(jsonResposta.toJSONString());
-        JSONArray array = (JSONArray) jsonResposta.get("Subscriptions");
+        JsonObject jsonResposta = resposta.getRespostaComoObjetoJson();
+
+        JsonArray array = (JsonArray) jsonResposta.getJsonArray("Subscriptions");
         List<ItfFaturaAssinatura> assinaturas = new ArrayList<>();
 
         for (Object jsonAssinatura : array) {
@@ -223,14 +224,14 @@ public class CtPagarReceberGalaxPayimpl
                     throw new UnsupportedOperationException("O token de acesso retornou acesso negado");
                 }
 
-                throw new UnsupportedOperationException("Falha conectando com a Galaxy Pay");
+                throw new UnsupportedOperationException("Falha conectando com a Galaxy Pay" + resposta.getMensagens().get(0).getMenssagem());
             }
-            Long objetoQuantidade = (long) resposta.getRespostaComoObjetoJson().get("totalQtdFoundInPage");
+            Long objetoQuantidade = (long) resposta.getRespostaComoObjetoJson().getJsonNumber("totalQtdFoundInPage").longValue();
             quantidade = objetoQuantidade.intValue();
             indice = quantidade + indice;
-            JSONArray objetoClientes = (JSONArray) resposta.getRespostaComoObjetoJson().get("Customers");
+            JsonArray objetoClientes = (JsonArray) resposta.getRespostaComoObjetoJson().getJsonArray("Customers");
             for (Object clientObjto : objetoClientes) {
-                JSONObject cliente = (JSONObject) clientObjto;
+                JsonObject cliente = (JsonObject) clientObjto;
                 try {
                     ItfPessoaFisicoJuridico pessoa = galaxPayERPContaAPagar.getDTO(cliente.toString(), ItfPessoaFisicoJuridico.class);
                     pessoas.add(pessoa);
@@ -251,11 +252,11 @@ public class CtPagarReceberGalaxPayimpl
         ItfRespostaWebServiceSimples resp = FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR_BY_DOCUMENTO.getAcao(cnpj).getResposta();
         if (resp.isSucesso()) {
             try {
-                long objetoQuantidade = (long) resp.getRespostaComoObjetoJson().get("totalQtdFoundInPage");
+                long objetoQuantidade = (long) resp.getRespostaComoObjetoJson().getJsonNumber("totalQtdFoundInPage").longValue();
                 if (objetoQuantidade == 0) {
                     return null;
                 }
-                JSONArray objetoClientes = (JSONArray) resp.getRespostaComoObjetoJson().get("Customers");
+                JsonArray objetoClientes = (JsonArray) resp.getRespostaComoObjetoJson().getJsonArray("Customers");
                 return galaxPayERPContaAPagar.getDTO(objetoClientes.get(0).toString(), ItfPessoaFisicoJuridico.class);
             } catch (ErroJsonInterpredador ex) {
                 SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro tratando Json devedor", ex);

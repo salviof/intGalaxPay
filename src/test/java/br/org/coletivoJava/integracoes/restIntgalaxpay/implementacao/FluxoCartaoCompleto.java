@@ -72,7 +72,8 @@ public class FluxoCartaoCompleto {
                         "Salvio Furbino Elias",
                         "06321298670",
                         "salviof@gmail.com",
-                        669, "4111 1111 1111 1111", "SALVIO FURBINO", "2022-06", "363").getResposta();
+                        669, "4111 1111 1111 1111", "SALVIO FURBINO", "2022-06", "363")
+                .getResposta();
         Assert.assertTrue("Falha editando cliente", resposta.isSucesso());
 
     }

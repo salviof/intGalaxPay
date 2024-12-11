@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.ObjectCodec;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonNode;
+import com.google.common.collect.Lists;
 import java.io.IOException;
 
 public class JsonBindDTOPrevisaoValorMoedaRecorrente
@@ -21,9 +22,10 @@ public class JsonBindDTOPrevisaoValorMoedaRecorrente
         ObjectCodec codec = jp.getCodec();
         JsonNode node = codec.readTree(jp);
         DTOPrevisaoValorMoedaRecorrente dtoCobrancasazonal = new DTOPrevisaoValorMoedaRecorrente();
+        adicionarPropriedadeInteiro("id", node, "galaxPayId");
         adicionarPropriedadeDouble("valor", node, "value");
         adicionarPropriedadeData("dataPrevista", node, "payday");
-
+        adicionarPropriedadeString("nome", node, "additionalInfo");
         if (node.has("Pix")) {
             JsonNode pix = node.get("Pix");
             adicionarPropriedadeString("pix", pix, "qrCode");
@@ -32,7 +34,7 @@ public class JsonBindDTOPrevisaoValorMoedaRecorrente
             JsonNode boleto = node.get("Boleto");
             adicionarPropriedadeString("PDFCobranca", boleto, "pdf");
         }
-        adicionarPropriedadeBoolean("pagamentoEfetuado", "payedBoleto", node, "status");
+        adicionarPropriedadeBoolean("pagamentoEfetuado", Lists.newArrayList("payedBoleto", "captured"), node, "status");
 
         selarProcesamento(dtoCobrancasazonal);
         return dtoCobrancasazonal;

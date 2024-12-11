@@ -36,10 +36,32 @@ public enum FabApiRestIntGalaxPayAssinatura implements ItfFabricaIntegracaoRest 
             tipoConexao = FabTipoConexaoRest.GET,
             tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
             parametrosGet = {"documents"},
+            aceitarCertificadoDeHostNaoConfiavel = false,
             urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/list",
             adicionarAutenticacaoBearer = true)
     ASSINATURAS_DE_CLIENTES,
+    @InfoConsumoRestService(getPachServico = "/subscriptions?myIds={0}&startAt=0&limit=1",
+            tipoConexao = FabTipoConexaoRest.GET,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosPost = {"myId"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions",
+            adicionarAutenticacaoBearer = true)
+    ASSINATURAS_DO_CLIENTE_GET_BY_MY_ID,
+    @InfoConsumoRestService(getPachServico = "/subscriptions/{0}/myId",
+            tipoConexao = FabTipoConexaoRest.DELETE,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosPost = {"myId"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/cancel",
+            adicionarAutenticacaoBearer = true)
+    ASSINATURAS_DO_CLIENTE_CANCELAR_COBRANCA_REC,
     @InfoConsumoRestService(getPachServico = "/subscriptions",
+            tipoConexao = FabTipoConexaoRest.POST,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosPost = {"myId", "ItfFaturaAssinatura"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/create-with-plan",
+            adicionarAutenticacaoBearer = true)
+    ASSINATURAS_DO_CLIENTE_CRIAR_COBRANCA_REC,
+    @InfoConsumoRestService(getPachServico = "/charges",
             tipoConexao = FabTipoConexaoRest.POST,
             tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
             parametrosGet = {"documents"},
@@ -74,6 +96,13 @@ public enum FabApiRestIntGalaxPayAssinatura implements ItfFabricaIntegracaoRest 
             tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
             urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions/cancel",
             adicionarAutenticacaoBearer = true)
-    ASSINATURA_CANCELAR
+    ASSINATURA_CANCELAR,
+    @InfoConsumoRestService(getPachServico = "/subscriptions?myIds={0}&startAt=0&limit=1",
+            tipoConexao = FabTipoConexaoRest.GET,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosPost = {"myId"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/subscriptions",
+            adicionarAutenticacaoBearer = true)
+    ASSINATURA_BY_MY_ID,
 
 }

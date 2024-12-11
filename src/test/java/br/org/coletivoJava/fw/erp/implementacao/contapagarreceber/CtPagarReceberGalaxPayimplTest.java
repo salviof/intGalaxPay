@@ -5,7 +5,7 @@
  */
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber;
 
-import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ERPContaPagarReceber;
+import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ERPContabilAReceber;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxPay;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ItfPessoaFisicoJuridico;
@@ -29,7 +29,7 @@ import spark.utils.IOUtils;
  */
 public class CtPagarReceberGalaxPayimplTest {
 
-    ERPContaPagarReceber contextoGalaxPay = ERPContaPagarReceber.GALAX_PAY;
+    ERPContabilAReceber contextoGalaxPay = ERPContabilAReceber.GALAX_PAY;
 
     @BeforeClass
     public static void setUpClass() {
@@ -45,7 +45,7 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetDevedorByCNPJ() {
-        CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY
+        CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContabilAReceber.GALAX_PAY
                 .getImplementacaoDoContexto();
 
         ClassLoader classLoader = getClass().getClassLoader();
@@ -70,7 +70,7 @@ public class CtPagarReceberGalaxPayimplTest {
      */
     @Test
     public void testGetCobrancaSazonal() {
-        CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY.getImplementacaoDoContexto();
+        CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContabilAReceber.GALAX_PAY.getImplementacaoDoContexto();
         ClassLoader classLoader = getClass().getClassLoader();
 
         InputStream is = classLoader.getResourceAsStream("exemplos/galaxPay/cobrancaSazonal.json");
@@ -113,7 +113,7 @@ public class CtPagarReceberGalaxPayimplTest {
             InputStream is = classLoader.getResourceAsStream("exemplos/galaxPay/assinatura.json");
             assinaturaTeste = IOUtils.toString(is);
             ItfFaturaAssinatura assinaturaInterna = contextoGalaxPay.getDTO(assinaturaTeste, ItfFaturaAssinatura.class);
-            CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContaPagarReceber.GALAX_PAY.getImplementacaoDoContexto();
+            CtPagarReceberGalaxPayimpl instanciaGP = (CtPagarReceberGalaxPayimpl) ERPContabilAReceber.GALAX_PAY.getImplementacaoDoContexto();
             ItfFaturaAssinatura assinaturaEncontrada = instanciaGP.getAssinatura(assinaturaInterna.getValorAtualMensal(), assinaturaInterna.getDevedor());
             assertNotNull("Fatura não foi encontrada", assinaturaEncontrada);
         } catch (IOException ex) {

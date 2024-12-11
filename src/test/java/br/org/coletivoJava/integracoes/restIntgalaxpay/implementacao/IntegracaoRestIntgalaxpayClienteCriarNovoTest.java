@@ -7,8 +7,8 @@ package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxPay;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCliente;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreJson;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.transmissao_recepcao_rest_client.ItfAcaoApiRest;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -27,12 +27,15 @@ public class IntegracaoRestIntgalaxpayClienteCriarNovoTest {
         SBCore.configurar(new ConfiguradorCoreApiGalaxPay(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
 
         FabApiRestIntGalaxPayCliente.CLIENTE_CRIAR_NOVO.getGestaoToken();
-        ItfAcaoApiRest acao = FabApiRestIntGalaxPayCliente.CLIENTE_CRIAR_NOVO
-                .getAcao("5");
+        IntegracaoRestIntgalaxpayClienteCriarNovo acao = (IntegracaoRestIntgalaxpayClienteCriarNovo) FabApiRestIntGalaxPayCliente.CLIENTE_CRIAR_NOVO
+                .getAcao(666, "Joao da Silva", "82847467009", "joaoteste@cs.com.br", "3184178555", "30190030", "Rua goias 171", "Ap 41", "centro", "Belo horizonte", "MG");
         ItfRespostaWebServiceSimples resposta = acao.getResposta();
+        if (!resposta.isSucesso()) {
+            resposta.dispararMensagens();
+        }
         assertTrue("Falha de comuniucação com a api", resposta.isSucesso());
         if (resposta.isSucesso()) {
-            System.out.println(resposta.getRespostaComoObjetoJson().toJSONString());
+            System.out.println(UtilSBCoreJson.getTextoByJsonObjeect(resposta.getRespostaComoObjetoJson()));
         }
 
     }

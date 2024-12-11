@@ -3,6 +3,7 @@ package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 import br.org.coletivoJava.integracoes.restIntgalaxpay.api.InfoIntegracaoRestIntgalaxpayAssinatura;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayAssinatura;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
@@ -24,27 +25,27 @@ public class IntegracaoRestIntgalaxpayAssinaturaPlanoViaCartaoCriar
     @Override
     public String gerarCorpoRequisicao() {
 
-        int idInternoAssinatura = (int) parametros[0];
-        int idPlanoEscolhido = (int) parametros[1];
+        int idInternoAssinatura = (int) parametros.get(0);
+        int idPlanoEscolhido = (int) parametros.get(1);
 
-        Date dataPrimeiroPagamento = (Date) parametros[2];
+        Date dataPrimeiroPagamento = (Date) parametros.get(2);
         String diaPrimeiroPagamentoFormatado = UtilSBCoreDataHora.
                 getDataHoraString(dataPrimeiroPagamento, UtilSBCoreDataHora.FORMATO_TEMPO.ANO_MES_DIA_POR_TRACO);
         UtilSBCoreDataHora.getDataHoraString(dataPrimeiroPagamento, UtilSBCoreDataHora.FORMATO_TEMPO.ANO_MES_DIA_POR_TRACO);
 
-        int codigInternoCliente = (int) parametros[3];
+        int codigInternoCliente = (int) parametros.get(3);
 
-        String nome = (String) parametros[4];
-        String documento = (String) parametros[5];
-        String email = (String) parametros[6];
+        String nome = (String) parametros.get(4);
+        String documento = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(5));
+        String email = (String) parametros.get(6);
 
-        int codigoInternoCartao = (int) parametros[7];
+        int codigoInternoCartao = (int) parametros.get(7);
 
-        String numeroCartao = (String) parametros[8];
-        String pNomeCartao = (String) parametros[9];
-        String mesAnoExpira = (String) parametros[10];
-        String cvv = (String) parametros[11];
-
+        String numeroCartao = (String) parametros.get(8);
+        String pNomeCartao = (String) parametros.get(9);
+        String mesAnoExpira = (String) parametros.get(10);
+        String cvv = (String) parametros.get(11);
+        System.out.println("assinando plano" + idPlanoEscolhido);
         String corpoRequisicao
                 = "{\n"
                 + "    \"myId\": \"" + idInternoAssinatura + "\",\n"

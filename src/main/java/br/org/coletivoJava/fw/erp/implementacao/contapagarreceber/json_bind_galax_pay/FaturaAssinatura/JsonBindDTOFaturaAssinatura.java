@@ -26,6 +26,7 @@ public class JsonBindDTOFaturaAssinatura
 
         adicionarPropriedadeInteiro("qtdParcelas", node, "quantity");
         adicionarPropriedadeBoolean("ativo", "active", node, "status");
+        adicionarPropriedadeString("nome", node, "additionalInfo");
         adicionarPropriedadeInteiro("id", node, "galaxPayId");
         adicionarPropriedadeDouble("valorAtualMensal", node, "value");
         adicionarPropriedadeData("dataPrimeiroPagamento", node, "firstPayDayDate");
@@ -33,9 +34,7 @@ public class JsonBindDTOFaturaAssinatura
         adicionarPropriedadObjeto(DTOPessoaFisicoJuridico.class, "devedor", node, "Customer");
 
         selarProcesamento(dto);
-        if (dto.isAtivo()) {
-            System.out.println("");
-        }
+
         return dto;
     }
 }

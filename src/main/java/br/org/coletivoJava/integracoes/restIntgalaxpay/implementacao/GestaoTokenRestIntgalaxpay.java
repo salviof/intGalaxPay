@@ -5,6 +5,7 @@ import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayClie
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabConfigApiGalaxyPay;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreJson;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.FabTipoConexaoRest;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.token.ItfTokenDeAcessoExterno;
@@ -13,6 +14,7 @@ import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.token.TokenD
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.UtilSBApiRestClient;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.gestaoToken.GestaoTokenDinamico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
+import jakarta.json.JsonObject;
 import java.util.Date;
 import java.util.HashMap;
 import org.apache.commons.codec.binary.StringUtils;
@@ -60,26 +62,28 @@ public class GestaoTokenRestIntgalaxpay extends GestaoTokenDinamico {
                 cabecalhos, corpo, false);
 
         if (resposta.isSucesso()) {
-            JSONObject jsonArquivado = resposta.getRespostaComoObjetoJson();
-            jsonArquivado.put("dataHora", new Date().getTime());
-            armazenarRespostaToken(jsonArquivado.toJSONString());
-            setToken(extrairToken(jsonArquivado.toJSONString()));
+            JsonObject jsonArquivado = resposta.getRespostaComoObjetoJson();
+            jsonArquivado = UtilSBCoreJson.getJsonObjectIncrementandoCampo(jsonArquivado, "dataHora", new Date().getTime());
+            //String textoResposta = UtilSBCoreJson.getTextoByJsonObjeect(jsonArquivado);
+            String textoJson = UtilSBCoreJson.getTextoByJsonObjeect(jsonArquivado);
+            armazenarRespostaToken(textoJson);
+            setToken(extrairToken(textoJson));
 
         } else {
-            SBCore.enviarAvisoAoUsuario("Falha obtendo token de acesso");
+            SBCore.enviarAvisoAoUsuario("Falha obtendo token de acesso" + resposta.getMensagens().get(0).getMenssagem());
             return null;
         }
         return getTokenCompleto();
     }
 
     @Override
-    public ItfTokenDeAcessoExterno extrairToken(JSONObject pJson) {
+    public ItfTokenDeAcessoExterno extrairToken(JsonObject pJson) {
 
-        String tokenDeAcesso = (String) pJson.get("access_token");
-        Long segundosExpira = (long) pJson.get("expires_in");
-        Date dataHoraExipira = UtilSBCoreDataHora.decrementaMinutos(new Date(), 5);
+        String tokenDeAcesso = pJson.getString("access_token");
+        Long segundosExpira = (long) pJson.getJsonNumber("expires_in").longValue();
+        Date dataHoraExipira = UtilSBCoreDataHora.decrementaMinutos(new Date(), 30);
         if (pJson.containsKey("dataHora")) {
-            Date dataHoraGeracaoToken = new Date((long) pJson.get("dataHora"));
+            Date dataHoraGeracaoToken = new Date((long) pJson.getJsonNumber("dataHora").longValue());
             dataHoraExipira = UtilSBCoreDataHora.incrementaSegundos(dataHoraGeracaoToken, segundosExpira.intValue());
         }
 
@@ -95,6 +99,21 @@ public class GestaoTokenRestIntgalaxpay extends GestaoTokenDinamico {
             return false;
         }
         return getTokenCompleto().isTokenValido();
+    }
+
+    @Override
+    public boolean isTemTokemAtivo() {
+        return super.isTemTokemAtivo(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public ItfTokenDeAcessoExterno loadTokenArmazenado() {
+        return super.loadTokenArmazenado(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+
+    @Override
+    public JsonObject loadTokenArmazenadoComoJsonObject() {
+        return super.loadTokenArmazenadoComoJsonObject(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
 }

@@ -57,6 +57,15 @@ public enum FabApiRestIntGalaxPayCliente implements ItfFabricaIntegracaoRest {
             urlDocumentacao = "https://docs.galaxpay.com.br/customers/list",
             adicionarAutenticacaoBearer = true)
     CLIENTE_ATUALIZAR,
+    @InfoConsumoRestService(getPachServico = "/customers/{0}/galaxPayId",
+            tipoConexao = FabTipoConexaoRest.PUT,
+            tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
+            parametrosGet = {"codigoGalaxPay"},
+            parametrosPost = {"codigoGalaxPay", "codigoInterno", "nome", "documento", "email", "telefone", "cep", "logradouro", "complemento", "bairro",
+                "cidade", "UF"},
+            urlDocumentacao = "https://docs.galaxpay.com.br/customers/list",
+            adicionarAutenticacaoBearer = true)
+    CLIENTE_ATUALIZAR_VIA_GALAXPAYID,
     @InfoConsumoRestService(getPachServico = "/customers/{0}/myId",
             tipoConexao = FabTipoConexaoRest.DELETE,
             tipoInformacaoRecebida = FabTipoArquivoImportacao.JSON,
