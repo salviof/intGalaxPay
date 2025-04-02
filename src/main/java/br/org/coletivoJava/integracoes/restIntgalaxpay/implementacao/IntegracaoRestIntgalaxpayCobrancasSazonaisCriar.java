@@ -36,7 +36,7 @@ public class IntegracaoRestIntgalaxpayCobrancasSazonaisCriar
         try {
             String codigoInterno = parametros.get(0).toString();
             ItfPrevisaoValorMoeda previsaoRecebimento = (ItfPrevisaoValorMoeda) parametros.get(1);
-            previsaoRecebimento.getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.AAA_NOME).getValor();
+            previsaoRecebimento.getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.NOME).getValor();
             boolean temNotaFiscal = false;
             ItfPessoaFisicoJuridico cliente = (ItfPessoaFisicoJuridico) parametros.get(2);
             if (parametros.size() > 3) {
