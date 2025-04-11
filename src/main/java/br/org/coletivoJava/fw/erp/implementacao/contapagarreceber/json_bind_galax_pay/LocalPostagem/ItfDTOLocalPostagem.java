@@ -81,7 +81,7 @@ public interface ItfDTOLocalPostagem extends ItfDTOSBJSON, ItfLocalPostagem {
     }
 
     @Override
-    public default int getId() {
-        return (int) getValorPorReflexao();
+    public default Long getId() {
+        return (Long) getValorPorReflexao();
     }
 }

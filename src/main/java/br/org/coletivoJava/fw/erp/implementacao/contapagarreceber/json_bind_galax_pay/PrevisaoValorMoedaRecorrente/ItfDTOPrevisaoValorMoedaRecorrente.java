@@ -10,87 +10,87 @@ import java.util.Date;
 
 @JsonDeserialize(using = JsonBindDTOPrevisaoValorMoedaRecorrente.class)
 public interface ItfDTOPrevisaoValorMoedaRecorrente
-		extends
-			ItfDTOSBJSON,
-			ItfPrevisaoValorMoedaRecorrente {
+        extends
+        ItfDTOSBJSON,
+        ItfPrevisaoValorMoedaRecorrente {
 
-	@Override
-	public default ItfFaturaAssinatura getFatura() {
-		return (ItfFaturaAssinatura) getValorPorReflexao();
-	}
+    @Override
+    public default ItfFaturaAssinatura getFatura() {
+        return (ItfFaturaAssinatura) getValorPorReflexao();
+    }
 
-	@Override
-	public default double getValor() {
-		return (double) getValorPorReflexao();
-	}
+    @Override
+    public default double getValor() {
+        return (double) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getPix() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getPix() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getPDFCobranca() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getPDFCobranca() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default double getValorRealizado() {
-		return (double) getValorPorReflexao();
-	}
+    @Override
+    public default double getValorRealizado() {
+        return (double) getValorPorReflexao();
+    }
 
-	@Override
-	public default boolean isPagamentoEfetuado() {
-		return (boolean) getValorPorReflexao();
-	}
+    @Override
+    public default boolean isPagamentoEfetuado() {
+        return (boolean) getValorPorReflexao();
+    }
 
-	@Override
-	public default boolean isUmValorPersonalizado() {
-		return (boolean) getValorPorReflexao();
-	}
+    @Override
+    public default boolean isUmValorPersonalizado() {
+        return (boolean) getValorPorReflexao();
+    }
 
-	@Override
-	public default double getParcelaNumero() {
-		return (double) getValorPorReflexao();
-	}
+    @Override
+    public default double getParcelaNumero() {
+        return (double) getValorPorReflexao();
+    }
 
-	@Override
-	public default Date getDataPrevista() {
-		return (Date) getValorPorReflexao();
-	}
+    @Override
+    public default Date getDataPrevista() {
+        return (Date) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getNomeUnicoSlug() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getNomeUnicoSlug() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default boolean isTemImagemPequenaAdicionada() {
-		return (boolean) getValorPorReflexao();
-	}
+    @Override
+    public default boolean isTemImagemPequenaAdicionada() {
+        return (boolean) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getSlugIdentificador() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getSlugIdentificador() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getNome() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getNome() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getIconeDaClasse() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getIconeDaClasse() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default String getNomeCurto() {
-		return (String) getValorPorReflexao();
-	}
+    @Override
+    public default String getNomeCurto() {
+        return (String) getValorPorReflexao();
+    }
 
-	@Override
-	public default int getId() {
-		return (int) getValorPorReflexao();
-	}
+    @Override
+    public default Long getId() {
+        return (Long) getValorPorReflexao();
+    }
 }

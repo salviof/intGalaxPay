@@ -91,7 +91,7 @@ public interface ItfDTOFaturaAssinatura
     }
 
     @Override
-    public default int getId() {
-        return (int) getValorPorReflexao();
+    public default Long getId() {
+        return (Long) getValorPorReflexao();
     }
 }

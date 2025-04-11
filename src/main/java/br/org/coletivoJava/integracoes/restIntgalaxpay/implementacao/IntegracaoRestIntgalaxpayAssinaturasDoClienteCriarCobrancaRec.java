@@ -86,7 +86,7 @@ public class IntegracaoRestIntgalaxpayAssinaturasDoClienteCriarCobrancaRec
             for (ItfPrevisaoValorMoeda paracela : parcelasFuturasSemPagamento) {
                 if (!paracela.isPagamentoEfetuado() && UtilSBCoreDataHora.isDiaIgualOuSuperior(new Date(), paracela.getDataPrevista())) {
                     JsonObjectBuilder paracelaBuilder = Json.createObjectBuilder();
-                    int idLocal = paracela.getId();
+                    Long idLocal = paracela.getId();
                     paracelaBuilder.add("myId", String.valueOf(idLocal));
                     paracelaBuilder.add("installment", numeroParcela);
                     int valorEmCentavos = UtilSBCoreNumeros.converterNumeroDoubleToMoedaPadraoBancoEmCentavos(paracela.getValor());
