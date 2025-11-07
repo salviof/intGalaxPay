@@ -23,7 +23,7 @@ public class IntegracaoRestIntgalaxpayClienteCriarNovo
     @Override
     public String gerarCorpoRequisicao() {
 
-        int codigo = (int) parametros.get(0);
+        long codigo = (long) parametros.get(0);
         String nome = (String) parametros.get(1);
         String documento = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(2));
         String email = (String) parametros.get(3);

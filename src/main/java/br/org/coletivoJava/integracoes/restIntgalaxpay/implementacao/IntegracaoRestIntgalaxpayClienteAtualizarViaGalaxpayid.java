@@ -23,8 +23,8 @@ public class IntegracaoRestIntgalaxpayClienteAtualizarViaGalaxpayid
 
     @Override
     public String gerarCorpoRequisicao() {
-        int codigoGalaxPay = (int) parametros.get(0);
-        int codigo = (int) parametros.get(1);
+        //int codigoGalaxPay = (int) parametros.get(0);
+        long codigo = (long) parametros.get(1);
         String nome = (String) parametros.get(2);
         String documento = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(3));
 

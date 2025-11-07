@@ -25,8 +25,8 @@ public class IntegracaoRestIntgalaxpayAssinaturaPlanoViaCartaoCriar
     @Override
     public String gerarCorpoRequisicao() {
 
-        int idInternoAssinatura = (int) parametros.get(0);
-        int idPlanoEscolhido = (int) parametros.get(1);
+        long idInternoAssinatura = (long) parametros.get(0);
+        long idPlanoEscolhido = (long) parametros.get(1);
 
         Date dataPrimeiroPagamento = (Date) parametros.get(2);
         String diaPrimeiroPagamentoFormatado = UtilSBCoreDataHora.
