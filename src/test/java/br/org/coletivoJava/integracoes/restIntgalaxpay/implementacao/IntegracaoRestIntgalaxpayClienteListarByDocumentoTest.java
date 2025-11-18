@@ -11,13 +11,13 @@ import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreJson;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocalPostagem;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocalPostagem;
 
 /**
  *
@@ -45,7 +45,7 @@ public class IntegracaoRestIntgalaxpayClienteListarByDocumentoTest {
         }
         assertTrue("Falha de comuniucação com a api", resposta.isSucesso());
         DTOPessoaFisicoJuridico pessoa = new DTOPessoaFisicoJuridico(resposta.getRetorno().toString());
-        ItfLocalPostagem localizacao = pessoa.getLocalizacao();
+        ComoLocalPostagem localizacao = pessoa.getLocalizacao();
         if (resposta.isSucesso()) {
             System.out.println(UtilSBCoreJson.getTextoByJsonObjeect(resposta.getRespostaComoObjetoJson()));
         }

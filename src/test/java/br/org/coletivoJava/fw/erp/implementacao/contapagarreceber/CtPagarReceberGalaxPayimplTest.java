@@ -8,7 +8,6 @@ package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ERPContabilAReceber;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxPay;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ItfPessoaFisicoJuridico;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.assinatura.ItfFaturaAssinatura;
@@ -22,6 +21,7 @@ import java.util.logging.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import spark.utils.IOUtils;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ComoPessoaFisicoJuridico;
 
 /**
  *
@@ -55,8 +55,8 @@ public class CtPagarReceberGalaxPayimplTest {
         try {
             String jsonTextoDevedor = IOUtils.toString(is);
 
-            ItfPessoaFisicoJuridico devedorInterno = contextoGalaxPay.getDTO(jsonTextoDevedor, ItfPessoaFisicoJuridico.class);
-            ItfPessoaFisicoJuridico devedor = instanciaGP.getDevedorByCNPJ(devedorInterno.getCpfCnpj());
+            ComoPessoaFisicoJuridico devedorInterno = contextoGalaxPay.getDTO(jsonTextoDevedor, ComoPessoaFisicoJuridico.class);
+            ComoPessoaFisicoJuridico devedor = instanciaGP.getDevedorByCNPJ(devedorInterno.getCpfCnpj());
             assertNotNull("O devedor com CNPJ " + devedorInterno.getCpfCnpj() + " não foi encontrado", devedor);
         } catch (IOException t) {
             Logger.getLogger(CtPagarReceberGalaxPayimplTest.class.getName()).log(Level.SEVERE, null, t);
@@ -80,7 +80,7 @@ public class CtPagarReceberGalaxPayimplTest {
 
             InputStream isDevedor = classLoader.getResourceAsStream("exemplos/galaxPay/devedor.json");
             String jsonTextoDevedor = IOUtils.toString(isDevedor);
-            ItfPessoaFisicoJuridico devedorDTO = contextoGalaxPay.getDTO(jsonTextoDevedor, ItfPessoaFisicoJuridico.class);
+            ComoPessoaFisicoJuridico devedorDTO = contextoGalaxPay.getDTO(jsonTextoDevedor, ComoPessoaFisicoJuridico.class);
             ItfPrevisaoValorMoeda cobranca = instanciaGP.getCobrancaSazonal(cobrancaSazonal.getDataPrevista(), cobrancaSazonal.getValor(), devedorDTO);
             assertNotNull("O devedor com CNPJ " + devedorDTO.getCpfCnpj() + " não foi encontrado", cobranca);
         } catch (IOException t) {

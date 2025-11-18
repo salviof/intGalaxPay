@@ -10,14 +10,14 @@ import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebSer
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.InfoCampos.campo.FabTipoAtributoObjeto;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ItfPessoaFisicoJuridico;
 import jakarta.json.Json;
 import jakarta.json.JsonObjectBuilder;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ComoPessoaFisicoJuridico;
 
 @InfoIntegracaoRestIntgalaxpaySazonal(tipo = FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_CRIAR)
 public class IntegracaoRestIntgalaxpayCobrancasSazonaisCriar
@@ -26,7 +26,7 @@ public class IntegracaoRestIntgalaxpayCobrancasSazonaisCriar
 
     public IntegracaoRestIntgalaxpayCobrancasSazonaisCriar(
             final FabTipoAgenteClienteApi pTipoAgente,
-            final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
+            final ComoUsuario pUsuario, final java.lang.Object... pParametro) {
         super(FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_CRIAR,
                 pTipoAgente, pUsuario, pParametro);
     }
@@ -38,7 +38,7 @@ public class IntegracaoRestIntgalaxpayCobrancasSazonaisCriar
             ItfPrevisaoValorMoeda previsaoRecebimento = (ItfPrevisaoValorMoeda) parametros.get(1);
             previsaoRecebimento.getCampoInstanciadoByAnotacao(FabTipoAtributoObjeto.NOME).getValor();
             boolean temNotaFiscal = false;
-            ItfPessoaFisicoJuridico cliente = (ItfPessoaFisicoJuridico) parametros.get(2);
+            ComoPessoaFisicoJuridico cliente = (ComoPessoaFisicoJuridico) parametros.get(2);
             if (parametros.size() > 3) {
                 temNotaFiscal = (boolean) parametros.get(3);
             }

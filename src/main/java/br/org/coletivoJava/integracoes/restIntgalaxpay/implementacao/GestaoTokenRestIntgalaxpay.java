@@ -13,19 +13,19 @@ import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgent
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.token.TokenDeAcessoExternoDinamico;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.UtilSBApiRestClient;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.gestaoToken.GestaoTokenDinamico;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
 import jakarta.json.JsonObject;
 import java.util.Date;
 import java.util.HashMap;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.HttpHeaders;
 import org.json.simple.JSONObject;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
 
 @InfoIntegracaoRestIntgalaxpayCliente(tipo = FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR)
 public class GestaoTokenRestIntgalaxpay extends GestaoTokenDinamico {
 
     public GestaoTokenRestIntgalaxpay(
-            final FabTipoAgenteClienteApi pTipoAgente, final ItfUsuario pUsuario) {
+            final FabTipoAgenteClienteApi pTipoAgente, final ComoUsuario pUsuario) {
         super(FabApiRestIntGalaxPayCliente.class, pTipoAgente, pUsuario);
     }
 

@@ -5,7 +5,7 @@
  */
 package br.org.coletivoJava.integracoes.intGalaxPay.api;
 
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.ItfFabricaIntegracaoRest;
+import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.ComoFabricaIntegracaoRest;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.FabTipoConexaoRest;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.InfoConsumoRestService;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.servicoRegistrado.FabTipoAutenticacaoRest;
@@ -23,7 +23,7 @@ import com.super_bits.modulosSB.SBCore.modulos.ManipulaArquivo.importacao.FabTip
         nomeIntegracao = FabConfigApiGalaxyPay.NOME_INTEGRACAO,
         configuracao = FabConfigApiGalaxyPay.class
 )
-public enum FabApiRestIntGalaxPayAssinatura implements ItfFabricaIntegracaoRest {
+public enum FabApiRestIntGalaxPayAssinatura implements ComoFabricaIntegracaoRest {
 
     @InfoConsumoRestService(getPachServico = "/subscriptions?startAt=0&limit=100&customerGalaxPayIds={0}",
             tipoConexao = FabTipoConexaoRest.GET,

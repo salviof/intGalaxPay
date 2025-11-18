@@ -6,8 +6,8 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
 import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
 import java.util.Date;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
 
 @InfoIntegracaoRestIntgalaxpayAssinatura(tipo = FabApiRestIntGalaxPayAssinatura.ASSINATURA_PLANO_VIA_CARTAO_CRIAR)
 public class IntegracaoRestIntgalaxpayAssinaturaPlanoViaCartaoCriar
@@ -16,7 +16,7 @@ public class IntegracaoRestIntgalaxpayAssinaturaPlanoViaCartaoCriar
 
     public IntegracaoRestIntgalaxpayAssinaturaPlanoViaCartaoCriar(
             final FabTipoAgenteClienteApi pTipoAgente,
-            final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
+            final ComoUsuario pUsuario, final java.lang.Object... pParametro) {
         super(
                 FabApiRestIntGalaxPayAssinatura.ASSINATURA_PLANO_VIA_CARTAO_CRIAR,
                 pTipoAgente, pUsuario, pParametro);

@@ -3,7 +3,6 @@ package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ERPContabilAReceber;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.apiCore.ItfERPContabilAReceber;
 import java.util.List;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ItfPessoaFisicoJuridico;
 import br.org.coletivoJava.fw.api.erp.contapagarreceber.CtPagarReceberGalaxPay;
 
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayAssinatura;
@@ -24,7 +23,6 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ErroJsonInterpredador;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ItfServicoLinkDeEntidadesERP;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocalPostagem;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import java.util.ArrayList;
@@ -33,6 +31,8 @@ import java.util.Optional;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.coletivojava.fw.api.tratamentoErros.FabErro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ComoPessoaFisicoJuridico;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocalPostagem;
 
 @CtPagarReceberGalaxPay
 public class CtPagarReceberGalaxPayimpl
@@ -42,11 +42,11 @@ public class CtPagarReceberGalaxPayimpl
     private static final ERPContabilAReceber galaxPayERPContaAPagar = ERPContabilAReceber.GALAX_PAY;
 
     @Override
-    public ItfPrevisaoValorMoeda getCobrancaSazonal(Date pData, double pValor, ItfPessoaFisicoJuridico pDevedor) {
+    public ItfPrevisaoValorMoeda getCobrancaSazonal(Date pData, double pValor, ComoPessoaFisicoJuridico pDevedor) {
         if (UtilSBCoreStringValidador.isNuloOuEmbranco(pDevedor.getCpfCnpj())) {
             return null;
         }
-        ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(pDevedor.getCpfCnpj());
+        ComoPessoaFisicoJuridico devedor = getDevedorByCNPJ(pDevedor.getCpfCnpj());
         ItfRespostaWebServiceSimples resposta = FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_DO_CLIENTE.getAcao(devedor.getId()).getResposta();
         JsonObject json = resposta.getRespostaComoObjetoJson();
 
@@ -83,14 +83,14 @@ public class CtPagarReceberGalaxPayimpl
     }
 
     @Override
-    public ItfPrevisaoValorMoedaRecorrente getCobrancaAssinatura(Date pData, double pValor, ItfPessoaFisicoJuridico pDevedor) {
+    public ItfPrevisaoValorMoedaRecorrente getCobrancaAssinatura(Date pData, double pValor, ComoPessoaFisicoJuridico pDevedor) {
         if (pDevedor == null) {
             return null;
         }
         if (pValor == 0) {
             return null;
         }
-        ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(pDevedor.getCpfCnpj());
+        ComoPessoaFisicoJuridico devedor = getDevedorByCNPJ(pDevedor.getCpfCnpj());
         if (devedor == null) {
             return null;
         }
@@ -124,11 +124,11 @@ public class CtPagarReceberGalaxPayimpl
     }
 
     @Override
-    public ItfFaturaAssinatura getAssinatura(double pValor, ItfPessoaFisicoJuridico pDevedor) {
+    public ItfFaturaAssinatura getAssinatura(double pValor, ComoPessoaFisicoJuridico pDevedor) {
         // Considerar Valor CPF do cliente, e estado ativo.
 
         String cnpj = pDevedor.getCpfCnpj();
-        ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(cnpj);
+        ComoPessoaFisicoJuridico devedor = getDevedorByCNPJ(cnpj);
         if (devedor == null) {
             return null;
         }
@@ -161,14 +161,14 @@ public class CtPagarReceberGalaxPayimpl
     }
 
     @Override
-    public List<ItfPrevisaoValorMoeda> getCobrancasSazonaisEmAberto(ItfPessoaFisicoJuridico pPessoas) {
+    public List<ItfPrevisaoValorMoeda> getCobrancasSazonaisEmAberto(ComoPessoaFisicoJuridico pPessoas) {
         galaxPayERPContaAPagar.getImplementacaoDoContexto();
         return null;
 
     }
 
     @Override
-    public List<ItfFaturaAssinatura> getAssinaturasAtivas(ItfPessoaFisicoJuridico pPessoas) {
+    public List<ItfFaturaAssinatura> getAssinaturasAtivas(ComoPessoaFisicoJuridico pPessoas) {
         ItfServicoLinkDeEntidadesERP repositorio = galaxPayERPContaAPagar.getRepositorioLinkEntidadesByID();
         String idAssinaturaVinculado = null;
         if (repositorio != null) {
@@ -179,7 +179,7 @@ public class CtPagarReceberGalaxPayimpl
             resposta = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE.getAcao(String.valueOf(idAssinaturaVinculado)).getResposta();
         } else {
             String cnpj = pPessoas.getCpfCnpj();
-            ItfPessoaFisicoJuridico devedor = getDevedorByCNPJ(cnpj);
+            ComoPessoaFisicoJuridico devedor = getDevedorByCNPJ(cnpj);
             if (devedor == null) {
                 return new ArrayList<>();
             }
@@ -209,13 +209,13 @@ public class CtPagarReceberGalaxPayimpl
     }
 
     @Override
-    public List<ItfPessoaFisicoJuridico> getDevedoresRegistrados() {
+    public List<ComoPessoaFisicoJuridico> getDevedoresRegistrados() {
 
         int quantidade = 100;
 
         int indice = 0;
 
-        List<ItfPessoaFisicoJuridico> pessoas = new ArrayList<>();
+        List<ComoPessoaFisicoJuridico> pessoas = new ArrayList<>();
         while (quantidade != 0) {
 
             ItfRespostaWebServiceSimples resposta = FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR.getAcao(indice, 100).getResposta();
@@ -233,7 +233,7 @@ public class CtPagarReceberGalaxPayimpl
             for (Object clientObjto : objetoClientes) {
                 JsonObject cliente = (JsonObject) clientObjto;
                 try {
-                    ItfPessoaFisicoJuridico pessoa = galaxPayERPContaAPagar.getDTO(cliente.toString(), ItfPessoaFisicoJuridico.class);
+                    ComoPessoaFisicoJuridico pessoa = galaxPayERPContaAPagar.getDTO(cliente.toString(), ComoPessoaFisicoJuridico.class);
                     pessoas.add(pessoa);
                 } catch (ErroJsonInterpredador ex) {
                     Logger.getLogger(CtPagarReceberGalaxPayimpl.class.getName()).log(Level.SEVERE, null, ex);
@@ -244,7 +244,7 @@ public class CtPagarReceberGalaxPayimpl
     }
 
     @Override
-    public ItfPessoaFisicoJuridico getDevedorByCNPJ(String pCNPJ) {
+    public ComoPessoaFisicoJuridico getDevedorByCNPJ(String pCNPJ) {
         if (UtilSBCoreStringValidador.isNuloOuEmbranco(pCNPJ)) {
             return null;
         }
@@ -257,7 +257,7 @@ public class CtPagarReceberGalaxPayimpl
                     return null;
                 }
                 JsonArray objetoClientes = (JsonArray) resp.getRespostaComoObjetoJson().getJsonArray("Customers");
-                return galaxPayERPContaAPagar.getDTO(objetoClientes.get(0).toString(), ItfPessoaFisicoJuridico.class);
+                return galaxPayERPContaAPagar.getDTO(objetoClientes.get(0).toString(), ComoPessoaFisicoJuridico.class);
             } catch (ErroJsonInterpredador ex) {
                 SBCore.RelatarErro(FabErro.SOLICITAR_REPARO, "Erro tratando Json devedor", ex);
             }
@@ -269,17 +269,17 @@ public class CtPagarReceberGalaxPayimpl
     }
 
     @Override
-    public List<ItfPessoaFisicoJuridico> getDevedorByIdExterno(String pCNPJ) {
+    public List<ComoPessoaFisicoJuridico> getDevedorByIdExterno(String pCNPJ) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public List<ItfPessoaFisicoJuridico> getDevedorByIdAplicacao(int pId) {
+    public List<ComoPessoaFisicoJuridico> getDevedorByIdAplicacao(int pId) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
-    public ItfLocalPostagem getLocalizacaoByDocumento(String pLocalizacao) {
+    public ComoLocalPostagem getLocalizacaoByDocumento(String pLocalizacao) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

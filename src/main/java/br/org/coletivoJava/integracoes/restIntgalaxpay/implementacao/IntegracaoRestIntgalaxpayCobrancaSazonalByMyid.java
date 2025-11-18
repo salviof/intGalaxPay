@@ -5,7 +5,7 @@ import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCobr
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
 
 @InfoIntegracaoRestIntgalaxpaySazonal(tipo = FabApiRestIntGalaxPayCobrancaSazonal.COBRANCA_SAZONAL_BY_MYID)
 public class IntegracaoRestIntgalaxpayCobrancaSazonalByMyid
@@ -14,7 +14,7 @@ public class IntegracaoRestIntgalaxpayCobrancaSazonalByMyid
 
     public IntegracaoRestIntgalaxpayCobrancaSazonalByMyid(
             final FabTipoAgenteClienteApi pTipoAgente,
-            final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
+            final ComoUsuario pUsuario, final java.lang.Object... pParametro) {
         super(FabApiRestIntGalaxPayCobrancaSazonal.COBRANCA_SAZONAL_BY_MYID,
                 pTipoAgente, pUsuario, pParametro);
     }

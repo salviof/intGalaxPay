@@ -1,14 +1,14 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.LocalPostagem;
 
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.ItfDTOSBJSON;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfLocalPostagem;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.LocalPostagem.JsonBindDTOLocalPostagem;
 import java.lang.String;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocalPostagem;
 
 @JsonDeserialize(using = JsonBindDTOLocalPostagem.class)
-public interface ItfDTOLocalPostagem extends ItfDTOSBJSON, ItfLocalPostagem {
+public interface ItfDTOLocalPostagem extends ItfDTOSBJSON, ComoLocalPostagem {
 
     @Override
     public default String getCep() {
@@ -31,13 +31,13 @@ public interface ItfDTOLocalPostagem extends ItfDTOSBJSON, ItfLocalPostagem {
     }
 
     @Override
-    public default ItfBairro getBairro() {
-        return (ItfBairro) getValorPorReflexao();
+    public default ComoBairro getBairro() {
+        return (ComoBairro) getValorPorReflexao();
     }
 
     @Override
-    public default ItfLocalPostagem getComoLocalPostavel() {
-        return (ItfLocalPostagem) getValorPorReflexao();
+    public default ComoLocalPostagem getComoLocalPostavel() {
+        return (ComoLocalPostagem) getValorPorReflexao();
     }
 
     @Override

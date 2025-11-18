@@ -4,7 +4,7 @@ import br.org.coletivoJava.integracoes.restIntgalaxpay.api.InfoIntegracaoRestInt
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayAssinatura;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
 
 @InfoIntegracaoRestIntgalaxpayAssinatura(tipo = FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE)
 public class IntegracaoRestIntgalaxpayAssinaturasDoCliente
@@ -13,7 +13,7 @@ public class IntegracaoRestIntgalaxpayAssinaturasDoCliente
 
     public IntegracaoRestIntgalaxpayAssinaturasDoCliente(
             final FabTipoAgenteClienteApi pTipoAgente,
-            final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
+            final ComoUsuario pUsuario, final java.lang.Object... pParametro) {
         super(FabApiRestIntGalaxPayAssinatura.ASSINATURAS_DO_CLIENTE,
                 pTipoAgente, pUsuario, pParametro);
     }

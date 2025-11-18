@@ -6,7 +6,7 @@ import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreNumeros;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ItfUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
 
 @InfoIntegracaoRestIntgalaxpayPlanos(tipo = FabApiRestIntGalaxPayPlanos.PLANO_EDITAR)
 public class IntegracaoRestIntgalaxpayPlanoEditar
@@ -15,7 +15,7 @@ public class IntegracaoRestIntgalaxpayPlanoEditar
 
     public IntegracaoRestIntgalaxpayPlanoEditar(
             final FabTipoAgenteClienteApi pTipoAgente,
-            final ItfUsuario pUsuario, final java.lang.Object... pParametro) {
+            final ComoUsuario pUsuario, final java.lang.Object... pParametro) {
         super(FabApiRestIntGalaxPayPlanos.PLANO_EDITAR, pTipoAgente, pUsuario,
                 pParametro);
     }

@@ -1,7 +1,7 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.LocalPostagem;
 
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.DTO_SBGENERICO;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ItfBairro;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
 
 public class DTOLocalPostagem extends DTO_SBGENERICO<ItfDTOLocalPostagem>
         implements
@@ -36,7 +36,7 @@ public class DTOLocalPostagem extends DTO_SBGENERICO<ItfDTOLocalPostagem>
     }
 
     @Override
-    public void setBairro(ItfBairro bairro) {
+    public void setBairro(ComoBairro bairro) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
