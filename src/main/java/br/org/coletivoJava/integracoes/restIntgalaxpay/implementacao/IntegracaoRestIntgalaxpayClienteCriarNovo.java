@@ -2,7 +2,7 @@ package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 
 import br.org.coletivoJava.integracoes.restIntgalaxpay.api.InfoIntegracaoRestIntgalaxpayCliente;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCliente;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
@@ -25,12 +25,12 @@ public class IntegracaoRestIntgalaxpayClienteCriarNovo
 
         long codigo = (long) parametros.get(0);
         String nome = (String) parametros.get(1);
-        String documento = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(2));
+        String documento = UtilCRCStringFiltros.filtrarApenasNumeros((String) parametros.get(2));
         String email = (String) parametros.get(3);
-        String telefonr = UtilSBCoreStringFiltros.filtrarApenasNumeros(((String) parametros.get(4)).replace("+55", ""));
-        String cep = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(5));
-        String logradouro = UtilSBCoreStringFiltros.filtrarApenasLetra((String) parametros.get(6));
-        String numero = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(6));
+        String telefonr = UtilCRCStringFiltros.filtrarApenasNumeros(((String) parametros.get(4)).replace("+55", ""));
+        String cep = UtilCRCStringFiltros.filtrarApenasNumeros((String) parametros.get(5));
+        String logradouro = UtilCRCStringFiltros.filtrarApenasLetra((String) parametros.get(6));
+        String numero = UtilCRCStringFiltros.filtrarApenasNumeros((String) parametros.get(6));
         String bairro = (String) parametros.get(8);
         String cidade = (String) parametros.get(9);
         String estado = (String) parametros.get(10);

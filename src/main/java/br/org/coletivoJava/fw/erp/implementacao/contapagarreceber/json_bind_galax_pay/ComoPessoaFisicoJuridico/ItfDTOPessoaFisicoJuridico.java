@@ -1,53 +1,57 @@
-package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.LocalPostagem;
+package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoPessoaFisicoJuridico;
 
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.ItfDTOSBJSON;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.LocalPostagem.JsonBindDTOLocalPostagem;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoPessoaFisicoJuridico.JsonBindDTOPessoaFisicoJuridico;
 import java.lang.String;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
+import java.util.List;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ComoPessoaFisicoJuridico;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocalPostagem;
 
-@JsonDeserialize(using = JsonBindDTOLocalPostagem.class)
-public interface ItfDTOLocalPostagem extends ItfDTOSBJSON, ComoLocalPostagem {
+@JsonDeserialize(using = JsonBindDTOPessoaFisicoJuridico.class)
+public interface ItfDTOPessoaFisicoJuridico
+        extends
+        ItfDTOSBJSON,
+        ComoPessoaFisicoJuridico {
 
     @Override
-    public default String getCep() {
-        return (String) getValorPorReflexao();
-    }
-
-    @Override
-    public default String getLogradouro() {
-        return (String) getValorPorReflexao();
-    }
-
-    @Override
-    public default String getComplemento() {
-        return (String) getValorPorReflexao();
-    }
-
-    @Override
-    public default double getLatitude() {
-        return (double) getValorPorReflexao();
-    }
-
-    @Override
-    public default ComoBairro getBairro() {
-        return (ComoBairro) getValorPorReflexao();
-    }
-
-    @Override
-    public default ComoLocalPostagem getComoLocalPostavel() {
+    public default ComoLocalPostagem getLocalizacao() {
         return (ComoLocalPostagem) getValorPorReflexao();
     }
 
     @Override
-    public default boolean isLocaPostavel() {
+    public default String getCpfCnpj() {
+        return (String) getValorPorReflexao();
+    }
+
+    @Override
+    public default String getApelido() {
+        return (String) getValorPorReflexao();
+    }
+
+    @Override
+    public default String getTelefone() {
+        return (String) getValorPorReflexao();
+    }
+
+    @Override
+    public default boolean isAtivo() {
         return (boolean) getValorPorReflexao();
     }
 
     @Override
-    public default double getLongitude() {
-        return (double) getValorPorReflexao();
+    public default String getNomeLongo() {
+        return (String) getValorPorReflexao();
+    }
+
+    @Override
+    public default List getGaleria() {
+        return (List) getValorPorReflexao();
+    }
+
+    @Override
+    public default String getDescritivo() {
+        return (String) getValorPorReflexao();
     }
 
     @Override
@@ -84,4 +88,5 @@ public interface ItfDTOLocalPostagem extends ItfDTOSBJSON, ComoLocalPostagem {
     public default Long getId() {
         return (Long) getValorPorReflexao();
     }
+
 }

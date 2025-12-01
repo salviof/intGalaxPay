@@ -4,7 +4,7 @@
  */
 package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreJson;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCJson;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonValue;
@@ -21,7 +21,7 @@ public class UtilApiGalaxPayRest {
             String jsonResp = (String) pResposta.getRetorno();
 
             if (jsonResp != null && !jsonResp.isEmpty() && jsonResp.startsWith("{")) {
-                JsonObject json = UtilSBCoreJson.getJsonObjectByTexto(jsonResp);
+                JsonObject json = UtilCRCJson.getJsonObjectByTexto(jsonResp);
                 if (json.containsKey("error")) {
                     pResposta.getMensagens().clear();
                     String tituloMensagem = json.getJsonObject("error").getString("message");

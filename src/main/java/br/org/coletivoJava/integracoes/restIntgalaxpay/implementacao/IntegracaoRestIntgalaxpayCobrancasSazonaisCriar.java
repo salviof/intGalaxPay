@@ -3,8 +3,8 @@ package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfPrevisaoValorMoeda;
 import br.org.coletivoJava.integracoes.restIntgalaxpay.api.InfoIntegracaoRestIntgalaxpaySazonal;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCobrancaSazonal;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreJson;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreNumeros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCJson;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCNumeros;
 import com.super_bits.modulosSB.SBCore.UtilGeral.json.ErroProcessandoJson;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
@@ -45,14 +45,14 @@ public class IntegracaoRestIntgalaxpayCobrancasSazonaisCriar
             SimpleDateFormat formatoData = new SimpleDateFormat("yyyy-MM-dd");
             JsonObjectBuilder jsonCobrancaSazonal;
             try {
-                jsonCobrancaSazonal = UtilSBCoreJson.getJsonBuilderBySequenciaChaveValor("myId", codigoInterno);
-                int valorPrimeiraParcelaEmCentavos = UtilSBCoreNumeros.converterNumeroDoubleToMoedaPadraoBancoEmCentavos(previsaoRecebimento.getValor());
+                jsonCobrancaSazonal = UtilCRCJson.getJsonBuilderBySequenciaChaveValor("myId", codigoInterno);
+                int valorPrimeiraParcelaEmCentavos = UtilCRCNumeros.converterNumeroDoubleToMoedaPadraoBancoEmCentavos(previsaoRecebimento.getValor());
                 jsonCobrancaSazonal.add("value", valorPrimeiraParcelaEmCentavos);
                 System.out.println("A DESCRICAO CADASTRADAS é:" + previsaoRecebimento.getNome());
                 jsonCobrancaSazonal.add("aditionalInfo", previsaoRecebimento.getNome());
                 jsonCobrancaSazonal.add("payday", formatoData.format(previsaoRecebimento.getDataPrevista()));
                 jsonCobrancaSazonal.add("mainPaymentMethodId", "boleto");
-                JsonObjectBuilder clienteJson = UtilSBCoreJson.getJsonBuilderBySequenciaChaveValor("myId", String.valueOf(cliente.getId()));
+                JsonObjectBuilder clienteJson = UtilCRCJson.getJsonBuilderBySequenciaChaveValor("myId", String.valueOf(cliente.getId()));
                 //clienteJson.add("name", cliente.getNome());
                 clienteJson.add("document", cliente.getCpfCnpj());
 
@@ -68,7 +68,7 @@ public class IntegracaoRestIntgalaxpayCobrancasSazonaisCriar
                 JsonObjectBuilder jsonDetalhesBoleto = Json.createObjectBuilder();
                 jsonDetalhesBoleto.add("instructions", previsaoRecebimento.getNome());
                 jsonCobrancaSazonal.add("PaymentMethodBoleto", jsonDetalhesBoleto.build());
-                String corpoRequisicao = UtilSBCoreJson.getTextoByJsonObjeect(jsonCobrancaSazonal.build());
+                String corpoRequisicao = UtilCRCJson.getTextoByJsonObjeect(jsonCobrancaSazonal.build());
 
                 return corpoRequisicao;
             } catch (ErroProcessandoJson ex) {

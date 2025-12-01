@@ -2,8 +2,8 @@ package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 
 import br.org.coletivoJava.integracoes.restIntgalaxpay.api.InfoIntegracaoRestIntgalaxpayCliente;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCliente;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
@@ -26,15 +26,15 @@ public class IntegracaoRestIntgalaxpayClienteAtualizarViaGalaxpayid
         //int codigoGalaxPay = (int) parametros.get(0);
         long codigo = (long) parametros.get(1);
         String nome = (String) parametros.get(2);
-        String documento = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(3));
+        String documento = UtilCRCStringFiltros.filtrarApenasNumeros((String) parametros.get(3));
 
         String email = (String) parametros.get(4);
 
-        String telefonr = UtilSBCoreStringFiltros.filtrarApenasNumeros(((String) parametros.get(5)).replace("+55", ""));
+        String telefonr = UtilCRCStringFiltros.filtrarApenasNumeros(((String) parametros.get(5)).replace("+55", ""));
 
-        String cep = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(6));
-        String logradouro = UtilSBCoreStringFiltros.filtrarApenasLetra((String) parametros.get(7));
-        String numero = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(7));
+        String cep = UtilCRCStringFiltros.filtrarApenasNumeros((String) parametros.get(6));
+        String logradouro = UtilCRCStringFiltros.filtrarApenasLetra((String) parametros.get(7));
+        String numero = UtilCRCStringFiltros.filtrarApenasNumeros((String) parametros.get(7));
 //        String complemnento = (String) parametros.get(6];
         String bairro = (String) parametros.get(9);
         String cidade = (String) parametros.get(10);

@@ -2,7 +2,7 @@ package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 
 import br.org.coletivoJava.integracoes.restIntgalaxpay.api.InfoIntegracaoRestIntgalaxpayPlanos;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayPlanos;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreNumeros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCNumeros;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
@@ -26,7 +26,7 @@ public class IntegracaoRestIntgalaxpayPlanoCriar
         String nome = (String) parametros.get(1);
         int quantidadeMeses = (int) parametros.get(2);
         double valor = (double) parametros.get(3);
-        String valorFormatado = UtilSBCoreNumeros.converterNumeroToStrMoedaPadraoBanco(valor);
+        String valorFormatado = UtilCRCNumeros.converterNumeroToStrMoedaPadraoBanco(valor);
         String periodicidade = "monthly";
 
         String requisicao = "{\n"

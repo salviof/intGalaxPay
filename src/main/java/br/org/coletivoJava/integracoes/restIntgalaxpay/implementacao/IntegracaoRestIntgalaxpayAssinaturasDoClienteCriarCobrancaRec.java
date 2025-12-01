@@ -5,9 +5,9 @@ import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.I
 import br.org.coletivoJava.integracoes.restIntgalaxpay.api.InfoIntegracaoRestIntgalaxpayAssinatura;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayAssinatura;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreJson;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreNumeros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCJson;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCNumeros;
 import com.super_bits.modulosSB.SBCore.UtilGeral.json.ErroProcessandoJson;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
@@ -51,7 +51,7 @@ public class IntegracaoRestIntgalaxpayAssinaturasDoClienteCriarCobrancaRec
 
             List<ItfPrevisaoValorMoeda> parcelasFuturasSemPagamento = new ArrayList<>();
             registroDeCobranca.getParcelas().stream().filter(prc -> !prc.isPagamentoEfetuado()
-                    && UtilSBCoreDataHora.isDiaIgualOuSuperior(new Date(), prc.getDataPrevista())
+                    && UtilCRCDataHora.isDiaIgualOuSuperior(new Date(), prc.getDataPrevista())
             ).forEach(parcelasFuturasSemPagamento::add);
             parcelasFuturasSemPagamento.sort(comparador);
             Date primeiroPagamento = parcelasFuturasSemPagamento.get(0).getDataPrevista();
@@ -60,16 +60,16 @@ public class IntegracaoRestIntgalaxpayAssinaturasDoClienteCriarCobrancaRec
 
             String primeiroPgtoStr = formatoData.format(primeiroPagamento);
 
-            JsonObjectBuilder jsonCobrancaAssinatura = UtilSBCoreJson.getJsonBuilderBySequenciaChaveValor("myId", codigoInterno);
+            JsonObjectBuilder jsonCobrancaAssinatura = UtilCRCJson.getJsonBuilderBySequenciaChaveValor("myId", codigoInterno);
             jsonCobrancaAssinatura.add("aditionalInfo", registroDeCobranca.getNome());
             jsonCobrancaAssinatura.add("mainPaymentMethodId", "boleto");
             jsonCobrancaAssinatura.add("firstPayDayDate", primeiroPgtoStr);
             jsonCobrancaAssinatura.add("quantity", quantidadeParcelas);
             jsonCobrancaAssinatura.add("periodicity", "monthly");
-            int valorPrimeiraParcelaEmCentavos = UtilSBCoreNumeros.converterNumeroDoubleToMoedaPadraoBancoEmCentavos(parcelasFuturasSemPagamento.get(0).getValor());
+            int valorPrimeiraParcelaEmCentavos = UtilCRCNumeros.converterNumeroDoubleToMoedaPadraoBancoEmCentavos(parcelasFuturasSemPagamento.get(0).getValor());
             jsonCobrancaAssinatura.add("value", valorPrimeiraParcelaEmCentavos);
 
-            JsonObjectBuilder clienteJson = UtilSBCoreJson.getJsonBuilderBySequenciaChaveValor("myId", String.valueOf(registroDeCobranca.getDevedor().getId()));
+            JsonObjectBuilder clienteJson = UtilCRCJson.getJsonBuilderBySequenciaChaveValor("myId", String.valueOf(registroDeCobranca.getDevedor().getId()));
             //clienteJson.add("name", registroDeCobranca.getDevedor().getNome());
             clienteJson.add("document", registroDeCobranca.getDevedor().getCpfCnpj());
             //  JsonArrayBuilder arrayDeEmails = Json.createArrayBuilder();
@@ -84,12 +84,12 @@ public class IntegracaoRestIntgalaxpayAssinaturasDoClienteCriarCobrancaRec
             JsonArrayBuilder arrayTransacoes = Json.createArrayBuilder();
             int numeroParcela = 1;
             for (ItfPrevisaoValorMoeda paracela : parcelasFuturasSemPagamento) {
-                if (!paracela.isPagamentoEfetuado() && UtilSBCoreDataHora.isDiaIgualOuSuperior(new Date(), paracela.getDataPrevista())) {
+                if (!paracela.isPagamentoEfetuado() && UtilCRCDataHora.isDiaIgualOuSuperior(new Date(), paracela.getDataPrevista())) {
                     JsonObjectBuilder paracelaBuilder = Json.createObjectBuilder();
                     Long idLocal = paracela.getId();
                     paracelaBuilder.add("myId", String.valueOf(idLocal));
                     paracelaBuilder.add("installment", numeroParcela);
-                    int valorEmCentavos = UtilSBCoreNumeros.converterNumeroDoubleToMoedaPadraoBancoEmCentavos(paracela.getValor());
+                    int valorEmCentavos = UtilCRCNumeros.converterNumeroDoubleToMoedaPadraoBancoEmCentavos(paracela.getValor());
                     paracelaBuilder.add("value", valorEmCentavos);
 
                     paracelaBuilder.add("payday", formatoData.format(paracela.getDataPrevista()));
@@ -114,7 +114,7 @@ public class IntegracaoRestIntgalaxpayAssinaturasDoClienteCriarCobrancaRec
             dadosDeCobrancaNoBoleto.add("instructions", "Este boleto pode ser pago em qualquer banco, mesmo que vencido, desde que não ultrapasse 10 dia(s) da data do vencimento (sujeito a multa e juros).");
             dadosDeCobrancaNoBoleto.add("deadlineDays", 10);
             jsonCobrancaAssinatura.add("PaymentMethodBoleto", dadosDeCobrancaNoBoleto.build());
-            String reposta = UtilSBCoreJson.getTextoByJsonObjeect(jsonCobrancaAssinatura.build());
+            String reposta = UtilCRCJson.getTextoByJsonObjeect(jsonCobrancaAssinatura.build());
             return reposta;
 
         } catch (ErroProcessandoJson ex) {

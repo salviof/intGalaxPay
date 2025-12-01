@@ -9,7 +9,7 @@ import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxP
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayAssinatura;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCliente;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreJson;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCJson;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.transmissao_recepcao_rest_client.ItfAcaoApiRest;
 import jakarta.json.JsonValue;
@@ -42,7 +42,7 @@ public class IntegracaoRestIntgalaxpayListarClientesTest {
         ItfRespostaWebServiceSimples resposta = acao.getResposta();
         assertTrue("Falha de comuniucação com a api", resposta.isSucesso());
         if (resposta.isSucesso()) {
-            System.out.println(UtilSBCoreJson.getTextoByJsonObjeect(resposta.getRespostaComoObjetoJson()));
+            System.out.println(UtilCRCJson.getTextoByJsonObjeect(resposta.getRespostaComoObjetoJson()));
         }
     }
 

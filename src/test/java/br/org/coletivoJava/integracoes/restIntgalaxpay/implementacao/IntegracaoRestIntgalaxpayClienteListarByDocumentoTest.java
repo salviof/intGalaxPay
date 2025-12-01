@@ -4,11 +4,11 @@
  */
 package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PessoaFisicoJuridico.DTOPessoaFisicoJuridico;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoPessoaFisicoJuridico.DTOComoPessoaFisicoJuridico;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxPay;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCliente;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreJson;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCJson;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import org.junit.After;
@@ -44,10 +44,10 @@ public class IntegracaoRestIntgalaxpayClienteListarByDocumentoTest {
             resposta.dispararMensagens();
         }
         assertTrue("Falha de comuniucação com a api", resposta.isSucesso());
-        DTOPessoaFisicoJuridico pessoa = new DTOPessoaFisicoJuridico(resposta.getRetorno().toString());
+        DTOComoPessoaFisicoJuridico pessoa = new DTOComoPessoaFisicoJuridico(resposta.getRetorno().toString());
         ComoLocalPostagem localizacao = pessoa.getLocalizacao();
         if (resposta.isSucesso()) {
-            System.out.println(UtilSBCoreJson.getTextoByJsonObjeect(resposta.getRespostaComoObjetoJson()));
+            System.out.println(UtilCRCJson.getTextoByJsonObjeect(resposta.getRespostaComoObjetoJson()));
         }
     }
 

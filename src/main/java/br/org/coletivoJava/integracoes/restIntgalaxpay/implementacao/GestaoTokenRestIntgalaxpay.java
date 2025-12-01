@@ -4,8 +4,8 @@ import br.org.coletivoJava.integracoes.restIntgalaxpay.api.InfoIntegracaoRestInt
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCliente;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabConfigApiGalaxyPay;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreJson;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCJson;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.FabTipoConexaoRest;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.token.ItfTokenDeAcessoExterno;
@@ -63,9 +63,9 @@ public class GestaoTokenRestIntgalaxpay extends GestaoTokenDinamico {
 
         if (resposta.isSucesso()) {
             JsonObject jsonArquivado = resposta.getRespostaComoObjetoJson();
-            jsonArquivado = UtilSBCoreJson.getJsonObjectIncrementandoCampo(jsonArquivado, "dataHora", new Date().getTime());
-            //String textoResposta = UtilSBCoreJson.getTextoByJsonObjeect(jsonArquivado);
-            String textoJson = UtilSBCoreJson.getTextoByJsonObjeect(jsonArquivado);
+            jsonArquivado = UtilCRCJson.getJsonObjectIncrementandoCampo(jsonArquivado, "dataHora", new Date().getTime());
+            //String textoResposta = UtilCRCJson.getTextoByJsonObjeect(jsonArquivado);
+            String textoJson = UtilCRCJson.getTextoByJsonObjeect(jsonArquivado);
             armazenarRespostaToken(textoJson);
             setToken(extrairToken(textoJson));
 
@@ -81,13 +81,13 @@ public class GestaoTokenRestIntgalaxpay extends GestaoTokenDinamico {
 
         String tokenDeAcesso = pJson.getString("access_token");
         Long segundosExpira = (long) pJson.getJsonNumber("expires_in").longValue();
-        Date dataHoraExipira = UtilSBCoreDataHora.decrementaMinutos(new Date(), 30);
+        Date dataHoraExipira = UtilCRCDataHora.decrementaMinutos(new Date(), 30);
         if (pJson.containsKey("dataHora")) {
             Date dataHoraGeracaoToken = new Date((long) pJson.getJsonNumber("dataHora").longValue());
-            dataHoraExipira = UtilSBCoreDataHora.incrementaSegundos(dataHoraGeracaoToken, segundosExpira.intValue());
+            dataHoraExipira = UtilCRCDataHora.incrementaSegundos(dataHoraGeracaoToken, segundosExpira.intValue());
         }
 
-        UtilSBCoreDataHora.incrementaSegundos(dataHoraExipira, segundosExpira.intValue());
+        UtilCRCDataHora.incrementaSegundos(dataHoraExipira, segundosExpira.intValue());
         TokenDeAcessoExternoDinamico token = new TokenDeAcessoExternoDinamico(tokenDeAcesso, dataHoraExipira);
         return token;
 

@@ -8,7 +8,7 @@ import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxP
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayPlanos;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayTransacao;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreNumeros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCNumeros;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.token.ItfTokenGestao;
 import jakarta.json.JsonArray;
@@ -50,7 +50,7 @@ public class IntegracaoRestIntgalaxpayTransacoesCompensadasPeriodoTest {
             }
             for (JsonObject jsonTranscao : jsonTransacoes.getValuesAs(JsonObject.class)) {
                 try {
-                    double valor = UtilSBCoreNumeros.converterMoedaPadraoBancoParaDouble(String.valueOf(jsonTranscao.getInt("value")));
+                    double valor = UtilCRCNumeros.converterMoedaPadraoBancoParaDouble(String.valueOf(jsonTranscao.getInt("value")));
                     total = total + valor;
                 } catch (Throwable t) {
                     System.out.println("Erro");

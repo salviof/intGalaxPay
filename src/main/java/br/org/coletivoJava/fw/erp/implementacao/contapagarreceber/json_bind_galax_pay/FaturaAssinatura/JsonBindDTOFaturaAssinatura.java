@@ -1,6 +1,6 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.FaturaAssinatura;
 
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PessoaFisicoJuridico.DTOPessoaFisicoJuridico;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoPessoaFisicoJuridico.DTOComoPessoaFisicoJuridico;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PrevisaoValorMoedaRecorrente.DTOPrevisaoValorMoedaRecorrente;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.DTO_SB_JSON_PROCESSADOR_GENERICO;
 import com.fasterxml.jackson.core.JsonParser;
@@ -31,7 +31,7 @@ public class JsonBindDTOFaturaAssinatura
         adicionarPropriedadeDouble("valorAtualMensal", node, "value");
         adicionarPropriedadeData("dataPrimeiroPagamento", node, "firstPayDayDate");
         adicionarPropriedadeListaObjetos(DTOPrevisaoValorMoedaRecorrente.class, "parcelas", node, "Transactions");
-        adicionarPropriedadObjeto(DTOPessoaFisicoJuridico.class, "devedor", node, "Customer");
+        adicionarPropriedadObjeto(DTOComoPessoaFisicoJuridico.class, "devedor", node, "Customer");
 
         selarProcesamento(dto);
 

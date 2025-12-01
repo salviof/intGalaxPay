@@ -17,9 +17,9 @@ import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_gala
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCliente;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCobrancaSazonal;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringValidador;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringValidador;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ErroJsonInterpredador;
 import com.super_bits.modulosSB.SBCore.modulos.erp.ItfServicoLinkDeEntidadesERP;
@@ -43,7 +43,7 @@ public class CtPagarReceberGalaxPayimpl
 
     @Override
     public ItfPrevisaoValorMoeda getCobrancaSazonal(Date pData, double pValor, ComoPessoaFisicoJuridico pDevedor) {
-        if (UtilSBCoreStringValidador.isNuloOuEmbranco(pDevedor.getCpfCnpj())) {
+        if (UtilCRCStringValidador.isNuloOuEmbranco(pDevedor.getCpfCnpj())) {
             return null;
         }
         ComoPessoaFisicoJuridico devedor = getDevedorByCNPJ(pDevedor.getCpfCnpj());
@@ -70,7 +70,7 @@ public class CtPagarReceberGalaxPayimpl
                     cobrancasSazonais.add(cobrancaSazonal);
                 }
                 Optional<ItfPrevisaoValorMoeda> cobrancaCompativel = cobrancasSazonais.stream().filter(asnt
-                        -> asnt.getValor() == pValor && UtilSBCoreDataHora.isDiaIgual(asnt.getDataPrevista(), pData))
+                        -> asnt.getValor() == pValor && UtilCRCDataHora.isDiaIgual(asnt.getDataPrevista(), pData))
                         .findFirst();
                 if (cobrancaCompativel.isPresent()) {
                     return cobrancaCompativel.get();
@@ -113,7 +113,7 @@ public class CtPagarReceberGalaxPayimpl
         }
         Optional<ItfPrevisaoValorMoeda> previssao = assinaturaEquivalente.get().getParcelas().stream()
                 .filter(parcela -> parcela.getValor() == pValor
-                && UtilSBCoreDataHora.isMesIgual(parcela.getDataPrevista(), pData))
+                && UtilCRCDataHora.isMesIgual(parcela.getDataPrevista(), pData))
                 .findFirst();
         if (!previssao.isPresent()) {
             return null;
@@ -245,10 +245,10 @@ public class CtPagarReceberGalaxPayimpl
 
     @Override
     public ComoPessoaFisicoJuridico getDevedorByCNPJ(String pCNPJ) {
-        if (UtilSBCoreStringValidador.isNuloOuEmbranco(pCNPJ)) {
+        if (UtilCRCStringValidador.isNuloOuEmbranco(pCNPJ)) {
             return null;
         }
-        String cnpj = UtilSBCoreStringFiltros.filtrarApenasNumeros(pCNPJ);
+        String cnpj = UtilCRCStringFiltros.filtrarApenasNumeros(pCNPJ);
         ItfRespostaWebServiceSimples resp = FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR_BY_DOCUMENTO.getAcao(cnpj).getResposta();
         if (resp.isSucesso()) {
             try {

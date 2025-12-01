@@ -1,57 +1,53 @@
-package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PessoaFisicoJuridico;
+package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoLocalPostagem;
 
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.ItfDTOSBJSON;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PessoaFisicoJuridico.JsonBindDTOPessoaFisicoJuridico;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoLocalPostagem.JsonBindDTOLocalPostagem;
 import java.lang.String;
-import java.util.List;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ComoPessoaFisicoJuridico;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoBairro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocalPostagem;
 
-@JsonDeserialize(using = JsonBindDTOPessoaFisicoJuridico.class)
-public interface ItfDTOPessoaFisicoJuridico
-        extends
-        ItfDTOSBJSON,
-        ComoPessoaFisicoJuridico {
+@JsonDeserialize(using = JsonBindDTOLocalPostagem.class)
+public interface ItfDTOLocalPostagem extends ItfDTOSBJSON, ComoLocalPostagem {
 
     @Override
-    public default ComoLocalPostagem getLocalizacao() {
+    public default String getCep() {
+        return (String) getValorPorReflexao();
+    }
+
+    @Override
+    public default String getLogradouro() {
+        return (String) getValorPorReflexao();
+    }
+
+    @Override
+    public default String getComplemento() {
+        return (String) getValorPorReflexao();
+    }
+
+    @Override
+    public default double getLatitude() {
+        return (double) getValorPorReflexao();
+    }
+
+    @Override
+    public default ComoBairro getBairro() {
+        return (ComoBairro) getValorPorReflexao();
+    }
+
+    @Override
+    public default ComoLocalPostagem getComoLocalPostavel() {
         return (ComoLocalPostagem) getValorPorReflexao();
     }
 
     @Override
-    public default String getCpfCnpj() {
-        return (String) getValorPorReflexao();
-    }
-
-    @Override
-    public default String getApelido() {
-        return (String) getValorPorReflexao();
-    }
-
-    @Override
-    public default String getTelefone() {
-        return (String) getValorPorReflexao();
-    }
-
-    @Override
-    public default boolean isAtivo() {
+    public default boolean isLocaPostavel() {
         return (boolean) getValorPorReflexao();
     }
 
     @Override
-    public default String getNomeLongo() {
-        return (String) getValorPorReflexao();
-    }
-
-    @Override
-    public default List getGaleria() {
-        return (List) getValorPorReflexao();
-    }
-
-    @Override
-    public default String getDescritivo() {
-        return (String) getValorPorReflexao();
+    public default double getLongitude() {
+        return (double) getValorPorReflexao();
     }
 
     @Override
@@ -88,5 +84,4 @@ public interface ItfDTOPessoaFisicoJuridico
     public default Long getId() {
         return (Long) getValorPorReflexao();
     }
-
 }

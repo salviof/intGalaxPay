@@ -1,4 +1,4 @@
-package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.LocalPostagem;
+package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoLocalPostagem;
 
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.DTO_SB_JSON_PROCESSADOR_GENERICO;
 import com.fasterxml.jackson.core.JsonParser;
@@ -10,14 +10,14 @@ import java.io.IOException;
 
 public class JsonBindDTOLocalPostagem
         extends
-        DTO_SB_JSON_PROCESSADOR_GENERICO<DTOLocalPostagem> {
+        DTO_SB_JSON_PROCESSADOR_GENERICO<DTOComoLocalPostagem> {
 
     public JsonBindDTOLocalPostagem() {
-        super(DTOLocalPostagem.class);
+        super(DTOComoLocalPostagem.class);
     }
 
     @Override
-    public DTOLocalPostagem deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
+    public DTOComoLocalPostagem deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
         ObjectCodec codec = jp.getCodec();
         JsonNode node = codec.readTree(jp);
 
@@ -30,7 +30,7 @@ public class JsonBindDTOLocalPostagem
         getObjectBuilder().add("logradouro", logadouro);
         adicionarPropriedadeString("complemento", node, "complement");
 
-        DTOLocalPostagem dto = new DTOLocalPostagem();
+        DTOComoLocalPostagem dto = new DTOComoLocalPostagem();
         selarProcesamento(dto);
         return dto;
     }

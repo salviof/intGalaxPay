@@ -1,19 +1,19 @@
-package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PessoaFisicoJuridico;
+package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoPessoaFisicoJuridico;
 
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.DTO_SBGENERICO;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.cep.ComoLocal;
 
-public class DTOPessoaFisicoJuridico
+public class DTOComoPessoaFisicoJuridico
         extends
         DTO_SBGENERICO<ItfDTOPessoaFisicoJuridico>
         implements
         ItfDTOPessoaFisicoJuridico {
 
-    public DTOPessoaFisicoJuridico(String pJson) {
+    public DTOComoPessoaFisicoJuridico(String pJson) {
         super(JsonBindDTOPessoaFisicoJuridico.class, pJson);
     }
 
-    public DTOPessoaFisicoJuridico() {
+    public DTOComoPessoaFisicoJuridico() {
         super(null, null);
     }
 

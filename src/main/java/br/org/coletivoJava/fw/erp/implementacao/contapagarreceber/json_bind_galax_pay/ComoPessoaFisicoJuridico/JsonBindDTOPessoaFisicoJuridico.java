@@ -1,6 +1,6 @@
-package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PessoaFisicoJuridico;
+package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoPessoaFisicoJuridico;
 
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.LocalPostagem.DTOLocalPostagem;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoLocalPostagem.DTOComoLocalPostagem;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.DTO_SB_JSON_PROCESSADOR_GENERICO;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -14,17 +14,17 @@ import java.util.Iterator;
 
 public class JsonBindDTOPessoaFisicoJuridico
         extends
-        DTO_SB_JSON_PROCESSADOR_GENERICO<DTOPessoaFisicoJuridico> {
+        DTO_SB_JSON_PROCESSADOR_GENERICO<DTOComoPessoaFisicoJuridico> {
 
     public JsonBindDTOPessoaFisicoJuridico() {
-        super(DTOPessoaFisicoJuridico.class);
+        super(DTOComoPessoaFisicoJuridico.class);
     }
 
     @Override
-    public DTOPessoaFisicoJuridico deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
+    public DTOComoPessoaFisicoJuridico deserialize(JsonParser jp, DeserializationContext dc) throws IOException, JsonProcessingException {
         ObjectCodec codec = jp.getCodec();
         JsonNode node = codec.readTree(jp);
-        DTOPessoaFisicoJuridico dto = new DTOPessoaFisicoJuridico();
+        DTOComoPessoaFisicoJuridico dto = new DTOComoPessoaFisicoJuridico();
         adicionarPropriedadeString("cpfCnpj", node, "document");
         adicionarPropriedadeInteiro("id", node, "galaxPayId");
         adicionarPropriedadeString("nome", node, "name");
@@ -52,7 +52,7 @@ public class JsonBindDTOPessoaFisicoJuridico
 
         JsonNode endereco = node.get("Address");
         if (endereco != null) {
-            adicionarObjeto("localizacao", new DTOLocalPostagem(endereco.toString()));
+            adicionarObjeto("localizacao", new DTOComoLocalPostagem(endereco.toString()));
         }
         selarProcesamento(dto);
 

@@ -4,14 +4,14 @@
  */
 package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PessoaFisicoJuridico.DTOPessoaFisicoJuridico;
+import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoPessoaFisicoJuridico.DTOComoPessoaFisicoJuridico;
 import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PrevisaoValorMoeda.DTOPrevisaoValorMoeda;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.ConfiguradorCoreApiGalaxPay;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayAssinatura;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayCobrancaSazonal;
 import com.super_bits.modulosSB.SBCore.ConfigGeral.SBCore;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreInputOutputConversoes;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreJson;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCInputOutputConversoes;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCJson;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.ItfRespostaWebServiceSimples;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.WS.conexaoWebServiceClient.RespostaWebServiceSimples;
 import jakarta.json.JsonObject;
@@ -39,10 +39,10 @@ public class IntegracaoRestIntgalaxpayCobrancasSazonaisCriarTest {
     public void testGerarCorpoRequisicao() {
         SBCore.configurar(new ConfiguradorCoreApiGalaxPay(), SBCore.ESTADO_APP.DESENVOLVIMENTO);
 
-        String json = UtilSBCoreInputOutputConversoes.getStringUTF8(this.getClass().getResourceAsStream("/exemplos/galaxPay/envioAssinaturaSazonalBoleto.json"));
-        String jsonCliente = UtilSBCoreInputOutputConversoes.getStringUTF8(this.getClass().getResourceAsStream("/exemplos/galaxPay/envioAssinaturaSazonalCliente.json"));
+        String json = UtilCRCInputOutputConversoes.getStringUTF8(this.getClass().getResourceAsStream("/exemplos/galaxPay/envioAssinaturaSazonalBoleto.json"));
+        String jsonCliente = UtilCRCInputOutputConversoes.getStringUTF8(this.getClass().getResourceAsStream("/exemplos/galaxPay/envioAssinaturaSazonalCliente.json"));
 
-        DTOPessoaFisicoJuridico pessoa = new DTOPessoaFisicoJuridico(jsonCliente);
+        DTOComoPessoaFisicoJuridico pessoa = new DTOComoPessoaFisicoJuridico(jsonCliente);
         DTOPrevisaoValorMoeda assinaturaTeste = new DTOPrevisaoValorMoeda(json);
         IntegracaoRestIntgalaxpayCobrancasSazonaisCriar cobrancaRece
                 = (IntegracaoRestIntgalaxpayCobrancasSazonaisCriar) FabApiRestIntGalaxPayCobrancaSazonal.COBRANCAS_SAZONAIS_CRIAR
@@ -54,9 +54,9 @@ public class IntegracaoRestIntgalaxpayCobrancasSazonaisCriarTest {
 //        assertTrue("Falha de comuniucação com a api", resposta.isSucesso());
         if (resposta.isSucesso()) {
             String retornop = (String) resposta.getRetorno();
-            JsonObject jsonFaturaSazonal = UtilSBCoreJson.getJsonObjectByTexto(retornop);
+            JsonObject jsonFaturaSazonal = UtilCRCJson.getJsonObjectByTexto(retornop);
 
-            System.out.println(UtilSBCoreJson.getTextoByJsonObjeect(resposta.getRespostaComoObjetoJson()));
+            System.out.println(UtilCRCJson.getTextoByJsonObjeect(resposta.getRespostaComoObjetoJson()));
         } else {
             System.out.println(resposta.getRespostaTexto());
             System.out.println(resposta.getMensagens().get(0).getMenssagem());

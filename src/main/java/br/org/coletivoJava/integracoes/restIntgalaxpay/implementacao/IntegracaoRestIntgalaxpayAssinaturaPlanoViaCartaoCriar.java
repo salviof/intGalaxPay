@@ -2,8 +2,8 @@ package br.org.coletivoJava.integracoes.restIntgalaxpay.implementacao;
 
 import br.org.coletivoJava.integracoes.restIntgalaxpay.api.InfoIntegracaoRestIntgalaxpayAssinatura;
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayAssinatura;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreDataHora;
-import com.super_bits.modulosSB.SBCore.UtilGeral.UtilSBCoreStringFiltros;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCDataHora;
+import com.super_bits.modulosSB.SBCore.UtilGeral.UtilCRCStringFiltros;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
 import java.util.Date;
@@ -29,14 +29,14 @@ public class IntegracaoRestIntgalaxpayAssinaturaPlanoViaCartaoCriar
         long idPlanoEscolhido = (long) parametros.get(1);
 
         Date dataPrimeiroPagamento = (Date) parametros.get(2);
-        String diaPrimeiroPagamentoFormatado = UtilSBCoreDataHora.
-                getDataHoraString(dataPrimeiroPagamento, UtilSBCoreDataHora.FORMATO_TEMPO.ANO_MES_DIA_POR_TRACO);
-        UtilSBCoreDataHora.getDataHoraString(dataPrimeiroPagamento, UtilSBCoreDataHora.FORMATO_TEMPO.ANO_MES_DIA_POR_TRACO);
+        String diaPrimeiroPagamentoFormatado = UtilCRCDataHora.
+                getDataHoraString(dataPrimeiroPagamento, UtilCRCDataHora.FORMATO_TEMPO.ANO_MES_DIA_POR_TRACO);
+        UtilCRCDataHora.getDataHoraString(dataPrimeiroPagamento, UtilCRCDataHora.FORMATO_TEMPO.ANO_MES_DIA_POR_TRACO);
 
         int codigInternoCliente = (int) parametros.get(3);
 
         String nome = (String) parametros.get(4);
-        String documento = UtilSBCoreStringFiltros.filtrarApenasNumeros((String) parametros.get(5));
+        String documento = UtilCRCStringFiltros.filtrarApenasNumeros((String) parametros.get(5));
         String email = (String) parametros.get(6);
 
         int codigoInternoCartao = (int) parametros.get(7);
