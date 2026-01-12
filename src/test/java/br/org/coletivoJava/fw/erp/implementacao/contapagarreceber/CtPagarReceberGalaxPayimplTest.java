@@ -21,7 +21,7 @@ import java.util.logging.Logger;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import spark.utils.IOUtils;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ComoPessoaFisicoJuridico;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.financeiro.ComoPessoaFisicoJuridico;
 
 /**
  *

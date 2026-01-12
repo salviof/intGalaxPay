@@ -7,7 +7,7 @@ import java.util.List;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.formaPagamento.ItfFormaPagamento;
 import java.util.Date;
 import java.lang.String;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.financeiro.ComoPessoaFisicoJuridico;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.financeiro.ComoPessoaFisicoJuridico;
 
 @JsonDeserialize(using = JsonBindDTOFaturaAssinatura.class)
 public interface ItfDTOFaturaAssinatura

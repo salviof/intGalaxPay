@@ -4,7 +4,7 @@ import br.org.coletivoJava.integracoes.restIntgalaxpay.api.InfoIntegracaoRestInt
 import br.org.coletivoJava.integracoes.intGalaxPay.api.FabApiRestIntGalaxPayTransacao;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.implementacao.AcaoApiIntegracaoAbstrato;
 import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.FabTipoAgenteClienteApi;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 
 @InfoIntegracaoRestIntgalaxpayTransacao(tipo = FabApiRestIntGalaxPayTransacao.TRANSACOES_COMPENSADAS_PERIODO)
 public class IntegracaoRestIntgalaxpayTransacoesCompensadasPeriodo

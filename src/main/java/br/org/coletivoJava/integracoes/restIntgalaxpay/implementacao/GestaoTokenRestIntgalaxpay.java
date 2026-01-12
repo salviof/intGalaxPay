@@ -19,7 +19,7 @@ import java.util.HashMap;
 import org.apache.commons.codec.binary.StringUtils;
 import org.apache.http.HttpHeaders;
 import org.json.simple.JSONObject;
-import com.super_bits.modulosSB.SBCore.modulos.objetos.registro.Interfaces.basico.ComoUsuario;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.ComoUsuario;
 
 @InfoIntegracaoRestIntgalaxpayCliente(tipo = FabApiRestIntGalaxPayCliente.CLIENTE_LISTAR)
 public class GestaoTokenRestIntgalaxpay extends GestaoTokenDinamico {
