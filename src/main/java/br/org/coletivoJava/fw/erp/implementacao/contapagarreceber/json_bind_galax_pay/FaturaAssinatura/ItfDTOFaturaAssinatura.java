@@ -1,10 +1,10 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.FaturaAssinatura;
 
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.ItfDTOSBJSON;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.assinatura.ItfFaturaAssinatura;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.List;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.formaPagamento.ItfFormaPagamento;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.dto.ComoDTOCaramelo;
 import java.util.Date;
 import java.lang.String;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.financeiro.ComoPessoaFisicoJuridico;
@@ -12,7 +12,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.financeiro.ComoP
 @JsonDeserialize(using = JsonBindDTOFaturaAssinatura.class)
 public interface ItfDTOFaturaAssinatura
         extends
-        ItfDTOSBJSON,
+        ComoDTOCaramelo,
         ItfFaturaAssinatura {
 
     @Override

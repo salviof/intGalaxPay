@@ -1,16 +1,15 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PrevisaoValorMoeda;
 
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.ItfDTOSBJSON;
 import br.org.coletivoJava.fw.api.erp.contaPagarReceber.model.valormoedaFuturo.ItfPrevisaoValorMoeda;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.PrevisaoValorMoeda.JsonBindDTOPrevisaoValorMoeda;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.dto.ComoDTOCaramelo;
 import java.lang.String;
 import java.util.Date;
 
 @JsonDeserialize(using = JsonBindDTOPrevisaoValorMoeda.class)
 public interface ItfDTOPrevisaoValorMoeda
         extends
-        ItfDTOSBJSON,
+        ComoDTOCaramelo,
         ItfPrevisaoValorMoeda {
 
     @Override

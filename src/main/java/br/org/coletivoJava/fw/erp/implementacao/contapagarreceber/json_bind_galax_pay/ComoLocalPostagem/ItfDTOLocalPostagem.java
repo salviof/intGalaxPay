@@ -1,14 +1,13 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoLocalPostagem;
 
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.ItfDTOSBJSON;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoLocalPostagem.JsonBindDTOLocalPostagem;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.dto.ComoDTOCaramelo;
 import java.lang.String;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoBairro;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoLocalPostagem;
 
 @JsonDeserialize(using = JsonBindDTOLocalPostagem.class)
-public interface ItfDTOLocalPostagem extends ItfDTOSBJSON, ComoLocalPostagem {
+public interface ItfDTOLocalPostagem extends ComoDTOCaramelo, ComoLocalPostagem {
 
     @Override
     public default String getCep() {

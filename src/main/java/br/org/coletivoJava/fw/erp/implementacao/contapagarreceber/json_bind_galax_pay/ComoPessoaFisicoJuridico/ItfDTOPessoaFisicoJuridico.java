@@ -1,8 +1,7 @@
 package br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoPessoaFisicoJuridico;
 
-import com.super_bits.modulosSB.SBCore.integracao.libRestClient.api.erp.dto.ItfDTOSBJSON;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import br.org.coletivoJava.fw.erp.implementacao.contapagarreceber.json_bind_galax_pay.ComoPessoaFisicoJuridico.JsonBindDTOPessoaFisicoJuridico;
+import com.super_bits.modulosSB.SBCore.modulos.objetos.dto.ComoDTOCaramelo;
 import java.lang.String;
 import java.util.List;
 import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.financeiro.ComoPessoaFisicoJuridico;
@@ -11,7 +10,7 @@ import com.super_bits.modulosSB.SBCore.modulos.objetos.entidade.basico.cep.ComoL
 @JsonDeserialize(using = JsonBindDTOPessoaFisicoJuridico.class)
 public interface ItfDTOPessoaFisicoJuridico
         extends
-        ItfDTOSBJSON,
+        ComoDTOCaramelo,
         ComoPessoaFisicoJuridico {
 
     @Override
