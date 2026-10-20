@@ -6,7 +6,7 @@
 package br.org.coletivoJava.integracoes.intGalaxPay.api;
 
 import com.super_bits.modulosSB.SBCore.ConfigGeral.ConfiguradorCoreModelSemPersistencia;
-import com.super_bits.modulosSB.SBCore.ConfigGeral.ItfConfiguracaoCoreCustomizavel;
+import com.super_bits.modulosSB.SBCore.ConfigGeral.ComoContextoExecCustomizavel;
 
 /**
  *
@@ -48,7 +48,7 @@ public class ConfiguradorCoreApiGalaxPay extends ConfiguradorCoreModelSemPersist
      * @param pConfig Objeto Com informações de configuração do sistema
      */
     @Override
-    public void defineFabricasDeACao(ItfConfiguracaoCoreCustomizavel pConfig) {
+    public void defineFabricasDeACao(ComoContextoExecCustomizavel pConfig) {
         setIgnorarConfiguracaoPermissoes(true);
         setIgnorarConfiguracaoAcoesDoSistema(true);
     }
